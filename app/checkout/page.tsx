@@ -10,18 +10,27 @@ export default function CheckoutPage() {
       const params = new URLSearchParams(window.location.search);
       const qtyVal = params.get('qty');
       if (qtyVal) {
-        setQty(Math.max(1, Math.min(10, parseInt(qtyVal) || 1)));
+        const parsed = parseInt(qtyVal, 10);
+        if (!isNaN(parsed) && parsed >= 1 && parsed <= 10) {
+          setQty(parsed);
+        } else {
+          setQty(1);
+        }
       }
     }
   }, []);
 
-  const [name, setName] = useState('Commander Shepard');
-  const [email, setEmail] = useState('shepard@n7.alliance');
-  const [address, setAddress] = useState('Sector 7G, Industrial District');
-  const [city, setCity] = useState('Bangalore');
-  const [stateName, setStateName] = useState('Karnataka');
-  const [zip, setZip] = useState('56001');
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'wire'>('razorpay');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [stateName, setStateName] = useState('');
+  const [zip, setZip] = useState('');
+  const [siteLocation, setSiteLocation] = useState('');
+  const [areaToCover, setAreaToCover] = useState('');
+  const [application, setApplication] = useState('Wildlife');
+  const [customApplication, setCustomApplication] = useState('');
   const [successModal, setSuccessModal] = useState<{
     isOpen: boolean;
     paymentId?: string;
@@ -29,6 +38,14 @@ export default function CheckoutPage() {
   } | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const subtotal = 44991 * qty;
+  const taxAmount = Math.round(subtotal * 0.18);
+  const totalCommitment = subtotal + taxAmount;
+
+  const handleScroll = (id: string) => {
+    window.location.href = `/#${id}`;
+  };
 
   const copyToClipboard = (text: string, fieldId: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -58,11 +75,6 @@ export default function CheckoutPage() {
   };
 
   const handlePayment = async () => {
-    if (paymentMethod === 'wire') {
-      setSuccessModal({ isOpen: true, isWire: true });
-      return;
-    }
-
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
     if (!res) {
@@ -72,7 +84,7 @@ export default function CheckoutPage() {
 
     const options = {
       key: "rzp_test_Sdh2WaT4aYxo9E",
-      amount: 44991 * qty * 100, // ₹44,991.00 * qty in paisa
+      amount: totalCommitment * 100, // Total Commitment including 18% GST in paisa
       currency: "INR",
       name: "AMEC Technology",
       description: "Secure Node Acquisition",
@@ -83,9 +95,14 @@ export default function CheckoutPage() {
       prefill: {
         name: name,
         email: email,
+        contact: phone,
       },
       notes: {
-        address: `${address}, ${city}, ${stateName} - ${zip}`
+        address: `${address}, ${city}, ${stateName} - ${zip}`,
+        phone: phone,
+        site_location: siteLocation,
+        area_to_cover: areaToCover,
+        application: application === 'Other' ? customApplication : application,
       },
       theme: {
         color: "#000000"
@@ -102,7 +119,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 font-sans antialiased">
+    <div className="min-h-screen bg-zinc-50/60 text-zinc-900 font-sans antialiased">
       <style>{`
         .dice-container {
           perspective: 1000px;
@@ -221,27 +238,27 @@ export default function CheckoutPage() {
       </nav>
 
       {/* --- CHECKOUT CONTENT --- */}
-      <main className="max-w-[1280px] mx-auto px-6 md:px-16 py-12 md:py-20 pt-24 md:pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <main className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-16 py-8 sm:py-12 md:py-20 pt-24 md:pt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start">
           
           {/* LEFT: Checkout Form */}
-          <div className="lg:col-span-7 flex flex-col gap-10">
+          <div className="lg:col-span-7 flex flex-col gap-6">
             
             {/* Page Title */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 mb-2">
               <span className="text-[10px] font-bold text-error uppercase tracking-widest">
                 ● Secure Node Acquisition
               </span>
-              <h1 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-bold text-zinc-950 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Checkout.
               </h1>
-            </div>
-
-            {/* Section 1: Client Identification */}
-            <div className="flex flex-col gap-6">
+            </div>            {/* Section 1: Client Identification */}
+            <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <div className="flex items-center gap-3">
-                <span className="text-zinc-300 font-bold text-lg">01</span>
-                <h3 className="text-lg font-bold text-zinc-900">Client Identification</h3>
+                <span className="text-zinc-300 font-extrabold text-lg">01</span>
+                <h3 className="text-lg font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Client Identification
+                </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
@@ -250,35 +267,47 @@ export default function CheckoutPage() {
                     type="text" 
                     value={name} 
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    value={phone} 
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 99000 12345"
+                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5 md:col-span-2">
                   <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Email (Encrypted)</label>
                   <input 
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                   />
                 </div>
               </div>
             </div>
 
             {/* Section 2: Deployment Location */}
-            <div className="flex flex-col gap-6">
+            <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <div className="flex items-center gap-3">
-                <span className="text-zinc-300 font-bold text-lg">02</span>
-                <h3 className="text-lg font-bold text-zinc-900">Deployment Location</h3>
+                <span className="text-zinc-300 font-extrabold text-lg">02</span>
+                <h3 className="text-lg font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Deployment Location
+                </h3>
               </div>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Installation Address</label>
+                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Complete Address</label>
                   <input 
                     type="text" 
                     value={address} 
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -288,7 +317,7 @@ export default function CheckoutPage() {
                       type="text" 
                       value={city} 
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -297,7 +326,7 @@ export default function CheckoutPage() {
                       type="text" 
                       value={stateName} 
                       onChange={(e) => setStateName(e.target.value)}
-                      className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -306,77 +335,82 @@ export default function CheckoutPage() {
                       type="text" 
                       value={zip} 
                       onChange={(e) => setZip(e.target.value)}
-                      className="w-full bg-[#f4f4f5] border-0 outline-none rounded-lg px-4 py-3.5 text-sm font-medium text-zinc-800 focus:bg-zinc-200/50 transition-colors"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Section 3: Payment Configuration */}
-            <div className="flex flex-col gap-6">
+            {/* Section 3: Site & Project Specifications */}
+            <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <div className="flex items-center gap-3">
-                <span className="text-zinc-300 font-bold text-lg">03</span>
-                <h3 className="text-lg font-bold text-zinc-900">Payment Configuration</h3>
+                <span className="text-zinc-300 font-extrabold text-lg">03</span>
+                <h3 className="text-lg font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Site &amp; Project Specifications
+                </h3>
               </div>
               <div className="flex flex-col gap-4">
-                
-                {/* Razorpay Option */}
-                <div 
-                  onClick={() => setPaymentMethod('razorpay')}
-                  className={`border rounded-xl p-5 flex items-center justify-between cursor-pointer transition-all duration-200 ${
-                    paymentMethod === 'razorpay' ? 'border-zinc-950 bg-zinc-50/50' : 'border-zinc-200 hover:border-zinc-300'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    {/* Razorpay Icon */}
-                    <div className="w-10 h-10 rounded-lg bg-[#f4f4f5] border border-zinc-200/60 flex items-center justify-center shrink-0 overflow-hidden">
-                      <img src="/images.png" alt="Razorpay Secure" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-sm text-zinc-900 flex items-center gap-1.5">
-                        Razorpay Secure
-                        <span className="text-[10px] text-zinc-400 font-normal">✔</span>
-                      </span>
-                      <span className="text-xs text-zinc-500">UPI, Cards, Netbanking & Wallet</span>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Site Location</label>
+                    <input 
+                      type="text" 
+                      value={siteLocation} 
+                      onChange={(e) => setSiteLocation(e.target.value)}
+                      placeholder="e.g. Western Ghats Forest Reserve, Elysium Sector 1"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    />
                   </div>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    paymentMethod === 'razorpay' ? 'border-zinc-900' : 'border-zinc-300'
-                  }`}>
-                    {paymentMethod === 'razorpay' && <div className="w-2.5 h-2.5 rounded-full bg-zinc-900" />}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Area to be covered</label>
+                    <input 
+                      type="text" 
+                      value={areaToCover} 
+                      onChange={(e) => setAreaToCover(e.target.value)}
+                      placeholder="e.g. 5 km Perimeter / 50 Acres"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    />
                   </div>
                 </div>
 
-                {/* Corporate Wire Option */}
-                <div 
-                  onClick={() => setPaymentMethod('wire')}
-                  className={`border rounded-xl p-5 flex items-center justify-between cursor-pointer transition-all duration-200 ${
-                    paymentMethod === 'wire' ? 'border-zinc-950 bg-zinc-50/50' : 'border-zinc-200 hover:border-zinc-300'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    {/* Bank Icon placeholder */}
-                    <div className="w-10 h-10 rounded-lg bg-[#f4f4f5] border border-zinc-200/60 flex items-center justify-center shrink-0">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-600">
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <path d="M21 9H3" />
-                        <path d="M21 15H3" />
-                        <path d="M12 3v18" />
-                      </svg>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-sm text-zinc-900">Corporate Wire</span>
-                      <span className="text-xs text-zinc-500">Manual verification (2-3 days)</span>
-                    </div>
-                  </div>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    paymentMethod === 'wire' ? 'border-zinc-900' : 'border-zinc-300'
-                  }`}>
-                    {paymentMethod === 'wire' && <div className="w-2.5 h-2.5 rounded-full bg-zinc-900" />}
+                <div className="flex flex-col gap-2.5">
+                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Application Type</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      { id: 'Wildlife', label: 'Wildlife Monitoring' },
+                      { id: 'Human Intrusion', label: 'Human Intrusion' },
+                      { id: 'Industrial Security', label: 'Industrial Security' },
+                      { id: 'Other', label: 'Other Application' }
+                    ].map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => setApplication(opt.id)}
+                        className={`flex items-center justify-center py-3 sm:py-3.5 px-4 rounded-xl border text-center transition-all duration-200 cursor-pointer ${
+                          application === opt.id 
+                            ? 'border-zinc-950 bg-zinc-950 text-white shadow-md' 
+                            : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-800'
+                        }`}
+                      >
+                        <span className="text-[11px] font-bold tracking-tight leading-tight">{opt.label}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
 
+                {application === 'Other' && (
+                  <div className="flex flex-col gap-1.5 animate-in slide-in-from-top-2 duration-200">
+                    <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Specify Other Application</label>
+                    <input 
+                      type="text" 
+                      value={customApplication} 
+                      onChange={(e) => setCustomApplication(e.target.value)}
+                      placeholder="Specify your application (e.g., Agricultural Protection, Border Patrol)"
+                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -386,7 +420,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-5 flex flex-col gap-6">
             
             {/* Mission Inventory Card */}
-            <div className="border border-zinc-200 rounded-3xl p-6 md:p-8 bg-white shadow-sm flex flex-col gap-6">
+            <div className="border border-zinc-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <h3 className="font-bold text-lg text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Mission Inventory
               </h3>
@@ -397,7 +431,7 @@ export default function CheckoutPage() {
                   <img 
                     alt="AMEC Sensor Node" 
                     className="w-full h-full object-cover" 
-                    src="/sensor_node_new.jpg"
+                    src="/solar_pole_forest.png"
                   />
                 </div>
                 <div className="flex-grow flex flex-col">
@@ -417,29 +451,37 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-3 text-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-500">Subtotal</span>
-                  <span className="font-bold text-zinc-900">₹{(44991 * qty).toLocaleString('en-IN')}.00</span>
+                  <span className="font-bold text-zinc-900">₹{subtotal.toLocaleString('en-IN')}.00</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Tactical Deployment (Shipping)</span>
-                  <span className="font-bold text-zinc-900">₹0.00</span>
+                  <span className="text-zinc-500">Delivery Fee</span>
+                  <span className="font-bold text-zinc-900">
+                    <span className="line-through text-zinc-400 mr-1.5">₹2,000.00</span>
+                    <span className="text-green-600 font-bold">Free</span>
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">GST (18%)</span>
-                  <span className="font-bold text-zinc-900 text-xs bg-zinc-100 px-2 py-0.5 rounded">Included</span>
+                  <span className="text-zinc-500">Tax (18% GST)</span>
+                  <span className="font-bold text-zinc-900">₹{taxAmount.toLocaleString('en-IN')}.00</span>
                 </div>
               </div>
 
               {/* Total line */}
               <div className="h-px bg-zinc-100 w-full" />
               
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Total Commitment</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                  Total Commitment
+                </span>
                 <div className="flex items-baseline justify-between">
                   <span className="text-3xl font-extrabold text-zinc-950 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    ₹{(44991 * qty).toLocaleString('en-IN')}.00
+                    ₹{totalCommitment.toLocaleString('en-IN')}.00
                   </span>
                   <span className="text-xs font-bold text-error uppercase tracking-wider">INR</span>
                 </div>
+                <span className="text-[10px] text-zinc-400 font-medium leading-snug">
+                  ₹{subtotal.toLocaleString('en-IN')}.00 + ₹{taxAmount.toLocaleString('en-IN')}.00 (18% GST) = ₹{totalCommitment.toLocaleString('en-IN')}.00
+                </span>
               </div>
 
               {/* Action Button */}
@@ -547,17 +589,58 @@ export default function CheckoutPage() {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-zinc-50 border-t border-zinc-200/80 text-zinc-500 py-12 px-6 md:px-16 text-xs">
-        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col gap-2 text-center md:text-left">
-            <span className="font-extrabold text-sm text-zinc-950 uppercase tracking-widest font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>AMEC</span>
-            <span>© 2025 AMEC Technology. Mission-Critical Precision.</span>
+      <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10 text-xs">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-24 md:py-20">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+            <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
+              <div className="flex items-center gap-2">
+                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
+                <img alt="AMEC Logo" className="h-5 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
+              </div>
+              <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
+                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2018.
+              </p>
+              <div className="flex flex-col gap-2 pt-4 border-t border-white/10">
+                <div className="text-[11px] text-white/40 font-medium">
+                  1 Year Warranty &amp; 5 Year Mesh Support Guarantee.
+                </div>
+              </div>
+            </div>
+
+            <div className="col-span-1 text-left">
+              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
+              <ul className="flex flex-col gap-3 text-xs">
+                <li><a href="/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
+                <li><a href="/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
+                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Node Specs</button></li>
+                <li><button onClick={() => handleScroll('safety')} className="hover:text-error transition-colors cursor-pointer text-left">Gateway Hub Manual</button></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1 text-left">
+              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Support &amp; Services</h5>
+              <ul className="flex flex-col gap-3 text-xs">
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Installation Support</button></li>
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Commissioning Queue</button></li>
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Service Coverage Areas</button></li>
+                <li><button onClick={() => handleScroll('faq')} className="hover:text-error transition-colors cursor-pointer text-left">Platform Documentation</button></li>
+              </ul>
+            </div>
+
+            <div className="col-span-2 lg:col-span-1 text-left">
+              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Components</h5>
+              <ul className="flex flex-col gap-3 text-xs">
+                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Sensor Nodes</button></li>
+                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LoRa Gateway Hub</button></li>
+                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Mobile Warning App</button></li>
+                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Command Dashboard</button></li>
+              </ul>
+            </div>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 text-zinc-400 font-medium">
-            <Link href="/#faq" className="hover:text-zinc-800 transition-colors">Privacy Policy</Link>
-            <Link href="/#faq" className="hover:text-zinc-800 transition-colors">Terms of Service</Link>
-            <Link href="/#faq" className="hover:text-zinc-800 transition-colors">Global Offices</Link>
-            <Link href="/#faq" className="hover:text-zinc-800 transition-colors">Support</Link>
+          <div className="h-px w-full bg-white/10 mb-8"></div>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <span>© 2025 AMEC Technology. All rights reserved.</span>
+            <span className="text-white/40">Bengaluru · Johannesburg · MDG · HDFC · New Delhi</span>
           </div>
         </div>
       </footer>
@@ -596,7 +679,7 @@ export default function CheckoutPage() {
 
             {/* Modal Heading */}
             <div className="flex flex-col gap-1.5 mt-2">
-              <h3 className="text-2xl font-black text-zinc-950 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              <h3 className="text-2xl font-bold text-zinc-950 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 {successModal.isWire ? "Order Initiated!" : "Payment Successful!"}
               </h3>
               <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -672,14 +755,14 @@ export default function CheckoutPage() {
                   {/* Amount to Wire */}
                   <div className="flex justify-between items-center py-1 relative z-10">
                     <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Amount to Wire</span>
-                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{(44991 * qty).toLocaleString('en-IN')}.00</span>
+                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}.00</span>
                   </div>
                 </div>
 
                 {/* Bulk copy details button */}
                 <button
                   onClick={() => {
-                    const textToCopy = `Bank Name: HDFC Bank\nAccount Name: AMEC Technology Pvt Ltd\nAccount Number: 50200012345678\nIFSC Code: HDFC0000123\nAmount: ₹${(44991 * qty).toLocaleString('en-IN')}.00`;
+                    const textToCopy = `Bank Name: HDFC Bank\nAccount Name: AMEC Technology Pvt Ltd\nAccount Number: 50200012345678\nIFSC Code: HDFC0000123\nAmount: ₹${totalCommitment.toLocaleString('en-IN')}.00`;
                     copyToClipboard(textToCopy, 'allWireDetails');
                   }}
                   className="w-full px-4 border border-zinc-200 hover:border-zinc-300 text-zinc-600 hover:text-zinc-900 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-zinc-50/50 hover:bg-zinc-50"
@@ -691,6 +774,19 @@ export default function CheckoutPage() {
                   </svg>
                   <span>{copiedField === 'allWireDetails' ? "Copied All Details!" : "Copy All Details"}</span>
                 </button>
+
+                {/* Order Details Summary */}
+                <div className="flex flex-col gap-2 border-t border-zinc-100 pt-4 mt-2">
+                  <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Order Specifications</span>
+                  <div className="text-[11px] text-zinc-600 flex flex-col gap-1.5 bg-zinc-50 rounded-2xl p-4 border border-zinc-200/60 leading-relaxed">
+                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone})</div>
+                    <div><strong className="text-zinc-800">Email:</strong> {email}</div>
+                    <div><strong className="text-zinc-800">Address:</strong> {address}, {city}, {stateName} - {zip}</div>
+                    <div><strong className="text-zinc-800">Site Location:</strong> {siteLocation}</div>
+                    <div><strong className="text-zinc-800">Area to Cover:</strong> {areaToCover}</div>
+                    <div><strong className="text-zinc-800">Application:</strong> {application === 'Other' ? customApplication : application}</div>
+                  </div>
+                </div>
 
                 {/* Logistics Info Banner */}
                 <div className="bg-[#f0f9ff] border border-[#e0f2fe] rounded-2xl p-4 flex items-start gap-3.5 shadow-sm">
@@ -718,7 +814,7 @@ export default function CheckoutPage() {
                   {/* Amount Row */}
                   <div className="flex justify-between items-center relative z-10">
                     <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Amount Paid</span>
-                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{(44991 * qty).toLocaleString('en-IN')}.00</span>
+                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}.00</span>
                   </div>
 
                   {/* Divider line */}
@@ -751,6 +847,19 @@ export default function CheckoutPage() {
                         )}
                       </button>
                     </div>
+                  </div>
+                </div>
+
+                {/* Order Details Summary */}
+                <div className="flex flex-col gap-2 text-left border-t border-zinc-100 pt-4 mt-2">
+                  <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Order Specifications</span>
+                  <div className="text-[11px] text-zinc-600 flex flex-col gap-1.5 bg-zinc-50 rounded-2xl p-4 border border-zinc-200/60 leading-relaxed">
+                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone})</div>
+                    <div><strong className="text-zinc-800">Email:</strong> {email}</div>
+                    <div><strong className="text-zinc-800">Address:</strong> {address}, {city}, {stateName} - {zip}</div>
+                    <div><strong className="text-zinc-800">Site Location:</strong> {siteLocation}</div>
+                    <div><strong className="text-zinc-800">Area to Cover:</strong> {areaToCover}</div>
+                    <div><strong className="text-zinc-800">Application:</strong> {application === 'Other' ? customApplication : application}</div>
                   </div>
                 </div>
                 

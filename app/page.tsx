@@ -35,12 +35,15 @@ function useCountUp(end: number, duration: number = 2000, delay: number = 0) {
 }
 
 export default function AmecSaaSPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const router = useRouter();
+  React.useEffect(() => {
+    router.prefetch('/checkout');
+  }, [router]);
 
   const [currentHeroImageIndex, setCurrentHeroImageIndex] = useState(0);
   const [heroQuantity, setHeroQuantity] = useState(1);
@@ -72,8 +75,34 @@ export default function AmecSaaSPage() {
     { src: '/sensor_node_new.png', alt: 'AMEC Sensor Node', isDark: false },
     { src: '/split_final_right.jpg', alt: 'AMEC Security Deployment Site', isDark: true },
     { src: '/first_page_image.jpg', alt: 'AMEC Outdoor Deployment', isDark: true },
-    { src: '/solar_pole_forest.jpg', alt: 'Solar Powered Sensor Installation', isDark: true }
+    { src: '/solar_pole_forest.png', alt: 'Solar Powered Sensor Installation', isDark: true }
   ];
+
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    
+    if (isLeftSwipe) {
+      setCurrentHeroImageIndex(prev => (prev === heroImages.length - 1 ? 0 : prev + 1));
+    }
+    if (isRightSwipe) {
+      setCurrentHeroImageIndex(prev => (prev === 0 ? heroImages.length - 1 : prev - 1));
+    }
+  };
 
 
 
@@ -202,9 +231,6 @@ export default function AmecSaaSPage() {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <button className="hidden md:flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/5 p-2 rounded-full transition-colors animate-pulse">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>security</span>
-            </button>
             <button 
               onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
               className="hidden lg:flex bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer shadow-md shadow-zinc-950/10 font-sans items-center justify-center"
@@ -422,16 +448,21 @@ export default function AmecSaaSPage() {
               <div className="relative z-20 w-full max-w-[510px] md:max-w-[580px] lg:max-w-[620px] flex flex-col items-center">
                 
                 {/* Main viewport with arrow buttons - Styled with aspect-square to ensure height matches width */}
-                <div className="relative w-full aspect-square overflow-hidden flex items-center justify-center">
+                <div 
+                  className="relative w-full aspect-square overflow-hidden rounded-[12px] flex items-center justify-center group"
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
                   
 
                   {/* Left Chevron Arrow Button */}
                   <button 
                     onClick={() => setCurrentHeroImageIndex(prev => (prev === 0 ? heroImages.length - 1 : prev - 1))}
-                    className={`absolute left-3 z-30 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 cursor-pointer select-none active:scale-95 ${
+                    className={`absolute left-3 z-30 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 cursor-pointer select-none active:scale-95 border ${
                       heroImages[currentHeroImageIndex].isDark 
-                        ? 'bg-white/80 hover:bg-white text-zinc-950 shadow-md backdrop-blur-sm border border-black/5' 
-                        : 'bg-zinc-950/80 hover:bg-zinc-900 text-white shadow-md backdrop-blur-sm border border-white/5'
+                        ? 'bg-transparent text-white border-white/40 group-hover:bg-white group-hover:text-zinc-950 group-hover:border-white shadow-md' 
+                        : 'bg-transparent text-zinc-950 border-zinc-950/30 group-hover:bg-zinc-950 group-hover:text-white group-hover:border-zinc-950 shadow-md'
                     }`}
                     aria-label="Previous Slide"
                   >
@@ -443,10 +474,10 @@ export default function AmecSaaSPage() {
                   {/* Right Chevron Arrow Button */}
                   <button 
                     onClick={() => setCurrentHeroImageIndex(prev => (prev === heroImages.length - 1 ? 0 : prev + 1))}
-                    className={`absolute right-3 z-30 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 cursor-pointer select-none active:scale-95 ${
+                    className={`absolute right-3 z-30 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 cursor-pointer select-none active:scale-95 border ${
                       heroImages[currentHeroImageIndex].isDark 
-                        ? 'bg-white/80 hover:bg-white text-zinc-950 shadow-md backdrop-blur-sm border border-black/5' 
-                        : 'bg-zinc-950/80 hover:bg-zinc-900 text-white shadow-md backdrop-blur-sm border border-white/5'
+                        ? 'bg-transparent text-white border-white/40 group-hover:bg-white group-hover:text-zinc-950 group-hover:border-white shadow-md' 
+                        : 'bg-transparent text-zinc-950 border-zinc-950/30 group-hover:bg-zinc-950 group-hover:text-white group-hover:border-zinc-950 shadow-md'
                     }`}
                     aria-label="Next Slide"
                   >
@@ -456,13 +487,13 @@ export default function AmecSaaSPage() {
                   </button>
 
                   {/* Carousel sliding image wrapper */}
-                  <div className="w-full h-full flex justify-center items-center transition-all duration-500 ease-in-out">
+                  <div className="w-full h-full flex justify-center items-center transition-all duration-500 ease-in-out rounded-[12px]">
                     <img 
                       key={currentHeroImageIndex}
                       alt={heroImages[currentHeroImageIndex].alt} 
-                      className={`w-full h-full hover:scale-105 transition-transform duration-500 ease-out shrink-0 drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] ${
-                        heroImages[currentHeroImageIndex].src.endsWith('.png') 
-                          ? 'object-contain p-4' 
+                      className={`w-full h-full hover:scale-105 transition-transform duration-500 ease-out shrink-0 drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] rounded-[12px] ${
+                        heroImages[currentHeroImageIndex].src === '/sensor_node_new.png'
+                          ? 'object-contain p-8 bg-[#fbfbfb]' 
                           : 'object-cover'
                       }`} 
                       src={heroImages[currentHeroImageIndex].src} 
@@ -541,55 +572,6 @@ export default function AmecSaaSPage() {
           </div>
         </div>
 
-        {/* --- DEMO SECTION --- */}
-        <section id="demo" className="py-8 md:py-20 px-4 md:px-16 bg-surface">
-          <div className="max-w-[1440px] mx-auto text-center">
-            <span className="font-semibold text-xs text-error uppercase tracking-widest block mb-4">See It In Action</span>
-            <h2 className="text-3xl md:text-[48px] md:leading-[56px] font-bold text-primary mb-4">Get a Free Live Demo Now</h2>
-            <p className="text-sm md:text-base text-on-surface-variant max-w-2xl mx-auto mb-16 leading-relaxed">
-              Watch the sensor node detect and alert in real time - no commitment needed.
-            </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
-              <div className="glass-pane p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg animate-fade-up delay-100">
-                <div className="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mb-4">
-                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>radar</span>
-                </div>
-                <h4 className="font-bold text-base text-primary mb-3">LIDAR Signature Verification</h4>
-                <p className="text-xs text-on-surface-variant leading-relaxed">Precise object classification, eliminating false positives entirely.</p>
-              </div>
-              <div className="glass-pane p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg animate-fade-up delay-150">
-                <div className="w-16 h-16 rounded-full bg-green-600/10 text-green-600 flex items-center justify-center mb-4">
-                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>solar_power</span>
-                </div>
-                <h4 className="font-bold text-base text-primary mb-3">Autonomous Power</h4>
-                <p className="text-xs text-on-surface-variant leading-relaxed">Solar + battery backup keeps every node active off-grid indefinitely.</p>
-              </div>
-              <div className="glass-pane p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg animate-fade-up delay-200">
-                <div className="w-16 h-16 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
-                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>hub</span>
-                </div>
-                <h4 className="font-bold text-base text-primary mb-3">Mesh Redundancy</h4>
-                <p className="text-xs text-on-surface-variant leading-relaxed">If one node fails, the network reroutes - coverage never drops.</p>
-              </div>
-              <div className="glass-pane p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg animate-fade-up delay-250">
-                <div className="w-16 h-16 rounded-full bg-purple-600/10 text-purple-600 flex items-center justify-center mb-4">
-                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>notifications_active</span>
-                </div>
-                <h4 className="font-bold text-base text-primary mb-3">Instant Mobile Alert</h4>
-                <p className="text-xs text-on-surface-variant leading-relaxed">Push notifications reach your team before an intruder takes a step.</p>
-              </div>
-            </div>
-            
-            <button 
-              onClick={() => handleScroll('demo')}
-              className="bg-zinc-950 text-white font-semibold text-xs px-10 uppercase tracking-widest hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-950/20 text-lg cursor-pointer inline-flex items-center justify-center gap-2"
-              style={{ height: '50.71px', borderRadius: '12px' }}
-            >
-              Book Live Demo <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
-          </div>
-        </section>
 
         {/* --- GRID FEATURES (SYSTEMS) --- */}
         <section id="systems" className="py-8 md:py-20 px-4 md:px-16 bg-surface-container-low text-on-surface relative overflow-hidden">
@@ -716,7 +698,7 @@ export default function AmecSaaSPage() {
           <div className="max-w-[1440px] mx-auto relative z-10">
             <div className="text-center mb-8 md:mb-20">
               <span className="font-semibold text-xs text-error uppercase tracking-widest block mb-4">Operational Logic</span>
-              <h2 className="text-3xl md:text-[48px] md:leading-[56px] font-bold text-primary">How AMEC Works</h2>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-primary font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>How AMEC Works</h2>
             </div>
             
             {/* Dynamic Timeline Flow */}
@@ -736,25 +718,25 @@ export default function AmecSaaSPage() {
                   {
                     num: 1,
                     title: 'Detect',
-                    desc: 'LIDAR sensor nodes continuously scan the perimeter, classifying objects and motion signatures in real time.',
+                    desc: 'LIDAR sensor nodes scan your perimeter, detecting and classifying threats in real time.',
                     icon: 'radar'
                   },
                   {
                     num: 2,
                     title: 'Verify',
-                    desc: 'Multi-sensor confirmation eliminates false positives before any alert is triggered - only real threats proceed.',
+                    desc: 'Multi-sensor analysis verifies every detection, completely eliminating false alarms.',
                     icon: 'verified_user'
                   },
                   {
                     num: 3,
                     title: 'Alert',
-                    desc: 'Instant notifications dispatched to your team via mobile app, SMS, and central dashboard within milliseconds.',
+                    desc: 'Instant alerts are sent to your team via mobile app, SMS, and central dashboard.',
                     icon: 'notifications_active'
                   },
                   {
                     num: 4,
                     title: 'Respond',
-                    desc: 'Detailed event data - location, time, sensor footage - enables your team to respond with precision and speed.',
+                    desc: 'Detailed location, time, and sensor footage enables your team to respond with speed.',
                     icon: 'security'
                   }
                 ].map((step) => {
@@ -781,21 +763,12 @@ export default function AmecSaaSPage() {
                         }`}>
                           <span className="material-symbols-outlined text-2xl font-bold">{step.icon}</span>
                         </div>
-                        {/* Step Number label at top-right */}
-                        <div className={`absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors z-20 ${
-                          isActive 
-                            ? 'bg-zinc-950 text-white border-zinc-900' 
-                            : 'bg-zinc-100 text-zinc-400 border-zinc-200'
-                        }`}>
-                          0{step.num}
-                        </div>
+
                       </div>
 
                       {/* Step Text Details */}
                       <div className="flex flex-col gap-2 transition-all duration-300">
-                        <h3 className={`font-bold text-xl tracking-tight transition-colors font-sans ${
-                          isCurrent ? 'text-[#f04424]' : 'text-primary'
-                        }`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        <h3 className="font-bold text-xl tracking-tight transition-colors font-sans text-primary" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                           {step.title}
                         </h3>
                         <p className={`text-xs md:text-sm leading-relaxed transition-opacity max-w-[240px] mx-auto font-sans ${
@@ -816,7 +789,7 @@ export default function AmecSaaSPage() {
         <section id="safety" className="py-8 md:py-20 px-4 md:px-16 bg-surface-container-low">
           <div className="max-w-[1000px] mx-auto relative">
             <div className="text-left max-w-[650px] mb-24 md:mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-widest mb-4">Mesh Network</h2>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-primary mb-4 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>Mesh Network</h2>
               <p className="text-base text-on-surface-variant leading-relaxed">Wireless LoRa nodes verify each detection - no internet required.</p>
             </div>
             {/* Network Diagram container made relative to anchor the device preview image */}
@@ -826,15 +799,35 @@ export default function AmecSaaSPage() {
                 key="hub-device-wrapper"
                 className="absolute right-0 left-auto sm:right-auto sm:left-[90%] -top-16 sm:-top-24 md:-top-28 translate-x-0 sm:-translate-x-1/2 w-[85px] sm:w-[110px] md:w-[130px] z-20 pointer-events-none"
               >
+                {/* Radiation ripples behind the device */}
+                <div 
+                  key="hub-radiation-1"
+                  className="absolute left-[42%] top-[34%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/90 bg-[#f04424]/20 -z-10"
+                  style={{ 
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'hubLightRadiation 1.5s infinite',
+                  }}
+                />
+                <div 
+                  key="hub-radiation-2"
+                  className="absolute left-[42%] top-[34%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/60 bg-transparent -z-10"
+                  style={{ 
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'hubLightRadiation 1.5s infinite',
+                    animationDelay: '0.15s',
+                  }}
+                />
+
                 <img 
                   alt="AMEC Hub Device" 
-                  className="w-full h-auto object-contain drop-shadow-lg" 
+                  className="w-full h-auto object-contain drop-shadow-lg relative z-10" 
                   src="/ChatGPT_Image_Jun_25__2026__01_26_02_PM-removebg-preview.png" 
                 />
                 {/* Glowing Alert Indicator Light Overlays (flashes exactly when signal reaches Hub, positioned over the 4 physical LEDs) */}
+                {/* LED 1 */}
                 <div 
                   key="hub-led-1"
-                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424]"
+                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
                     left: '17.5%', 
                     top: '70.5%', 
@@ -843,9 +836,10 @@ export default function AmecSaaSPage() {
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
                   }}
                 />
+                {/* LED 2 */}
                 <div 
                   key="hub-led-2"
-                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424]"
+                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
                     left: '18.0%', 
                     top: '77.5%', 
@@ -854,9 +848,10 @@ export default function AmecSaaSPage() {
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
                   }}
                 />
+                {/* LED 3 */}
                 <div 
                   key="hub-led-3"
-                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424]"
+                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
                     left: '18.5%', 
                     top: '84.5%', 
@@ -865,9 +860,10 @@ export default function AmecSaaSPage() {
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
                   }}
                 />
+                {/* LED 4 */}
                 <div 
                   key="hub-led-4"
-                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424]"
+                  className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
                     left: '19.0%', 
                     top: '91.5%', 
@@ -913,6 +909,23 @@ export default function AmecSaaSPage() {
                     0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.9); }
                     5%, 15% { opacity: 1; transform: translate(-50%, -50%) scale(1.4); }
                     40% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.9); }
+                  }
+                  @keyframes hubLightRadiation {
+                    0%, 5% {
+                      transform: translate(-50%, -50%) scale(0.8);
+                      opacity: 0;
+                    }
+                    6% {
+                      opacity: 0.8;
+                    }
+                    40% {
+                      transform: translate(-50%, -50%) scale(2.0);
+                      opacity: 0;
+                    }
+                    100% {
+                      transform: translate(-50%, -50%) scale(2.0);
+                      opacity: 0;
+                    }
                   }
                   .animated-path {
                     stroke-dasharray: 6 10;
@@ -1008,7 +1021,7 @@ export default function AmecSaaSPage() {
  
             {/* Results Grid */}
             <div className="mt-8 md:mt-24">
-              <h2 className="text-2xl md:text-3xl font-bold text-primary uppercase tracking-widest mb-12 text-center">The Result:</h2>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-primary mb-12 text-center font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>The Result:</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {/* No Internet Required */}
                 <div className="bg-[#e8f5e9] p-5 rounded-2xl flex items-center gap-4 shadow-sm border border-green-100/50">
@@ -1089,7 +1102,7 @@ export default function AmecSaaSPage() {
                 <span className="text-[10px] md:text-xs font-bold text-[#ff5252] uppercase tracking-widest font-sans">
                   Perimeter Intelligence
                 </span>
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-wide" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-white font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                   Why It Matters
                 </h2>
                 {/* Fading red horizontal line */}
@@ -1155,7 +1168,7 @@ export default function AmecSaaSPage() {
           <div className="max-w-[1000px] mx-auto">
             <div className="text-center mb-16">
               <span className="font-bold text-xs text-red-650 uppercase tracking-widest block mb-4">Compare</span>
-              <h2 className="text-3xl md:text-[40px] leading-tight font-bold text-zinc-955" style={{ fontFamily: "Montserrat, sans-serif" }}>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-zinc-955 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 AMEC vs. Traditional Security
               </h2>
             </div>
@@ -1231,59 +1244,59 @@ export default function AmecSaaSPage() {
           <div className="max-w-[1440px] mx-auto">
             <div className="text-center mb-16">
               <span className="font-bold text-xs text-red-600 uppercase tracking-widest block mb-4">Built for Every Environment</span>
-              <h2 className="text-3xl md:text-[40px] leading-tight font-bold text-zinc-950 uppercase tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-zinc-955 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Applications
               </h2>
             </div>
             
-            <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto snap-x snap-mandatory scrollbar-none pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:overflow-visible md:snap-none md:pb-0">
+            <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto snap-x snap-mandatory scrollbar-none pb-2 -mx-6 px-6 md:mx-auto md:px-0 md:overflow-visible md:snap-none md:pb-0">
               {[
                 {
-                  title: "Perimeter Security",
-                  desc: "Industrial plants, factories, warehouses.",
-                  img: "/app_card_1.jpg",
+                  title: "Industrial Sites",
+                  desc: "Protect manufacturing units and perimeter walls.",
+                  img: "/Applications/Industrial Sites.jpg",
                   icon: "factory",
                 },
                 {
                   title: "Solar Power Plants",
                   desc: "Prevent solar panel and critical equipment theft.",
-                  img: "/app_card_2.jpg",
+                  img: "/Applications/Solar Power Plants.jpg",
                   icon: "solar_power",
                 },
                 {
                   title: "Construction Sites",
                   desc: "Monitor assets and prevent unauthorized access.",
-                  img: "/app_card_3.jpg",
+                  img: "/Applications/Construction sites.jpg",
                   icon: "construction",
                 },
                 {
-                  title: "Oil & Gas",
-                  desc: "Secure remote pipelines and infrastructure.",
-                  img: "/app_card_4.jpg",
-                  icon: "local_gas_station",
+                  title: "Warehouses",
+                  desc: "Secure storage units and distribution centers.",
+                  img: "/Applications/Warehouses.jpg",
+                  icon: "warehouse",
                 },
                 {
                   title: "Mining & Metals",
-                  desc: "Safeguard equipment and operations.",
-                  img: "/app_card_5.jpg",
+                  desc: "Safeguard remote mining equipment and operations.",
+                  img: "/Applications/Mining sites.png",
                   icon: "landscape",
                 },
                 {
                   title: "Railways",
-                  desc: "Protect tracks, yards, and infrastructure.",
-                  img: "/app_card_6.jpg",
+                  desc: "Protect tracks, yards, and transit corridors.",
+                  img: "/Applications/Railways.png",
                   icon: "train",
                 },
                 {
-                  title: "Military & Defense",
-                  desc: "Secure perimeters and base camps.",
-                  img: "/app_card_7.jpg",
-                  icon: "military_tech",
+                  title: "NGOs & Wildlife Conservation",
+                  desc: "Monitor habitats and prevent poaching activity.",
+                  img: "/Applications/NGOs & Wildlife Conservation.jpg",
+                  icon: "nature_people",
                 },
                 {
-                  title: "Critical Infrastructure",
-                  desc: "Airports, power plants, and more.",
-                  img: "/app_card_8.jpg",
+                  title: "Government Facilities",
+                  desc: "Secure administrative properties and public hubs.",
+                  img: "/Applications/Government Facilitates.jpeg",
                   icon: "account_balance",
                 }
               ].map((app, idx) => (
@@ -1295,7 +1308,7 @@ export default function AmecSaaSPage() {
                       src={app.img} 
                     />
                   </div>
-                  <div className="p-3 md:p-5 flex flex-col gap-1">
+                  <div className="p-3 md:p-5 flex flex-col gap-1 text-center items-center">
                     <h3 className="font-bold text-xs md:text-sm text-zinc-950 leading-snug">{app.title}</h3>
                     <p className="text-[10px] md:text-[11px] text-zinc-500 leading-snug">{app.desc}</p>
                   </div>
@@ -1309,7 +1322,7 @@ export default function AmecSaaSPage() {
         <section id="reviews" className="py-8 md:py-20 px-6 md:px-16 bg-zinc-50 border-b border-zinc-200">
           <div className="max-w-[1440px] mx-auto text-center">
             <span className="font-bold text-xs text-red-600 uppercase tracking-widest block mb-4">Trust Fed Globally</span>
-            <h2 className="text-3xl md:text-[40px] leading-tight font-bold text-zinc-955 mb-4" style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-zinc-955 mb-4 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Trusted by Security Professionals
             </h2>
             <div className="flex items-center justify-center gap-2 mb-16">
@@ -1393,7 +1406,7 @@ export default function AmecSaaSPage() {
           <div className="max-w-[1100px] mx-auto">
             <div className="text-center mb-16">
               <span className="font-bold text-xs text-red-600 uppercase tracking-widest block mb-4">Questions? We've Got Answers</span>
-              <h2 className="text-3xl md:text-[40px] leading-tight font-bold text-zinc-950" style={{ fontFamily: "Montserrat, sans-serif" }}>
+              <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-zinc-955 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Frequently Asked Questions
               </h2>
             </div>
@@ -1428,7 +1441,7 @@ export default function AmecSaaSPage() {
                         add
                       </span>
                     </button>
-                    <div className={`transition-all duration-350 ease-in-out overflow-hidden ${isOpen ? "max-h-[300px] border-t border-zinc-150" : "max-h-0"}`}>
+                    <div className={`transition-all duration-350 ease-in-out overflow-hidden ${isOpen ? "max-h-[300px] border-t border-zinc-100" : "max-h-0"}`}>
                       <p className="p-6 text-sm text-zinc-500 leading-relaxed bg-zinc-50/20">
                         {item.a}
                       </p>
@@ -1467,7 +1480,7 @@ export default function AmecSaaSPage() {
                 </div>
 
                 <div className="flex flex-col gap-4 text-left">
-                  <h2 className="text-3xl md:text-5xl lg:text-[48px] lg:leading-[56px] font-bold uppercase tracking-tight font-sans text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold uppercase tracking-tight font-sans text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                     Protect your site before <br />the first incident happens
                   </h2>
                   <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-xl">
@@ -1579,18 +1592,18 @@ export default function AmecSaaSPage() {
                   {/* Buttons */}
                   <div className="flex flex-col gap-3 mt-2">
                     <button 
-                      onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
-                      className="w-full bg-[#f04424] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#f04424]/90 hover:shadow-xl hover:shadow-error/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
-                      style={{ height: '50.71px', borderRadius: '12px' }}
-                    >
-                      Book Installation / Order ({heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'})
-                    </button>
-                    <button 
                       onClick={() => handleScroll('contact')}
                       className="w-full bg-transparent border border-zinc-700 text-zinc-300 font-bold text-xs uppercase tracking-widest hover:bg-zinc-800 hover:text-white hover:border-zinc-500 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
                       Request Technical Spec Sheet
+                    </button>
+                    <button 
+                      onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+                      className="w-full bg-[#f04424] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#f04424]/90 hover:shadow-xl hover:shadow-error/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
+                      style={{ height: '50.71px', borderRadius: '12px' }}
+                    >
+                      Book Installation / Order ({heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'})
                     </button>
                   </div>
 
@@ -1604,8 +1617,8 @@ export default function AmecSaaSPage() {
         {/* --- CONTACT & CORPORATE OFFICES SECTION --- */}
         <section id="contact" className="py-8 md:py-20 px-4 md:px-16 bg-white border-t border-zinc-150 scroll-mt-20">
           <div className="max-w-[1440px] mx-auto">
-            <div className="bg-[#f0f4f8] rounded-[32px] p-6 md:p-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 shadow-sm border border-zinc-200/50">
-              
+            {/* Desktop View Card (lg:flex, hidden on mobile) */}
+            <div className="hidden lg:flex bg-[#f0f4f8] rounded-[32px] p-8 justify-between items-center gap-8 shadow-sm border border-zinc-200/50">
               {/* Left Details block */}
               <div className="flex flex-col gap-5 max-w-4xl">
                 
@@ -1684,6 +1697,95 @@ export default function AmecSaaSPage() {
                   </svg>
                 </a>
               </div>
+            </div>
+
+            {/* Mobile/Tablet View Card (lg:hidden) */}
+            <div className="lg:hidden bg-[#f0f4f8] rounded-[32px] p-6 flex flex-col gap-5 shadow-sm border border-zinc-200/50 max-w-lg mx-auto">
+              {/* Brand Line */}
+              <div className="flex items-center gap-3">
+                {/* Building Icon */}
+                <span className="text-[#1a365d] shrink-0">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700">
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                    <line x1="9" y1="22" x2="9" y2="16" />
+                    <line x1="15" y1="22" x2="15" y2="16" />
+                    <line x1="9" y1="16" x2="15" y2="16" />
+                    <path d="M8 6h.01" />
+                    <path d="M16 6h.01" />
+                    <path d="M8 10h.01" />
+                    <path d="M16 10h.01" />
+                    <path d="M12 6h.01" />
+                    <path d="M12 10h.01" />
+                  </svg>
+                </span>
+                <span className="text-lg md:text-xl font-bold text-zinc-800 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  AMEC Technology
+                </span>
+              </div>
+
+              {/* Address Line */}
+              <div className="flex items-start gap-3 mt-1">
+                {/* Green Map Pin */}
+                <span className="text-[#4caf50] shrink-0 mt-0.5">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </span>
+                <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
+                  <p>
+                    <span className="font-bold text-zinc-800">Nagpur:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016
+                  </p>
+                  <p>
+                    <span className="font-bold text-zinc-800">Bengaluru:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102
+                  </p>
+                </div>
+              </div>
+
+              {/* Thin Divider Line */}
+              <div className="h-px bg-zinc-200/80 w-full my-2" />
+
+              {/* Helpline Row */}
+              <div className="flex justify-between items-center gap-4">
+                <div className="flex flex-col gap-0.5 text-left font-sans">
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Helpline</span>
+                  <div className="text-xs md:text-sm font-bold text-zinc-800 tracking-tight">
+                    <a href="tel:+917887870040" className="hover:text-error transition-colors">+91 7887870040</a> / <a href="tel:+918087752141" className="hover:text-error transition-colors">+91 8087752141</a>
+                  </div>
+                </div>
+                {/* Phone button aligned right */}
+                <a 
+                  href="tel:+917887870040"
+                  className="w-10 h-10 rounded-full bg-[#e8f4ec] hover:bg-[#d6ebdcf5] flex items-center justify-center transition-all shadow-sm border border-emerald-100 group shrink-0 cursor-pointer"
+                  title="Call Us"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-700 group-hover:scale-110 transition-transform">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                  </svg>
+                </a>
+              </div>
+
+              {/* Email Row */}
+              <div className="flex justify-between items-center gap-4 mt-2">
+                <div className="flex flex-col gap-0.5 text-left font-sans">
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Email</span>
+                  <a href="mailto:sales@amectechnology.com" className="text-xs md:text-sm font-bold text-zinc-800 hover:text-error transition-colors tracking-tight">
+                    sales@amectechnology.com
+                  </a>
+                </div>
+                {/* Email button aligned right */}
+                <a 
+                  href="mailto:sales@amectechnology.com"
+                  className="w-10 h-10 rounded-full bg-[#f6ebf6] hover:bg-[#eedbee] flex items-center justify-center transition-all shadow-sm border border-purple-100 group shrink-0 cursor-pointer"
+                  title="Email Us"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-700 group-hover:scale-110 transition-transform">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </a>
+              </div>
 
             </div>
           </div>
@@ -1694,8 +1796,8 @@ export default function AmecSaaSPage() {
       {/* --- FOOTER --- */}
       <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10">
         <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-24 md:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
-            <div className="lg:col-span-2 flex flex-col gap-6 text-left">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+            <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
                 <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
                 <img alt="AMEC Logo" className="h-5 w-auto object-contain" src="/logo_amec_new.png" />
@@ -1710,7 +1812,7 @@ export default function AmecSaaSPage() {
               </div>
             </div>
 
-            <div className="text-left">
+            <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
               <ul className="flex flex-col gap-3 text-xs">
                 <li><a href="/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
@@ -1720,7 +1822,7 @@ export default function AmecSaaSPage() {
               </ul>
             </div>
 
-            <div className="text-left">
+            <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Support &amp; Services</h5>
               <ul className="flex flex-col gap-3 text-xs">
                 <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Installation Support</button></li>
@@ -1730,7 +1832,7 @@ export default function AmecSaaSPage() {
               </ul>
             </div>
 
-            <div className="text-left">
+            <div className="col-span-2 lg:col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Components</h5>
               <ul className="flex flex-col gap-3 text-xs">
                 <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Sensor Nodes</button></li>
