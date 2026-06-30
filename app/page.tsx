@@ -587,7 +587,7 @@ export default function AmecSaaSPage() {
               <div className="lg:col-span-4 flex flex-col gap-6 order-2 lg:order-1 w-full">
                 
                 {/* Card 1 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left lg:flex-row-reverse lg:text-right hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-100">
+                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-100">
                   <div className="w-12 h-12 rounded-xl bg-error/10 border border-error/5 flex items-center justify-center text-error shrink-0 shadow-sm group-hover:bg-error/20 group-hover:border-error/10 transition-all duration-300">
                     <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>radar</span>
                   </div>
@@ -595,14 +595,14 @@ export default function AmecSaaSPage() {
                     <h3 className="font-bold text-base text-primary font-sans tracking-tight">
                       LIDAR Verification
                     </h3>
-                    <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px] lg:max-w-none">
+                    <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
                       LIDAR sensor nodes classify perimeter movement signatures in sub-seconds, eliminating false alarms and alert fatigue.
                     </p>
                   </div>
                 </div>
 
                 {/* Card 2 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left lg:flex-row-reverse lg:text-right hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-150">
+                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-150">
                   <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-600/5 flex items-center justify-center text-blue-600 shrink-0 shadow-sm group-hover:bg-blue-600/20 group-hover:border-blue-600/10 transition-all duration-300">
                     <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>language</span>
                   </div>
@@ -610,7 +610,7 @@ export default function AmecSaaSPage() {
                     <h3 className="font-bold text-base text-primary font-sans tracking-tight">
                       Self-Healing Mesh
                     </h3>
-                    <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px] lg:max-w-none">
+                    <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
                       Nodes form an autonomous wireless mesh via long-range LoRa, requiring no local cellular or internet connectivity.
                     </p>
                   </div>
