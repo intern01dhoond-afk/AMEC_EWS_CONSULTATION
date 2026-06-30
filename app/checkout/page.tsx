@@ -202,10 +202,10 @@ export default function CheckoutPage() {
       {/* --- TOP NAVBAR --- */}
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg transition-all duration-300 ease-in-out">
         <div className="flex justify-between items-center px-6 md:px-16 py-5 max-w-[1440px] mx-auto">
-          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+          <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
             <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
             <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
-          </Link>
+          </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
               { label: 'Product', id: 'systems' },
