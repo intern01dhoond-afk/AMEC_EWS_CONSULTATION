@@ -72,10 +72,10 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/hero-images/product-image-2-1.png', alt: 'AMEC Early Warning System Node', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-3.png', alt: 'AMEC Node Assembly', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-4.png', alt: 'AMEC Security Deployment', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-5.png', alt: 'AMEC Sensor Unit detail', isDark: false, contain: true }
+    { src: '/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: true }
   ];
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -638,7 +638,7 @@ export default function AmecSaaSPage() {
                   <img 
                     alt="AMEC Sensor Node" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
-                    src="/hero-images/product-image-2-png.png" 
+                    src="/hero-images/product-image-2-png.webp" 
                   />
                 </div>
 
@@ -792,7 +792,7 @@ export default function AmecSaaSPage() {
                 {/* Radiation ripples behind the device */}
                 <div 
                   key="hub-radiation-1"
-                  className="absolute left-[42%] top-[34%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/90 bg-[#f04424]/20 -z-10"
+                  className="absolute left-[60%] top-[22%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/90 bg-[#f04424]/20 -z-10"
                   style={{ 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightRadiation 1.5s infinite',
@@ -800,7 +800,7 @@ export default function AmecSaaSPage() {
                 />
                 <div 
                   key="hub-radiation-2"
-                  className="absolute left-[42%] top-[34%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/60 bg-transparent -z-10"
+                  className="absolute left-[60%] top-[22%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full border-4 border-[#f04424]/60 bg-transparent -z-10"
                   style={{ 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightRadiation 1.5s infinite',
@@ -811,7 +811,7 @@ export default function AmecSaaSPage() {
                 <img 
                   alt="AMEC Hub Device" 
                   className="w-full h-auto object-contain drop-shadow-lg relative z-10" 
-                  src="/hero-images/product-image-2-png.png" 
+                  src="/hero-images/product-image-2-png.webp" 
                 />
                 {/* Glowing Alert Indicator Light Overlays (flashes exactly when signal reaches Hub, positioned over the 4 physical LEDs) */}
                 {/* LED 1 */}
@@ -819,8 +819,8 @@ export default function AmecSaaSPage() {
                   key="hub-led-1"
                   className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
-                    left: '17.5%', 
-                    top: '70.5%', 
+                    left: '85.69%', 
+                    top: '8.21%', 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightFlash 1.5s infinite',
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
@@ -831,8 +831,8 @@ export default function AmecSaaSPage() {
                   key="hub-led-2"
                   className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
-                    left: '18.0%', 
-                    top: '77.5%', 
+                    left: '85.69%', 
+                    top: '14.96%', 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightFlash 1.5s infinite',
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
@@ -843,8 +843,8 @@ export default function AmecSaaSPage() {
                   key="hub-led-3"
                   className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
-                    left: '18.5%', 
-                    top: '84.5%', 
+                    left: '85.69%', 
+                    top: '21.87%', 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightFlash 1.5s infinite',
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
@@ -855,8 +855,8 @@ export default function AmecSaaSPage() {
                   key="hub-led-4"
                   className="absolute w-[6px] h-[6px] rounded-full bg-[#f04424] z-20"
                   style={{ 
-                    left: '19.0%', 
-                    top: '91.5%', 
+                    left: '85.69%', 
+                    top: '28.42%', 
                     transform: 'translate(-50%, -50%)',
                     animation: 'hubLightFlash 1.5s infinite',
                     boxShadow: '0 0 6px rgba(240, 68, 36, 0.8), 0 0 12px rgba(240, 68, 36, 0.4)'
@@ -1244,49 +1244,49 @@ export default function AmecSaaSPage() {
                 {
                   title: "Industrial Sites",
                   desc: "Protect manufacturing units and perimeter walls.",
-                  img: "/Applications/industrial-sites.jpg",
+                  img: "/Applications/industrial-sites.webp",
                   icon: "factory",
                 },
                 {
                   title: "Solar Power Plants",
                   desc: "Prevent solar panel and critical equipment theft.",
-                  img: "/Applications/solar-power-plants.jpg",
+                  img: "/Applications/solar-power-plants.webp",
                   icon: "solar_power",
                 },
                 {
                   title: "Construction Sites",
                   desc: "Monitor assets and prevent unauthorized access.",
-                  img: "/Applications/construction-sites.jpg",
+                  img: "/Applications/construction-sites.webp",
                   icon: "construction",
                 },
                 {
                   title: "Warehouses",
                   desc: "Secure storage units and distribution centers.",
-                  img: "/Applications/warehouses.jpg",
+                  img: "/Applications/warehouses.webp",
                   icon: "warehouse",
                 },
                 {
                   title: "Mining & Metals",
                   desc: "Safeguard remote mining equipment and operations.",
-                  img: "/Applications/mining-sites.png",
+                  img: "/Applications/mining-sites.webp",
                   icon: "landscape",
                 },
                 {
                   title: "Railways",
                   desc: "Protect tracks, yards, and transit corridors.",
-                  img: "/Applications/railways.png",
+                  img: "/Applications/railways.webp",
                   icon: "train",
                 },
                 {
                   title: "NGOs & Wildlife Conservation",
                   desc: "Monitor habitats and prevent poaching activity.",
-                  img: "/Applications/ngos-wildlife-conservation.jpg",
+                  img: "/Applications/ngos-wildlife-conservation.webp",
                   icon: "nature_people",
                 },
                 {
                   title: "Government Facilities",
                   desc: "Secure administrative properties and public hubs.",
-                  img: "/Applications/government-facilities.jpeg",
+                  img: "/Applications/government-facilities.webp",
                   icon: "account_balance",
                 }
               ].map((app, idx) => (
