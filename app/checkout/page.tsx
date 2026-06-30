@@ -74,6 +74,34 @@ export default function CheckoutPage() {
     });
   };
 
+  const saveCheckoutToGoogleSheets = async (paymentId: string) => {
+    try {
+      const payload = {
+        name,
+        phone,
+        email,
+        address,
+        city,
+        stateName,
+        zip,
+        siteLocation,
+        areaToCover,
+        application: application === 'Other' ? customApplication : application,
+        paymentId
+      };
+      
+      await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error("Error calling save checkout API:", err);
+    }
+  };
+
   const handlePayment = async () => {
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
@@ -90,7 +118,9 @@ export default function CheckoutPage() {
       description: "Secure Node Acquisition",
       image: "/logo_shield.png",
       handler: function (response: any) {
-        setSuccessModal({ isOpen: true, paymentId: response.razorpay_payment_id, isWire: false });
+        const paymentId = response.razorpay_payment_id;
+        setSuccessModal({ isOpen: true, paymentId, isWire: false });
+        saveCheckoutToGoogleSheets(paymentId);
       },
       prefill: {
         name: name,

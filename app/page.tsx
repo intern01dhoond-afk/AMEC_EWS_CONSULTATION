@@ -420,16 +420,6 @@ export default function AmecSaaSPage() {
                       Buy Now
                     </button>
                   </div>
-                  <a 
-                    href="https://www.youtube.com/watch?v=r0bAu0HCXSY"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full md:w-auto bg-white border border-zinc-300 text-zinc-700 font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-100 hover:shadow-md hover:border-zinc-400 hover:-translate-y-0.5 transition-all duration-300 text-center cursor-pointer inline-flex items-center justify-center font-sans"
-                    style={{ height: '50.71px', borderRadius: '12px' }}
-                  >
-                    <span className="material-symbols-outlined text-base mr-2" style={{ fontVariationSettings: "'FILL' 0" }}>videocam</span>
-                    Watch Demo
-                  </a>
                 </div>
               </div>
             </div>
@@ -1592,18 +1582,11 @@ export default function AmecSaaSPage() {
                   {/* Buttons */}
                   <div className="flex flex-col gap-3 mt-2">
                     <button 
-                      onClick={() => handleScroll('contact')}
-                      className="w-full bg-transparent border border-zinc-700 text-zinc-300 font-bold text-xs uppercase tracking-widest hover:bg-zinc-800 hover:text-white hover:border-zinc-500 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
-                      style={{ height: '50.71px', borderRadius: '12px' }}
-                    >
-                      Request Technical Spec Sheet
-                    </button>
-                    <button 
                       onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
                       className="w-full bg-[#f04424] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#f04424]/90 hover:shadow-xl hover:shadow-error/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
-                      Book Installation / Order ({heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'})
+                      SHOP NOW
                     </button>
                   </div>
 
