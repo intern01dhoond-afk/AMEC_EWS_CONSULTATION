@@ -72,10 +72,10 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/sensor_node_new.png', alt: 'AMEC Sensor Node', isDark: false },
-    { src: '/split_final_right.jpg', alt: 'AMEC Security Deployment Site', isDark: true },
-    { src: '/first_page_image.jpg', alt: 'AMEC Outdoor Deployment', isDark: true },
-    { src: '/solar_pole_forest.png', alt: 'Solar Powered Sensor Installation', isDark: true }
+    { src: '/hero-images/product-image-2-1.png', alt: 'AMEC Early Warning System Node', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-3.png', alt: 'AMEC Node Assembly', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-4.png', alt: 'AMEC Security Deployment', isDark: false, contain: true },
+    { src: '/hero-images/product-image-2-5.png', alt: 'AMEC Sensor Unit detail', isDark: false, contain: true }
   ];
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -482,7 +482,7 @@ export default function AmecSaaSPage() {
                       key={currentHeroImageIndex}
                       alt={heroImages[currentHeroImageIndex].alt} 
                       className={`w-full h-full hover:scale-105 transition-transform duration-500 ease-out shrink-0 drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] rounded-[12px] ${
-                        heroImages[currentHeroImageIndex].src === '/sensor_node_new.png'
+                        heroImages[currentHeroImageIndex].contain
                           ? 'object-contain p-8 bg-[#fbfbfb]' 
                           : 'object-cover'
                       }`} 
@@ -638,7 +638,7 @@ export default function AmecSaaSPage() {
                   <img 
                     alt="AMEC Sensor Node" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
-                    src="/sensor_node_new.png" 
+                    src="/hero-images/product-image-2-png.png" 
                   />
                 </div>
 
@@ -811,7 +811,7 @@ export default function AmecSaaSPage() {
                 <img 
                   alt="AMEC Hub Device" 
                   className="w-full h-auto object-contain drop-shadow-lg relative z-10" 
-                  src="/ChatGPT_Image_Jun_25__2026__01_26_02_PM-removebg-preview.png" 
+                  src="/hero-images/product-image-2-png.png" 
                 />
                 {/* Glowing Alert Indicator Light Overlays (flashes exactly when signal reaches Hub, positioned over the 4 physical LEDs) */}
                 {/* LED 1 */}
