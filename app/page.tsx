@@ -1254,49 +1254,49 @@ export default function AmecSaaSPage() {
                 {
                   title: "Industrial Sites",
                   desc: "Protect manufacturing units and perimeter walls.",
-                  img: "/Applications/Industrial Sites.jpg",
+                  img: "/Applications/industrial-sites.jpg",
                   icon: "factory",
                 },
                 {
                   title: "Solar Power Plants",
                   desc: "Prevent solar panel and critical equipment theft.",
-                  img: "/Applications/Solar Power Plants.jpg",
+                  img: "/Applications/solar-power-plants.jpg",
                   icon: "solar_power",
                 },
                 {
                   title: "Construction Sites",
                   desc: "Monitor assets and prevent unauthorized access.",
-                  img: "/Applications/Construction sites.jpg",
+                  img: "/Applications/construction-sites.jpg",
                   icon: "construction",
                 },
                 {
                   title: "Warehouses",
                   desc: "Secure storage units and distribution centers.",
-                  img: "/Applications/Warehouses.jpg",
+                  img: "/Applications/warehouses.jpg",
                   icon: "warehouse",
                 },
                 {
                   title: "Mining & Metals",
                   desc: "Safeguard remote mining equipment and operations.",
-                  img: "/Applications/Mining sites.png",
+                  img: "/Applications/mining-sites.png",
                   icon: "landscape",
                 },
                 {
                   title: "Railways",
                   desc: "Protect tracks, yards, and transit corridors.",
-                  img: "/Applications/Railways.png",
+                  img: "/Applications/railways.png",
                   icon: "train",
                 },
                 {
                   title: "NGOs & Wildlife Conservation",
                   desc: "Monitor habitats and prevent poaching activity.",
-                  img: "/Applications/NGOs & Wildlife Conservation.jpg",
+                  img: "/Applications/ngos-wildlife-conservation.jpg",
                   icon: "nature_people",
                 },
                 {
                   title: "Government Facilities",
                   desc: "Secure administrative properties and public hubs.",
-                  img: "/Applications/Government Facilitates.jpeg",
+                  img: "/Applications/government-facilities.jpeg",
                   icon: "account_balance",
                 }
               ].map((app, idx) => (
