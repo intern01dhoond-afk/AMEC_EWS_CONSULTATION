@@ -39,7 +39,8 @@ export default function CheckoutPage() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const subtotal = 44991 * qty;
+  const UNIT_PRICE = 1; // Changed to 1 for testing (Original price: 44991)
+  const subtotal = UNIT_PRICE * qty;
   const taxAmount = Math.round(subtotal * 0.18);
   const totalCommitment = subtotal + taxAmount;
 
@@ -111,7 +112,7 @@ export default function CheckoutPage() {
     }
 
     const options = {
-      key: "rzp_test_Sdh2WaT4aYxo9E",
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T8B1ZfO0qV6cTa",
       amount: totalCommitment * 100, // Total Commitment including 18% GST in paisa
       currency: "INR",
       name: "AMEC Technology",
@@ -470,7 +471,7 @@ export default function CheckoutPage() {
                   <span className="text-xs text-zinc-500 mt-1">Qty: {qty.toString().padStart(2, '0')}</span>
                 </div>
                 <div className="font-bold text-sm text-zinc-900">
-                  ₹{(44991 * qty).toLocaleString('en-IN')}.00
+                  ₹{(UNIT_PRICE * qty).toLocaleString('en-IN')}.00
                 </div>
               </div>
 
