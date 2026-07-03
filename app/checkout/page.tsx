@@ -216,7 +216,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50/60 text-zinc-900 font-sans antialiased">
+    <div className="min-h-screen w-full overflow-x-hidden relative bg-zinc-50/60 text-zinc-900 font-sans antialiased">
       <style>{`
         .dice-container {
           perspective: 1000px;
@@ -267,8 +267,8 @@ export default function CheckoutPage() {
       `}</style>
       
       {/* --- TOP NAVBAR --- */}
-      <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg transition-all duration-300 ease-in-out">
-        <div className="flex justify-between items-center px-6 md:px-16 py-5 max-w-[1440px] mx-auto">
+      <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
+        <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
             <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
             <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
@@ -313,7 +313,7 @@ export default function CheckoutPage() {
         
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute inset-x-0 top-[80px] bg-white border-b border-zinc-200 shadow-xl flex flex-col p-6 gap-4 z-40 animate-in slide-in-from-top duration-200">
+          <div className="lg:hidden absolute inset-x-0 top-full bg-white border-b border-zinc-200 shadow-xl flex flex-col p-6 gap-4 z-40 animate-in slide-in-from-top duration-200">
             {[
               { label: 'Product', id: 'systems' },
               { label: 'Technology', id: 'safety' },
@@ -351,12 +351,12 @@ export default function CheckoutPage() {
               </h1>
             </div>
 
-            {/* How It Works Section */}
+            {/* How To Buy Section */}
             <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-6">
               <div>
                 <span className="text-[10px] font-bold text-error uppercase tracking-widest block mb-1">● What Happens Next</span>
                 <h2 className="text-xl font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  How It Works
+                  How To Buy
                 </h2>
               </div>
               
@@ -372,8 +372,8 @@ export default function CheckoutPage() {
                   },
                   {
                     num: 2,
-                    title: "Location Consultation Call",
-                    desc: "Our team will contact you to understand your installation location and confirm the required details."
+                    title: "Quantity Consultation Call",
+                    desc: "Our team will contact you to verify your required quantities and confirm your installation location details."
                   },
                   {
                     num: 3,

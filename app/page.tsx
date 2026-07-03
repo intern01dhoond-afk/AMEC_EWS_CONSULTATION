@@ -206,11 +206,11 @@ export default function AmecSaaSPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface font-sans antialiased selection:bg-primary selection:text-on-primary">
+    <div className="min-h-screen w-full overflow-x-hidden relative bg-surface text-on-surface font-sans antialiased selection:bg-primary selection:text-on-primary">
       
       {/* --- TOP NAVBAR --- */}
-      <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg transition-all duration-300 ease-in-out">
-        <div className="flex justify-between items-center px-6 md:px-16 py-5 max-w-[1440px] mx-auto">
+      <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
+        <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
             <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
             <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
@@ -262,7 +262,7 @@ export default function AmecSaaSPage() {
         
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute inset-x-0 top-[80px] bg-white border-b border-zinc-200 shadow-xl flex flex-col p-6 gap-4 z-40 animate-in slide-in-from-top duration-200">
+          <div className="lg:hidden absolute inset-x-0 top-full bg-white border-b border-zinc-200 shadow-xl flex flex-col p-6 gap-4 z-40 animate-in slide-in-from-top duration-200">
             {[
               { label: 'Product', id: 'systems' },
               { label: 'Technology', id: 'safety' },
@@ -498,17 +498,26 @@ export default function AmecSaaSPage() {
                   </button>
 
                   {/* Carousel sliding image wrapper */}
-                  <div className="w-full h-full flex justify-center items-center transition-all duration-500 ease-in-out rounded-[12px]">
-                    <img 
-                      key={currentHeroImageIndex}
-                      alt={heroImages[currentHeroImageIndex].alt} 
-                      className={`w-full h-full hover:scale-105 transition-transform duration-500 ease-out shrink-0 drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] rounded-[12px] ${
-                        heroImages[currentHeroImageIndex].contain
-                          ? 'object-contain p-8 bg-[#fbfbfb]' 
-                          : 'object-cover'
-                      }`} 
-                      src={heroImages[currentHeroImageIndex].src} 
-                    />
+                  <div className="w-full h-full absolute inset-0 rounded-[12px] overflow-hidden bg-zinc-950">
+                    {heroImages.map((img, idx) => (
+                      <div 
+                        key={idx}
+                        className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                          currentHeroImageIndex === idx 
+                            ? 'opacity-100 z-10' 
+                            : 'opacity-0 z-0'
+                        }`}
+                      >
+                        <img 
+                          alt={img.alt} 
+                          className="w-full h-full object-cover transition-transform duration-[8000ms] ease-out" 
+                          style={{
+                            transform: currentHeroImageIndex === idx ? 'scale(1.05)' : 'scale(1.00)',
+                          }}
+                          src={img.src} 
+                        />
+                      </div>
+                    ))}
                   </div>
 
                   {/* Indicator Dots - Inside the image at the bottom */}
@@ -1882,7 +1891,7 @@ export default function AmecSaaSPage() {
         </div>
       </footer>
 
-      <div className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200/80 px-4 py-2.5 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ease-in-out lg:hidden ${
+      <div className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200/80 px-4 pt-3 pb-6 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-[transform,opacity] duration-300 ease-in-out lg:hidden ${
         showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
       }`}>
         <div className="flex items-center justify-between gap-3">
