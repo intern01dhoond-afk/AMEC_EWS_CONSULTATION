@@ -349,7 +349,57 @@ export default function CheckoutPage() {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-bold text-zinc-950 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Checkout.
               </h1>
-            </div>            {/* Section 1: Client Identification */}
+            </div>
+
+            {/* How It Works Section */}
+            <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-6">
+              <div>
+                <span className="text-[10px] font-bold text-error uppercase tracking-widest block mb-1">● What Happens Next</span>
+                <h2 className="text-xl font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  How It Works
+                </h2>
+              </div>
+              
+              <div className="flex flex-col gap-5 relative">
+                {/* Visual vertical connector line */}
+                <div className="absolute left-[17px] top-6 bottom-6 w-px bg-zinc-200" />
+                
+                {[
+                  {
+                    num: 1,
+                    title: "Complete Your Payment",
+                    desc: "Secure your order by completing the payment."
+                  },
+                  {
+                    num: 2,
+                    title: "Location Consultation Call",
+                    desc: "Our team will contact you to understand your installation location and confirm the required details."
+                  },
+                  {
+                    num: 3,
+                    title: "Order Processing & Dispatch",
+                    desc: "Once the consultation is complete, we'll process and dispatch your order."
+                  },
+                  {
+                    num: 4,
+                    title: "Delivery to Your Location",
+                    desc: "Your Early Warning System will be delivered to your specified address."
+                  }
+                ].map((step) => (
+                  <div key={step.num} className="flex gap-4 items-start relative z-10">
+                    <div className="w-9 h-9 rounded-full bg-zinc-950 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-zinc-900">
+                      {step.num}
+                    </div>
+                    <div className="flex flex-col gap-0.5 pt-1.5">
+                      <span className="font-bold text-sm text-zinc-900 leading-none">{step.title}</span>
+                      <span className="text-xs text-zinc-500 mt-1.5 leading-relaxed font-medium">{step.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Section 1: Client Identification */}
             <div className="border border-zinc-200/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <div className="flex items-center gap-3">
                 <span className="text-zinc-300 font-extrabold text-lg">01</span>
