@@ -72,10 +72,10 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: true },
-    { src: '/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: true }
+    { src: '/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: false },
+    { src: '/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: false },
+    { src: '/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: false },
+    { src: '/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false }
   ];
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -111,44 +111,55 @@ export default function AmecSaaSPage() {
   const activeHubsCount = useCountUp(140, 1500, 200);
 
   React.useEffect(() => {
+    let ticking = false;
     const handleScrollEvent = () => {
-      const section = document.getElementById('process');
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      if (rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3) {
-        const height = rect.height;
-        const current = windowHeight * 0.7 - rect.top;
-        const pct = (current / height) * 100;
-        
-        setScrollProgress(Math.max(0, Math.min(100, (pct / 75) * 100)));
-        
-        if (pct < 25) {
-          setActiveStep(1);
-        } else if (pct < 50) {
-          setActiveStep(2);
-        } else if (pct < 75) {
-          setActiveStep(3);
-        } else {
-          setActiveStep(4);
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const section = document.getElementById('process');
+          if (section) {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            if (rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3) {
+              const height = rect.height;
+              const current = windowHeight * 0.7 - rect.top;
+              const pct = (current / height) * 100;
+              
+              setScrollProgress(Math.max(0, Math.min(100, (pct / 75) * 100)));
+              
+              const nextStep = pct < 25 ? 1 : pct < 50 ? 2 : pct < 75 ? 3 : 4;
+              setActiveStep((prev) => {
+                if (prev !== nextStep) return nextStep;
+                return prev;
+              });
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
-    window.addEventListener('scroll', handleScrollEvent);
+    window.addEventListener('scroll', handleScrollEvent, { passive: true });
     return () => window.removeEventListener('scroll', handleScrollEvent);
   }, []);
 
   const [showStickyBtn, setShowStickyBtn] = useState(false);
   React.useEffect(() => {
+    let ticking = false;
     const handleScrollCheck = () => {
-      if (window.scrollY > 400) {
-        setShowStickyBtn(true);
-      } else {
-        setShowStickyBtn(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const shouldShow = window.scrollY > 400;
+          setShowStickyBtn((prev) => {
+            if (prev !== shouldShow) return shouldShow;
+            return prev;
+          });
+          ticking = false;
+        });
+        ticking = true;
       }
     };
-    window.addEventListener('scroll', handleScrollCheck);
+    window.addEventListener('scroll', handleScrollCheck, { passive: true });
     return () => window.removeEventListener('scroll', handleScrollCheck);
   }, []);
 
@@ -420,6 +431,16 @@ export default function AmecSaaSPage() {
                       Buy Now
                     </button>
                   </div>
+                  <a 
+                    href="https://www.youtube.com/watch?v=r0bAu0HCXSY"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full md:w-auto bg-white border border-zinc-300 text-zinc-700 font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-100 hover:shadow-md hover:border-zinc-400 hover:-translate-y-0.5 transition-all duration-300 text-center cursor-pointer inline-flex items-center justify-center font-sans"
+                    style={{ height: '50.71px', borderRadius: '12px' }}
+                  >
+                    <span className="material-symbols-outlined text-base mr-2" style={{ fontVariationSettings: "'FILL' 0" }}>videocam</span>
+                    Watch Demo
+                  </a>
                 </div>
               </div>
             </div>
@@ -636,7 +657,7 @@ export default function AmecSaaSPage() {
                 {/* Product Image Wrapper */}
                 <div className="relative w-56 h-56 md:w-64 md:h-64 flex items-center justify-center z-10 animate-fade-up delay-100">
                   <img 
-                    alt="AMEC Sensor Node" 
+                    alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
                     src="/hero-images/product-image-2-png.webp" 
                   />
@@ -1636,16 +1657,22 @@ export default function AmecSaaSPage() {
                       <circle cx="12" cy="10" r="3" />
                     </svg>
                   </span>
-                  <div className="flex flex-col md:flex-row md:items-center gap-y-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
-                    <span>Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH, India - 440016</span>
-                    <span className="hidden md:block h-4 w-px bg-zinc-300 mx-4 shrink-0" />
-                    <span>868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA, India - 560102</span>
+                  <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA, India - 560102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH, India - 440016</p>
                   </div>
                 </div>
 
                 {/* Phone Line */}
-                <div className="text-xl md:text-2xl font-bold text-zinc-800 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  <a href="tel:+917887870040" className="hover:text-error transition-colors">+91 7887870040</a>, <a href="tel:+918087752141" className="hover:text-error transition-colors">+91 8087752141</a>
+                <div className="text-sm md:text-base font-bold text-zinc-800 tracking-tight font-sans flex flex-col md:flex-row gap-x-6 gap-y-1.5 mt-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  <div>
+                    <span className="text-zinc-500 font-medium mr-2">Sales:</span>
+                    <a href="tel:+917887870040" className="hover:text-error transition-colors">+91 7887870040</a>
+                  </div>
+                  <div>
+                    <span className="text-zinc-500 font-medium mr-2">Service:</span>
+                    <a href="tel:+918087758405" className="hover:text-error transition-colors">+91 8087758405</a>
+                  </div>
                 </div>
 
                 {/* Web & Email Line */}
@@ -1717,10 +1744,10 @@ export default function AmecSaaSPage() {
                 </span>
                 <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
                   <p>
-                    <span className="font-bold text-zinc-800">Nagpur:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016
+                    <span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102
                   </p>
                   <p>
-                    <span className="font-bold text-zinc-800">Bengaluru:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102
+                    <span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016
                   </p>
                 </div>
               </div>
@@ -1729,24 +1756,46 @@ export default function AmecSaaSPage() {
               <div className="h-px bg-zinc-200/80 w-full my-2" />
 
               {/* Helpline Row */}
-              <div className="flex justify-between items-center gap-4">
-                <div className="flex flex-col gap-0.5 text-left font-sans">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Helpline</span>
-                  <div className="text-xs md:text-sm font-bold text-zinc-800 tracking-tight">
-                    <a href="tel:+917887870040" className="hover:text-error transition-colors">+91 7887870040</a> / <a href="tel:+918087752141" className="hover:text-error transition-colors">+91 8087752141</a>
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-between items-center gap-4">
+                  <div className="flex flex-col gap-0.5 text-left font-sans">
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sales Helpline</span>
+                    <div className="text-xs md:text-sm font-bold text-zinc-800 tracking-tight">
+                      <a href="tel:+917887870040" className="hover:text-error transition-colors">+91 7887870040</a>
+                    </div>
                   </div>
+                  {/* Phone button aligned right */}
+                  <a 
+                    href="tel:+917887870040"
+                    className="w-10 h-10 rounded-full bg-[#e8f4ec] hover:bg-[#d6ebdcf5] flex items-center justify-center transition-all shadow-sm border border-emerald-100 group shrink-0 cursor-pointer"
+                    title="Call Sales"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-700 group-hover:scale-110 transition-transform">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg>
+                  </a>
                 </div>
-                {/* Phone button aligned right */}
-                <a 
-                  href="tel:+917887870040"
-                  className="w-10 h-10 rounded-full bg-[#e8f4ec] hover:bg-[#d6ebdcf5] flex items-center justify-center transition-all shadow-sm border border-emerald-100 group shrink-0 cursor-pointer"
-                  title="Call Us"
-                >
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-700 group-hover:scale-110 transition-transform">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                    <line x1="12" y1="18" x2="12.01" y2="18" />
-                  </svg>
-                </a>
+
+                <div className="flex justify-between items-center gap-4">
+                  <div className="flex flex-col gap-0.5 text-left font-sans">
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Service Helpline</span>
+                    <div className="text-xs md:text-sm font-bold text-zinc-800 tracking-tight">
+                      <a href="tel:+918087758405" className="hover:text-error transition-colors">+91 8087758405</a>
+                    </div>
+                  </div>
+                  {/* Phone button aligned right */}
+                  <a 
+                    href="tel:+918087758405"
+                    className="w-10 h-10 rounded-full bg-[#e2f0fd] hover:bg-[#d0e5fb] flex items-center justify-center transition-all shadow-sm border border-blue-100 group shrink-0 cursor-pointer"
+                    title="Call Service"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 group-hover:scale-110 transition-transform">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg>
+                  </a>
+                </div>
               </div>
 
               {/* Email Row */}
@@ -1828,7 +1877,7 @@ export default function AmecSaaSPage() {
           <div className="h-px w-full bg-white/10 mb-8"></div>
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
             <span>© 2025 AMEC Technology. All rights reserved.</span>
-            <span className="text-white/40">Bengaluru · Johannesburg · MDG · HDFC · New Delhi</span>
+            <span className="text-white/40">Bengaluru · Pune · Nagpur</span>
           </div>
         </div>
       </footer>

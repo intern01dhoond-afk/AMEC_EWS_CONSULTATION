@@ -38,6 +38,15 @@ export default function CheckoutPage() {
   } | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [errors, setErrors] = useState<{
+    name?: string;
+    phone?: string;
+    email?: string;
+    address?: string;
+    city?: string;
+    stateName?: string;
+    zip?: string;
+  }>({});
 
   const UNIT_PRICE = 1; // Changed to 1 for testing (Original price: 44991)
   const subtotal = UNIT_PRICE * qty;
@@ -103,7 +112,64 @@ export default function CheckoutPage() {
     }
   };
 
+  const validateForm = () => {
+    const newErrors: typeof errors = {};
+
+    // Name validation
+    if (!name.trim()) {
+      newErrors.name = 'Full Legal Name is required';
+    }
+
+    // Phone validation
+    const cleanPhone = phone.replace(/[\s\-()]/g, '');
+    const phoneRegex = /^(?:\+91|91)?[6789]\d{9}$/;
+    if (!phone.trim()) {
+      newErrors.phone = 'Phone Number is required';
+    } else if (!phoneRegex.test(cleanPhone)) {
+      newErrors.phone = 'Please enter a valid 10-digit Indian phone number';
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      newErrors.email = 'Email address is required';
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Address validation
+    if (!address.trim()) {
+      newErrors.address = 'Complete Address is required';
+    }
+
+    // City validation
+    if (!city.trim()) {
+      newErrors.city = 'City is required';
+    }
+
+    // State validation
+    if (!stateName.trim()) {
+      newErrors.stateName = 'State is required';
+    }
+
+    // Zip code validation
+    const zipRegex = /^\d{6}$/;
+    if (!zip.trim()) {
+      newErrors.zip = 'Zip Code is required';
+    } else if (!zipRegex.test(zip)) {
+      newErrors.zip = 'Please enter a valid 6-digit PIN code';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handlePayment = async () => {
+    if (!validateForm()) {
+      alert("Please fix the validation errors in the checkout form before proceeding.");
+      return;
+    }
+
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
     if (!res) {
@@ -297,28 +363,46 @@ export default function CheckoutPage() {
                   <input 
                     type="text" 
                     value={name} 
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) setErrors(prev => ({ ...prev, name: undefined }));
+                    }}
+                    className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                      errors.name ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                    }`}
                   />
+                  {errors.name && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.name}</span>}
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Phone Number</label>
                   <input 
                     type="tel" 
                     value={phone} 
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }));
+                    }}
                     placeholder="+91 99000 12345"
-                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                      errors.phone ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                    }`}
                   />
+                  {errors.phone && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.phone}</span>}
                 </div>
                 <div className="flex flex-col gap-1.5 md:col-span-2">
                   <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Email (Encrypted)</label>
                   <input 
                     type="email" 
                     value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors(prev => ({ ...prev, email: undefined }));
+                    }}
+                    className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                      errors.email ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                    }`}
                   />
+                  {errors.email && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.email}</span>}
                 </div>
               </div>
             </div>
@@ -337,9 +421,15 @@ export default function CheckoutPage() {
                   <input 
                     type="text" 
                     value={address} 
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (errors.address) setErrors(prev => ({ ...prev, address: undefined }));
+                    }}
+                    className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                      errors.address ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                    }`}
                   />
+                  {errors.address && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.address}</span>}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="flex flex-col gap-1.5">
@@ -347,27 +437,45 @@ export default function CheckoutPage() {
                     <input 
                       type="text" 
                       value={city} 
-                      onChange={(e) => setCity(e.target.value)}
-                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                      onChange={(e) => {
+                        setCity(e.target.value);
+                        if (errors.city) setErrors(prev => ({ ...prev, city: undefined }));
+                      }}
+                      className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                        errors.city ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                      }`}
                     />
+                    {errors.city && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.city}</span>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">State</label>
                     <input 
                       type="text" 
                       value={stateName} 
-                      onChange={(e) => setStateName(e.target.value)}
-                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                      onChange={(e) => {
+                        setStateName(e.target.value);
+                        if (errors.stateName) setErrors(prev => ({ ...prev, stateName: undefined }));
+                      }}
+                      className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                        errors.stateName ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                      }`}
                     />
+                    {errors.stateName && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.stateName}</span>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Zip Code</label>
                     <input 
                       type="text" 
                       value={zip} 
-                      onChange={(e) => setZip(e.target.value)}
-                      className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                      onChange={(e) => {
+                        setZip(e.target.value);
+                        if (errors.zip) setErrors(prev => ({ ...prev, zip: undefined }));
+                      }}
+                      className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                        errors.zip ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                      }`}
                     />
+                    {errors.zip && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.zip}</span>}
                   </div>
                 </div>
               </div>
@@ -460,14 +568,14 @@ export default function CheckoutPage() {
               <div className="flex items-start gap-4">
                 <div className="w-16 h-16 rounded-xl border border-zinc-100 overflow-hidden bg-zinc-50 shrink-0">
                   <img 
-                    alt="AMEC Sensor Node" 
+                    alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-cover" 
                     src="/solar_pole_forest.png"
                   />
                 </div>
                 <div className="flex-grow flex flex-col">
-                  <span className="font-bold text-sm text-zinc-900">AMEC Sensor Node</span>
-                  <span className="text-[11px] text-zinc-400 font-medium">Precision Calibration V4.2</span>
+                  <span className="font-bold text-xs uppercase tracking-wider text-zinc-900 leading-tight">AMEC Multipurpose Early Warning System</span>
+                  <span className="text-[10px] text-zinc-500 font-medium mt-1 leading-normal">A smart, reliable & self-sufficient solution designed to provide real-time alerts & early warnings across critical infrastructure & remote locations.</span>
                   <span className="text-xs text-zinc-500 mt-1">Qty: {qty.toString().padStart(2, '0')}</span>
                 </div>
                 <div className="font-bold text-sm text-zinc-900">
@@ -537,18 +645,37 @@ export default function CheckoutPage() {
                 <span>AES-256 Bit Encrypted Connection</span>
               </div>
 
+              {/* Trust Badges Row */}
+              <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-zinc-100 text-center w-full">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="material-symbols-outlined text-zinc-400 text-lg">shield</span>
+                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">100% Secure</span>
+                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Razorpay Verified</span>
+                </div>
+                <div className="flex flex-col items-center gap-1 border-x border-zinc-100">
+                  <span className="material-symbols-outlined text-zinc-400 text-lg">workspace_premium</span>
+                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">1 Year Warranty</span>
+                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Official Guarantee</span>
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="material-symbols-outlined text-zinc-400 text-lg">published_with_changes</span>
+                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">No Subscriptions</span>
+                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Lifetime Ownership</span>
+                </div>
+              </div>
+
             </div>
 
             {/* Logistics Alert */}
-            <div className="bg-[#f9fafb] border border-zinc-200 rounded-2xl p-5 flex items-start gap-4">
-              <span className="text-error mt-0.5 shrink-0">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <path d="M19 13.75L9 21v-6H5c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v8c0 1.1-.9 1.75-2 1.75z"/>
+            <div className="bg-[#eaf5ef] border border-emerald-200/60 rounded-2xl p-5 flex items-start gap-4 shadow-sm">
+              <span className="text-emerald-700 mt-0.5 shrink-0">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
                 </svg>
               </span>
               <div className="flex flex-col gap-1">
-                <span className="font-bold text-xs text-zinc-900 tracking-wider uppercase">Priority Logistics</span>
-                <p className="text-xs text-zinc-500 leading-normal">
+                <span className="font-bold text-xs text-emerald-950 tracking-wider uppercase">Priority Logistics Guarantee</span>
+                <p className="text-xs text-emerald-800/90 leading-normal font-medium">
                   Shipping scheduled within 12 hours of payment confirmation.
                 </p>
               </div>
@@ -575,8 +702,8 @@ export default function CheckoutPage() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   <div className="flex flex-col gap-1.5 text-zinc-600 font-medium font-sans">
-                    <p>Nagpur: Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016</p>
-                    <p>Bengaluru: 868, 25th Main, HSR Layout, Sector-1, Bengaluru - 560102</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016</p>
                   </div>
                 </div>
 
@@ -584,17 +711,32 @@ export default function CheckoutPage() {
                 <div className="h-px bg-zinc-200 w-full" />
 
                 {/* Helpline Numbers */}
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider font-sans">Helpline</span>
-                    <span className="font-bold text-zinc-800">+91 7887870040 / +91 8087752141</span>
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider font-sans">Sales Helpline</span>
+                      <span className="font-bold text-zinc-800">+91 7887870040</span>
+                    </div>
+                    <a href="tel:+917887870040" className="w-8 h-8 rounded-full bg-[#e8f4ec] flex items-center justify-center text-emerald-700 border border-emerald-100 hover:bg-[#d6ebdcf5] transition-colors shrink-0" title="Call Sales">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12.01" y2="18" />
+                      </svg>
+                    </a>
                   </div>
-                  <a href="tel:+917887870040" className="w-8 h-8 rounded-full bg-[#e8f4ec] flex items-center justify-center text-emerald-700 border border-emerald-100 hover:bg-[#d6ebdcf5] transition-colors shrink-0">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                      <line x1="12" y1="18" x2="12.01" y2="18" />
-                    </svg>
-                  </a>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider font-sans">Service Helpline</span>
+                      <span className="font-bold text-zinc-800">+91 8087758405</span>
+                    </div>
+                    <a href="tel:+918087758405" className="w-8 h-8 rounded-full bg-[#e2f0fd] flex items-center justify-center text-blue-700 border border-blue-100 hover:bg-[#d0e5fb] transition-colors shrink-0" title="Call Service">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12.01" y2="18" />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
 
                 {/* Email Support */}
