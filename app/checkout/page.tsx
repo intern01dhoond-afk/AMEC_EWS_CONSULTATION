@@ -48,9 +48,9 @@ export default function CheckoutPage() {
     zip?: string;
   }>({});
 
-  const UNIT_PRICE = 1; // Changed to 1 for testing (Original price: 44991)
+  const UNIT_PRICE = 34992; // 20% discount on ₹43,740 (Original price: 43740)
   const subtotal = UNIT_PRICE * qty;
-  const taxAmount = Math.round(subtotal * 0.18);
+  const taxAmount = Math.floor(subtotal * 0.18);
   const totalCommitment = subtotal + taxAmount;
 
   const handleScroll = (id: string) => {
@@ -686,49 +686,6 @@ export default function CheckoutPage() {
                 </svg>
               </button>
               
-              {/* Encryption Notice */}
-              <div className="flex items-center justify-center gap-1.5 text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
-                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <span>AES-256 Bit Encrypted Connection</span>
-              </div>
-
-              {/* Trust Badges Row */}
-              <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-zinc-100 text-center w-full">
-                <div className="flex flex-col items-center gap-1">
-                  <span className="material-symbols-outlined text-zinc-400 text-lg">shield</span>
-                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">100% Secure</span>
-                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Razorpay Verified</span>
-                </div>
-                <div className="flex flex-col items-center gap-1 border-x border-zinc-100">
-                  <span className="material-symbols-outlined text-zinc-400 text-lg">workspace_premium</span>
-                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">1 Year Warranty</span>
-                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Official Guarantee</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="material-symbols-outlined text-zinc-400 text-lg">published_with_changes</span>
-                  <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-none">No Subscriptions</span>
-                  <span className="text-[8px] text-zinc-400 font-medium leading-none mt-0.5">Lifetime Ownership</span>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Logistics Alert */}
-            <div className="bg-[#eaf5ef] border border-emerald-200/60 rounded-2xl p-5 flex items-start gap-4 shadow-sm">
-              <span className="text-emerald-700 mt-0.5 shrink-0">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-                </svg>
-              </span>
-              <div className="flex flex-col gap-1">
-                <span className="font-bold text-xs text-emerald-950 tracking-wider uppercase">Priority Logistics Guarantee</span>
-                <p className="text-xs text-emerald-800/90 leading-normal font-medium">
-                  Shipping scheduled within 12 hours of payment confirmation.
-                </p>
-              </div>
             </div>
 
             {/* Corporate Office Contact Widget */}
@@ -814,14 +771,14 @@ export default function CheckoutPage() {
       {/* --- FOOTER --- */}
       <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10 text-xs">
         <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-24 md:py-20">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
                 <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
                 <img alt="AMEC Logo" className="h-5 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
               </div>
               <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
-                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2018.
+                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2019.
               </p>
               <div className="flex flex-col gap-2 pt-4 border-t border-white/10">
                 <div className="text-[11px] text-white/40 font-medium">
@@ -847,16 +804,6 @@ export default function CheckoutPage() {
                 <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Commissioning Queue</button></li>
                 <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Service Coverage Areas</button></li>
                 <li><button onClick={() => handleScroll('faq')} className="hover:text-error transition-colors cursor-pointer text-left">Platform Documentation</button></li>
-              </ul>
-            </div>
-
-            <div className="col-span-2 lg:col-span-1 text-left">
-              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Components</h5>
-              <ul className="flex flex-col gap-3 text-xs">
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Sensor Nodes</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LoRa Gateway Hub</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Mobile Warning App</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Command Dashboard</button></li>
               </ul>
             </div>
           </div>

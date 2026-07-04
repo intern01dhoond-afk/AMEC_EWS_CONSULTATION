@@ -394,8 +394,8 @@ export default function AmecSaaSPage() {
               </div>
               <div className="flex flex-col gap-0.5 animate-fade-up delay-200">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹44,991</span>
-                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹53,990</span>
+                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹34,992</span>
+                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹43,740</span>
                   <span className="text-[10px] md:text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded">20% Off</span>
                 </div>
                 <span className="text-xs text-on-surface-variant/85 font-medium tracking-wide">(+18% GST) · No subscription or annual contract required</span>
@@ -614,15 +614,15 @@ export default function AmecSaaSPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto">
               
               {/* Left Column - Features 1 & 2 */}
-              <div className="lg:col-span-4 flex flex-col gap-6 order-2 lg:order-1 w-full">
+              <div className="lg:col-span-4 flex flex-col gap-4 md:gap-6 order-2 lg:order-1 w-full">
                 
                 {/* Card 1 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-100">
-                  <div className="w-12 h-12 rounded-xl bg-error/10 border border-error/5 flex items-center justify-center text-error shrink-0 shadow-sm group-hover:bg-error/20 group-hover:border-error/10 transition-all duration-300">
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>radar</span>
+                <div className="glass-pane rounded-xl md:rounded-2xl p-4 md:p-6 flex flex-row gap-3 md:gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-100">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-error/10 border border-error/5 flex items-center justify-center text-error shrink-0 shadow-sm group-hover:bg-error/20 group-hover:border-error/10 transition-all duration-300">
+                    <span className="material-symbols-outlined text-xl md:text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>radar</span>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-bold text-base text-primary font-sans tracking-tight">
+                  <div className="flex flex-col gap-1 md:gap-1.5">
+                    <h3 className="font-bold text-sm md:text-base text-primary font-sans tracking-tight">
                       LIDAR Verification
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
@@ -632,12 +632,12 @@ export default function AmecSaaSPage() {
                 </div>
 
                 {/* Card 2 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-150">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-600/5 flex items-center justify-center text-blue-600 shrink-0 shadow-sm group-hover:bg-blue-600/20 group-hover:border-blue-600/10 transition-all duration-300">
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>language</span>
+                <div className="glass-pane rounded-xl md:rounded-2xl p-4 md:p-6 flex flex-row gap-3 md:gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-150">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-blue-600/10 border border-blue-600/5 flex items-center justify-center text-blue-600 shrink-0 shadow-sm group-hover:bg-blue-600/20 group-hover:border-blue-600/10 transition-all duration-300">
+                    <span className="material-symbols-outlined text-xl md:text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>language</span>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-bold text-base text-primary font-sans tracking-tight">
+                  <div className="flex flex-col gap-1 md:gap-1.5">
+                    <h3 className="font-bold text-sm md:text-base text-primary font-sans tracking-tight">
                       Self-Healing Mesh
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
@@ -659,7 +659,7 @@ export default function AmecSaaSPage() {
                 {/* Graphic concentric radar rings behind the product render */}
                 <div className="absolute w-72 h-72 rounded-full border border-zinc-300/40 flex items-center justify-center pointer-events-none z-0">
                   <div className="w-56 h-56 rounded-full border border-zinc-300/20 flex items-center justify-center">
-                    <div className="w-40 h-40 rounded-full border border-zinc-300/10"></div>
+                     <div className="w-40 h-40 rounded-full border border-zinc-300/10"></div>
                   </div>
                 </div>
                 
@@ -675,15 +675,15 @@ export default function AmecSaaSPage() {
               </div>
 
               {/* Right Column - Features 3 & 4 */}
-              <div className="lg:col-span-4 flex flex-col gap-6 order-3 lg:order-3 w-full">
+              <div className="lg:col-span-4 flex flex-col gap-4 md:gap-6 order-3 lg:order-3 w-full">
                 
                 {/* Card 3 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-200">
-                  <div className="w-12 h-12 rounded-xl bg-green-600/10 border border-green-600/5 flex items-center justify-center text-green-600 shrink-0 shadow-sm group-hover:bg-green-600/20 group-hover:border-green-600/10 transition-all duration-300">
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>battery_charging_full</span>
+                <div className="glass-pane rounded-xl md:rounded-2xl p-4 md:p-6 flex flex-row gap-3 md:gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-200">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-green-600/10 border border-green-600/5 flex items-center justify-center text-green-600 shrink-0 shadow-sm group-hover:bg-green-600/20 group-hover:border-green-600/10 transition-all duration-300">
+                    <span className="material-symbols-outlined text-xl md:text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>battery_charging_full</span>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-bold text-base text-primary font-sans tracking-tight">
+                  <div className="flex flex-col gap-1 md:gap-1.5">
+                    <h3 className="font-bold text-sm md:text-base text-primary font-sans tracking-tight">
                       Solar Autonomy
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
@@ -693,12 +693,12 @@ export default function AmecSaaSPage() {
                 </div>
 
                 {/* Card 4 */}
-                <div className="glass-pane rounded-2xl p-6 flex flex-row gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-250">
-                  <div className="w-12 h-12 rounded-xl bg-purple-600/10 border border-purple-600/5 flex items-center justify-center text-purple-650 shrink-0 shadow-sm group-hover:bg-purple-600/20 group-hover:border-purple-600/10 transition-all duration-300">
-                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>security</span>
+                <div className="glass-pane rounded-xl md:rounded-2xl p-4 md:p-6 flex flex-row gap-3 md:gap-4 items-start text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full group animate-fade-up delay-250">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-purple-600/10 border border-purple-600/5 flex items-center justify-center text-purple-650 shrink-0 shadow-sm group-hover:bg-purple-600/20 group-hover:border-purple-600/10 transition-all duration-300">
+                    <span className="material-symbols-outlined text-xl md:text-2xl" style={{ fontVariationSettings: "'FILL' 0" }}>security</span>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-bold text-base text-primary font-sans tracking-tight">
+                  <div className="flex flex-col gap-1 md:gap-1.5">
+                    <h3 className="font-bold text-sm md:text-base text-primary font-sans tracking-tight">
                       Hardware Redundancy
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
@@ -1591,8 +1591,8 @@ export default function AmecSaaSPage() {
                   <div className="flex flex-col gap-3 text-left">
                     <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Initial Investment</span>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹44,991</span>
-                      <span className="text-sm font-semibold text-error line-through">₹53,990</span>
+                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹34,992</span>
+                      <span className="text-sm font-semibold text-error line-through">₹43,740</span>
                       <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">20% Off</span>
                     </div>
                     <div className="text-[11px] text-zinc-400 font-medium leading-relaxed">
@@ -1837,14 +1837,14 @@ export default function AmecSaaSPage() {
       {/* --- FOOTER --- */}
       <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10">
         <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-24 md:py-20">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
                 <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
                 <img alt="AMEC Logo" className="h-5 w-auto object-contain" src="/logo_amec_new.png" />
               </div>
               <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
-                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2018.
+                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2019.
               </p>
               <div className="flex flex-col gap-2 pt-4 border-t border-white/10">
                 <div className="text-[11px] text-white/40 font-medium">
@@ -1872,16 +1872,6 @@ export default function AmecSaaSPage() {
                 <li><button onClick={() => handleScroll('faq')} className="hover:text-error transition-colors cursor-pointer text-left">Platform Documentation</button></li>
               </ul>
             </div>
-
-            <div className="col-span-2 lg:col-span-1 text-left">
-              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Components</h5>
-              <ul className="flex flex-col gap-3 text-xs">
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Sensor Nodes</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LoRa Gateway Hub</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Mobile Warning App</button></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">Command Dashboard</button></li>
-              </ul>
-            </div>
           </div>
           <div className="h-px w-full bg-white/10 mb-8"></div>
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
@@ -1898,8 +1888,8 @@ export default function AmecSaaSPage() {
           {/* Pricing Info */}
           <div className="flex flex-col items-start shrink-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold text-zinc-900 tracking-tight">₹{(44991 * heroQuantity).toLocaleString('en-IN')}</span>
-              <span className="text-xs font-semibold text-zinc-400 line-through">₹{(53990 * heroQuantity).toLocaleString('en-IN')}</span>
+              <span className="text-base font-bold text-zinc-900 tracking-tight">₹{(34992 * heroQuantity).toLocaleString('en-IN')}</span>
+              <span className="text-xs font-semibold text-zinc-400 line-through">₹{(43740 * heroQuantity).toLocaleString('en-IN')}</span>
               <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">20% Off</span>
             </div>
             <span className="text-[10px] text-zinc-500 font-medium">(+18% GST) · {heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'}</span>
