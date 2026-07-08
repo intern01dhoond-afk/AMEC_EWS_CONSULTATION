@@ -23,6 +23,8 @@ export default function CheckoutPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [gstNo, setGstNo] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [stateName, setStateName] = useState('');
@@ -42,19 +44,20 @@ export default function CheckoutPage() {
     name?: string;
     phone?: string;
     email?: string;
+    companyName?: string;
     address?: string;
     city?: string;
     stateName?: string;
     zip?: string;
   }>({});
 
-  const UNIT_PRICE = 34992; // 20% discount on ₹43,740 (Original price: 43740)
+  const UNIT_PRICE = 35992; // 20% discount on ₹44,991 (Original price: 44991)
   const subtotal = UNIT_PRICE * qty;
   const taxAmount = Math.floor(subtotal * 0.18);
   const totalCommitment = subtotal + taxAmount;
 
   const handleScroll = (id: string) => {
-    window.location.href = `/#${id}`;
+    window.location.href = `/ews/#${id}`;
   };
 
   const copyToClipboard = (text: string, fieldId: string) => {
@@ -90,6 +93,8 @@ export default function CheckoutPage() {
         name,
         phone,
         email,
+        companyName,
+        gstNo,
         address,
         city,
         stateName,
@@ -118,6 +123,11 @@ export default function CheckoutPage() {
     // Name validation
     if (!name.trim()) {
       newErrors.name = 'Full Legal Name is required';
+    }
+
+    // Company Name validation
+    if (!companyName.trim()) {
+      newErrors.companyName = 'Company Name is required';
     }
 
     // Phone validation
@@ -166,7 +176,7 @@ export default function CheckoutPage() {
 
   const handlePayment = async () => {
     if (!validateForm()) {
-      alert("Please fix the validation errors in the checkout form before proceeding.");
+      alert("Please fill all the required details before proceeding.");
       return;
     }
 
@@ -183,7 +193,7 @@ export default function CheckoutPage() {
       currency: "INR",
       name: "AMEC Technology",
       description: "Secure Node Acquisition",
-      image: "/logo_shield.png",
+      image: "/ews/logo_shield.png",
       handler: function (response: any) {
         const paymentId = response.razorpay_payment_id;
         setSuccessModal({ isOpen: true, paymentId, isWire: false });
@@ -197,6 +207,8 @@ export default function CheckoutPage() {
       notes: {
         address: `${address}, ${city}, ${stateName} - ${zip}`,
         phone: phone,
+        company_name: companyName,
+        gst_no: gstNo,
         site_location: siteLocation,
         area_to_cover: areaToCover,
         application: application === 'Other' ? customApplication : application,
@@ -270,8 +282,8 @@ export default function CheckoutPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -343,9 +355,6 @@ export default function CheckoutPage() {
             
             {/* Page Title */}
             <div className="flex flex-col gap-1 mb-2">
-              <span className="text-[10px] font-bold text-error uppercase tracking-widest">
-                ● Secure Node Acquisition
-              </span>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-bold text-zinc-950 tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Checkout.
               </h1>
@@ -453,6 +462,32 @@ export default function CheckoutPage() {
                     }`}
                   />
                   {errors.email && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.email}</span>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">Company Name</label>
+                  <input 
+                    type="text" 
+                    value={companyName} 
+                    onChange={(e) => {
+                      setCompanyName(e.target.value);
+                      if (errors.companyName) setErrors(prev => ({ ...prev, companyName: undefined }));
+                    }}
+                    placeholder="e.g. Acme Corp"
+                    className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
+                      errors.companyName ? 'border-red-500 focus:border-red-500 shadow-sm shadow-red-500/5' : 'border-transparent focus:border-zinc-300'
+                    }`}
+                  />
+                  {errors.companyName && <span className="text-[10px] text-red-600 font-semibold tracking-wide mt-0.5">{errors.companyName}</span>}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">GST No. (Optional)</label>
+                  <input 
+                    type="text" 
+                    value={gstNo} 
+                    onChange={(e) => setGstNo(e.target.value)}
+                    placeholder="e.g. 29GGGGG1314R1Z0"
+                    className="w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border border-transparent focus:border-zinc-300 outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner"
+                  />
                 </div>
               </div>
             </div>
@@ -620,7 +655,7 @@ export default function CheckoutPage() {
                   <img 
                     alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-cover" 
-                    src="/solar_pole_forest.png"
+                    src="/ews/solar_pole_forest.png"
                   />
                 </div>
                 <div className="flex-grow flex flex-col">
@@ -774,8 +809,8 @@ export default function CheckoutPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
-                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
-                <img alt="AMEC Logo" className="h-5 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
+                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
+                <img alt="AMEC Logo" className="h-5 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
               </div>
               <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
                 AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2019.
@@ -790,8 +825,8 @@ export default function CheckoutPage() {
             <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
               <ul className="flex flex-col gap-3 text-xs">
-                <li><a href="/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
-                <li><a href="/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
+                <li><a href="/ews/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
+                <li><a href="/ews/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
                 <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Node Specs</button></li>
                 <li><button onClick={() => handleScroll('safety')} className="hover:text-error transition-colors cursor-pointer text-left">Gateway Hub Manual</button></li>
               </ul>
@@ -949,7 +984,8 @@ export default function CheckoutPage() {
                 <div className="flex flex-col gap-2 border-t border-zinc-100 pt-4 mt-2">
                   <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Order Specifications</span>
                   <div className="text-[11px] text-zinc-600 flex flex-col gap-1.5 bg-zinc-50 rounded-2xl p-4 border border-zinc-200/60 leading-relaxed">
-                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone})</div>
+                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone}){companyName && ` - ${companyName}`}</div>
+                    {gstNo && <div><strong className="text-zinc-800">GST No:</strong> {gstNo}</div>}
                     <div><strong className="text-zinc-800">Email:</strong> {email}</div>
                     <div><strong className="text-zinc-800">Address:</strong> {address}, {city}, {stateName} - {zip}</div>
                     <div><strong className="text-zinc-800">Site Location:</strong> {siteLocation}</div>
@@ -1024,7 +1060,8 @@ export default function CheckoutPage() {
                 <div className="flex flex-col gap-2 text-left border-t border-zinc-100 pt-4 mt-2">
                   <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Order Specifications</span>
                   <div className="text-[11px] text-zinc-600 flex flex-col gap-1.5 bg-zinc-50 rounded-2xl p-4 border border-zinc-200/60 leading-relaxed">
-                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone})</div>
+                    <div><strong className="text-zinc-800">Client:</strong> {name} ({phone}){companyName && ` - ${companyName}`}</div>
+                    {gstNo && <div><strong className="text-zinc-800">GST No:</strong> {gstNo}</div>}
                     <div><strong className="text-zinc-800">Email:</strong> {email}</div>
                     <div><strong className="text-zinc-800">Address:</strong> {address}, {city}, {stateName} - {zip}</div>
                     <div><strong className="text-zinc-800">Site Location:</strong> {siteLocation}</div>

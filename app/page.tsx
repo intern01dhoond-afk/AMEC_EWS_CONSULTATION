@@ -47,6 +47,7 @@ export default function AmecSaaSPage() {
 
   const [currentHeroImageIndex, setCurrentHeroImageIndex] = useState(0);
   const [heroQuantity, setHeroQuantity] = useState(1);
+  const [isQtyDropdownOpen, setIsQtyDropdownOpen] = useState(false);
 
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
   const testimonialsRef = useRef<HTMLDivElement>(null);
@@ -72,10 +73,10 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: false },
-    { src: '/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: false },
-    { src: '/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: false },
-    { src: '/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false }
+    { src: '/ews/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: false },
+    { src: '/ews/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: false },
+    { src: '/ews/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: false },
+    { src: '/ews/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false }
   ];
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -212,8 +213,8 @@ export default function AmecSaaSPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -369,7 +370,7 @@ export default function AmecSaaSPage() {
           <div 
             className="absolute inset-0 z-0 opacity-[0.32] pointer-events-none" 
             style={{ 
-              backgroundImage: "url('/hero_bg.jpg')", 
+              backgroundImage: "url('/ews/hero_bg.jpg')", 
               backgroundSize: 'cover', 
               backgroundPosition: 'center' 
             }}
@@ -394,8 +395,8 @@ export default function AmecSaaSPage() {
               </div>
               <div className="flex flex-col gap-0.5 animate-fade-up delay-200">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹34,992</span>
-                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹43,740</span>
+                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹35,992</span>
+                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹44,991</span>
                   <span className="text-[10px] md:text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded">20% Off</span>
                 </div>
                 <span className="text-xs text-on-surface-variant/85 font-medium tracking-wide">(+18% GST) · No subscription or annual contract required</span>
@@ -403,25 +404,51 @@ export default function AmecSaaSPage() {
               <div className="flex flex-col gap-2 mt-2 font-sans animate-fade-up delay-250">
                 <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center">
                   <div className="flex flex-row gap-2 w-full md:w-auto items-stretch">
-                    <div className="relative w-20 shrink-0" style={{ height: '50.71px' }}>
-                      <select
-                        value={heroQuantity}
-                        onChange={(e) => setHeroQuantity(parseInt(e.target.value))}
-                        className="w-full bg-white border border-zinc-300 text-zinc-800 font-semibold text-xs pl-4 pr-7 hover:bg-zinc-100 hover:border-zinc-400 transition-all duration-300 cursor-pointer appearance-none font-sans text-center h-full"
-                        style={{ borderRadius: '12px' }}
+                    <div className="relative shrink-0" style={{ height: '50.71px', width: '80px' }}>
+                      <button
+                        type="button"
+                        onClick={() => setIsQtyDropdownOpen(!isQtyDropdownOpen)}
+                        className="w-full h-full bg-white border border-zinc-300 text-zinc-800 font-extrabold text-sm rounded-xl flex items-center justify-between px-3.5 hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-200 cursor-pointer font-sans"
                         aria-label="Select Quantity"
                       >
-                        {[...Array(10)].map((_, i) => (
-                          <option key={i + 1} value={i + 1}>
-                            {i + 1}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-500">
-                        <svg className="fill-current h-4 w-4" viewBox="0 0 20 20">
+                        <span>{heroQuantity}</span>
+                        <svg 
+                          viewBox="0 0 20 20" 
+                          className={`h-4 w-4 text-zinc-550 transition-transform duration-200 ${isQtyDropdownOpen ? 'rotate-180' : ''}`}
+                          fill="currentColor"
+                        >
                           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                         </svg>
-                      </div>
+                      </button>
+
+                      {isQtyDropdownOpen && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-40 cursor-default" 
+                            onClick={() => setIsQtyDropdownOpen(false)} 
+                          />
+                          <div className="absolute left-0 top-full mt-1.5 w-full bg-white border border-zinc-200 rounded-xl shadow-xl z-50 max-h-48 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-150 py-1">
+                            {[...Array(10)].map((_, i) => {
+                              const val = i + 1;
+                              return (
+                                <button
+                                  key={val}
+                                  type="button"
+                                  onClick={() => {
+                                    setHeroQuantity(val);
+                                    setIsQtyDropdownOpen(false);
+                                  }}
+                                  className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-zinc-50 transition-colors ${
+                                    heroQuantity === val ? 'text-error bg-red-50/50' : 'text-zinc-705'
+                                  }`}
+                                >
+                                  {val}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
                     </div>
                     <button 
                       onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
@@ -668,7 +695,7 @@ export default function AmecSaaSPage() {
                   <img 
                     alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
-                    src="/hero-images/product-image-2-png.webp" 
+                    src="/ews/hero-images/product-image-2-png.webp" 
                   />
                 </div>
 
@@ -841,7 +868,7 @@ export default function AmecSaaSPage() {
                 <img 
                   alt="AMEC Hub Device" 
                   className="w-full h-auto object-contain drop-shadow-lg relative z-10" 
-                  src="/hero-images/product-image-2-png.webp" 
+                  src="/ews/hero-images/product-image-2-png.webp" 
                 />
                 {/* Glowing Alert Indicator Light Overlays (flashes exactly when signal reaches Hub, positioned over the 4 physical LEDs) */}
                 {/* LED 1 */}
@@ -1107,7 +1134,7 @@ export default function AmecSaaSPage() {
             <img 
               alt="Industrial site with AMEC early warning system" 
               className="w-full h-full object-cover object-[80%_0%] md:object-cover" 
-              src="/cta_bg_clear.jpg" 
+              src="/ews/cta_bg_clear.jpg" 
             />
             {/* Left-to-right dark gradient overlay for text readability, fading rapidly to keep the center/right clear */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent"></div>
@@ -1480,7 +1507,7 @@ export default function AmecSaaSPage() {
             <img 
               alt="Industrial background deployment" 
               className="w-full h-full object-cover" 
-              src="/sunset_mining.jpg" 
+              src="/ews/sunset_mining.jpg" 
             />
           </div>
           {/* Subtle red and blue background glow */}
@@ -1591,8 +1618,8 @@ export default function AmecSaaSPage() {
                   <div className="flex flex-col gap-3 text-left">
                     <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Initial Investment</span>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹34,992</span>
-                      <span className="text-sm font-semibold text-error line-through">₹43,740</span>
+                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹35,992</span>
+                      <span className="text-sm font-semibold text-error line-through">₹44,991</span>
                       <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">20% Off</span>
                     </div>
                     <div className="text-[11px] text-zinc-400 font-medium leading-relaxed">
@@ -1840,8 +1867,8 @@ export default function AmecSaaSPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
-                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/logo_shield.png" />
-                <img alt="AMEC Logo" className="h-5 w-auto object-contain" src="/logo_amec_new.png" />
+                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
+                <img alt="AMEC Logo" className="h-5 w-auto object-contain" src="/ews/logo_amec_new.png" />
               </div>
               <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
                 AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2019.
@@ -1856,8 +1883,8 @@ export default function AmecSaaSPage() {
             <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
               <ul className="flex flex-col gap-3 text-xs">
-                <li><a href="/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
-                <li><a href="/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
+                <li><a href="/ews/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
+                <li><a href="/ews/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
                 <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Node Specs</button></li>
                 <li><button onClick={() => handleScroll('safety')} className="hover:text-error transition-colors cursor-pointer text-left">Gateway Hub Manual</button></li>
               </ul>
@@ -1888,8 +1915,8 @@ export default function AmecSaaSPage() {
           {/* Pricing Info */}
           <div className="flex flex-col items-start shrink-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold text-zinc-900 tracking-tight">₹{(34992 * heroQuantity).toLocaleString('en-IN')}</span>
-              <span className="text-xs font-semibold text-zinc-400 line-through">₹{(43740 * heroQuantity).toLocaleString('en-IN')}</span>
+              <span className="text-base font-bold text-zinc-900 tracking-tight">₹{(35992 * heroQuantity).toLocaleString('en-IN')}</span>
+              <span className="text-xs font-semibold text-zinc-400 line-through">₹{(44991 * heroQuantity).toLocaleString('en-IN')}</span>
               <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">20% Off</span>
             </div>
             <span className="text-[10px] text-zinc-500 font-medium">(+18% GST) · {heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'}</span>
