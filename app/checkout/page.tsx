@@ -7,16 +7,15 @@ export default function CheckoutPage() {
   const [qty, setQty] = useState(1);
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const qtyVal = params.get('qty');
-      if (qtyVal) {
-        const parsed = parseInt(qtyVal, 10);
-        if (!isNaN(parsed) && parsed >= 1 && parsed <= 10) {
+      const stored = localStorage.getItem('amec_qty');
+      if (stored) {
+        const parsed = parseInt(stored, 10);
+        if (!isNaN(parsed) && parsed >= 1) {
           setQty(parsed);
-        } else {
-          setQty(1);
+          return;
         }
       }
+      setQty(1);
     }
   }, []);
 
@@ -641,7 +640,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* RIGHT: Sidebar Billing Summary */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-32 flex flex-col gap-6">
             
             {/* Mission Inventory Card */}
             <div className="border border-zinc-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">

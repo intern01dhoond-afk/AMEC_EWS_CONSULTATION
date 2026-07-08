@@ -48,9 +48,35 @@ export default function AmecSaaSPage() {
   const [currentHeroImageIndex, setCurrentHeroImageIndex] = useState(0);
   const [heroQuantity, setHeroQuantity] = useState(1);
   const [isQtyDropdownOpen, setIsQtyDropdownOpen] = useState(false);
-
+  const [isCustomQty, setIsCustomQty] = useState(false);
+  const isMounted = useRef(false);
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('amec_qty');
+      if (stored) {
+        const parsed = parseInt(stored, 10);
+        if (!isNaN(parsed) && parsed >= 1) {
+          setHeroQuantity(parsed);
+          if (parsed > 10) {
+            setIsCustomQty(true);
+          }
+        }
+      }
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (isMounted.current) {
+        localStorage.setItem('amec_qty', heroQuantity.toString());
+      } else {
+        isMounted.current = true;
+      }
+    }
+  }, [heroQuantity]);
 
   const handleTestimonialsScroll = () => {
     const container = testimonialsRef.current;
@@ -244,7 +270,7 @@ export default function AmecSaaSPage() {
           </div>
           <div className="flex items-center gap-4">
             <button 
-              onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+              onClick={() => router.push('/checkout')}
               className="hidden lg:flex bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer shadow-md shadow-zinc-950/10 font-sans items-center justify-center"
               style={{ height: '50.71px', borderRadius: '12px' }}
             >
@@ -289,7 +315,7 @@ export default function AmecSaaSPage() {
       <main className="pt-[88px]">
         
         {/* --- HERO SECTION --- */}
-        <section id="hero" className="relative min-h-[90vh] flex items-center justify-center px-4 md:px-16 overflow-x-clip overflow-y-visible">
+        <section id="hero" className="relative min-h-[70vh] md:min-h-[580px] lg:min-h-[640px] flex items-center justify-center px-4 md:px-16 overflow-x-clip overflow-y-visible">
           <style>{`
             @keyframes fadeInUp {
               from {
@@ -375,7 +401,7 @@ export default function AmecSaaSPage() {
               backgroundPosition: 'center' 
             }}
           ></div>
-          <div className="max-w-[1440px] mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 relative z-10 items-center pt-2 pb-8 md:pt-12 md:pb-20">
+          <div className="max-w-[1440px] mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 relative z-10 items-center pt-2 pb-8 md:pt-6 md:pb-12">
             <div className="flex flex-col gap-4 order-2 md:order-1">
               <h1 className="font-sans text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-bold text-primary max-w-4xl tracking-tight animate-fade-up delay-100" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Multipurpose Early <span className="text-error">Warning</span> System
@@ -404,54 +430,97 @@ export default function AmecSaaSPage() {
               <div className="flex flex-col gap-2 mt-2 font-sans animate-fade-up delay-250">
                 <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center">
                   <div className="flex flex-row gap-2 w-full md:w-auto items-stretch">
-                    <div className="relative shrink-0" style={{ height: '50.71px', width: '80px' }}>
-                      <button
-                        type="button"
-                        onClick={() => setIsQtyDropdownOpen(!isQtyDropdownOpen)}
-                        className="w-full h-full bg-white border border-zinc-300 text-zinc-800 font-extrabold text-sm rounded-xl flex items-center justify-between px-3.5 hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-200 cursor-pointer font-sans"
-                        aria-label="Select Quantity"
-                      >
-                        <span>{heroQuantity}</span>
-                        <svg 
-                          viewBox="0 0 20 20" 
-                          className={`h-4 w-4 text-zinc-550 transition-transform duration-200 ${isQtyDropdownOpen ? 'rotate-180' : ''}`}
-                          fill="currentColor"
+                    {isCustomQty ? (
+                      <div className="relative flex items-center bg-white border border-zinc-300 rounded-xl px-3 shrink-0" style={{ height: '50.71px', width: '95px' }}>
+                        <input
+                          type="number"
+                          min="1"
+                          value={heroQuantity}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value, 10);
+                            setHeroQuantity(isNaN(val) ? 1 : val);
+                          }}
+                          className="w-full h-full bg-transparent border-0 outline-none text-zinc-800 font-extrabold text-sm font-sans [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          autoFocus
+                          placeholder="Qty"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsCustomQty(false);
+                            if (heroQuantity > 10) {
+                              setHeroQuantity(10);
+                            }
+                          }}
+                          className="text-zinc-400 hover:text-zinc-850 transition-colors ml-1 cursor-pointer shrink-0"
+                          title="Switch back to list"
                         >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      </button>
+                          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="relative shrink-0" style={{ height: '50.71px', width: '80px' }}>
+                        <button
+                          type="button"
+                          onClick={() => setIsQtyDropdownOpen(!isQtyDropdownOpen)}
+                          className="w-full h-full bg-white border border-zinc-300 text-zinc-800 font-extrabold text-sm rounded-xl flex items-center justify-between px-3.5 hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-200 cursor-pointer font-sans"
+                          aria-label="Select Quantity"
+                        >
+                          <span>{heroQuantity}</span>
+                          <svg 
+                            viewBox="0 0 20 20" 
+                            className={`h-4 w-4 text-zinc-550 transition-transform duration-200 ${isQtyDropdownOpen ? 'rotate-180' : ''}`}
+                            fill="currentColor"
+                          >
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                          </svg>
+                        </button>
 
-                      {isQtyDropdownOpen && (
-                        <>
-                          <div 
-                            className="fixed inset-0 z-40 cursor-default" 
-                            onClick={() => setIsQtyDropdownOpen(false)} 
-                          />
-                          <div className="absolute left-0 top-full mt-1.5 w-full bg-white border border-zinc-200 rounded-xl shadow-xl z-50 max-h-48 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-150 py-1">
-                            {[...Array(10)].map((_, i) => {
-                              const val = i + 1;
-                              return (
-                                <button
-                                  key={val}
-                                  type="button"
-                                  onClick={() => {
-                                    setHeroQuantity(val);
-                                    setIsQtyDropdownOpen(false);
-                                  }}
-                                  className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-zinc-50 transition-colors ${
-                                    heroQuantity === val ? 'text-error bg-red-50/50' : 'text-zinc-705'
-                                  }`}
-                                >
-                                  {val}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </>
-                      )}
-                    </div>
+                        {isQtyDropdownOpen && (
+                          <>
+                            <div 
+                              className="fixed inset-0 z-40 cursor-default" 
+                              onClick={() => setIsQtyDropdownOpen(false)} 
+                            />
+                            <div className="absolute left-0 top-full mt-1.5 w-full bg-white border border-zinc-200 rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-150 py-1">
+                              {[...Array(10)].map((_, i) => {
+                                const val = i + 1;
+                                return (
+                                  <button
+                                    key={val}
+                                    type="button"
+                                    onClick={() => {
+                                      setHeroQuantity(val);
+                                      setIsQtyDropdownOpen(false);
+                                    }}
+                                    className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-zinc-50 transition-colors ${
+                                      heroQuantity === val ? 'text-error bg-red-50/50' : 'text-zinc-705'
+                                    }`}
+                                  >
+                                    {val}
+                                  </button>
+                                );
+                              })}
+                              <div className="h-px bg-zinc-100 my-1" />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setIsCustomQty(true);
+                                  setIsQtyDropdownOpen(false);
+                                }}
+                                className="w-full text-left px-4 py-2 text-xs font-bold text-error hover:bg-zinc-50 transition-colors"
+                              >
+                                Custom...
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
                     <button 
-                      onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+                      onClick={() => router.push('/checkout')}
                       className="flex-1 md:flex-none bg-zinc-950 text-white font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer font-sans shadow-lg shadow-zinc-950/15 flex items-center justify-center"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
@@ -459,7 +528,7 @@ export default function AmecSaaSPage() {
                     </button>
                   </div>
                   <a 
-                    href="https://www.youtube.com/watch?v=r0bAu0HCXSY"
+                    href="https://www.youtube.com/shorts/thLkbLjd9LI"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full md:w-auto bg-white border border-zinc-300 text-zinc-700 font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-100 hover:shadow-md hover:border-zinc-400 hover:-translate-y-0.5 transition-all duration-300 text-center cursor-pointer inline-flex items-center justify-center font-sans"
@@ -483,7 +552,7 @@ export default function AmecSaaSPage() {
               <div className="hidden md:block absolute border border-zinc-200/20 rounded-full w-96 h-96 pointer-events-none" />
               
               {/* Carousel Container Wrapper */}
-              <div className="relative z-20 w-full max-w-[510px] md:max-w-[580px] lg:max-w-[620px] flex flex-col items-center">
+              <div className="relative z-20 w-full max-w-[420px] md:max-w-[460px] lg:max-w-[480px] flex flex-col items-center">
                 
                 {/* Main viewport with arrow buttons - Styled with aspect-square to ensure height matches width */}
                 <div 
@@ -1271,7 +1340,7 @@ export default function AmecSaaSPage() {
                     <td className="p-2 md:p-6"></td>
                     <td className="p-2 md:p-6 text-center bg-red-50/50 border-x-2 border-b-2 border-red-500 rounded-b-3xl">
                       <button 
-                        onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+                        onClick={() => router.push('/checkout')}
                         className="w-full bg-zinc-950 text-white font-bold text-xs uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 transition-all duration-300 cursor-pointer flex items-center justify-center"
                         style={{ height: '50.71px', borderRadius: '12px' }}
                       >
@@ -1301,49 +1370,49 @@ export default function AmecSaaSPage() {
                 {
                   title: "Industrial Sites",
                   desc: "Protect manufacturing units and perimeter walls.",
-                  img: "/Applications/industrial-sites.webp",
+                  img: "/ews/Applications/industrial-sites.webp",
                   icon: "factory",
                 },
                 {
                   title: "Solar Power Plants",
                   desc: "Prevent solar panel and critical equipment theft.",
-                  img: "/Applications/solar-power-plants.webp",
+                  img: "/ews/Applications/solar-power-plants.webp",
                   icon: "solar_power",
                 },
                 {
                   title: "Construction Sites",
                   desc: "Monitor assets and prevent unauthorized access.",
-                  img: "/Applications/construction-sites.webp",
+                  img: "/ews/Applications/construction-sites.webp",
                   icon: "construction",
                 },
                 {
                   title: "Warehouses",
                   desc: "Secure storage units and distribution centers.",
-                  img: "/Applications/warehouses.webp",
+                  img: "/ews/Applications/warehouses.webp",
                   icon: "warehouse",
                 },
                 {
                   title: "Mining & Metals",
                   desc: "Safeguard remote mining equipment and operations.",
-                  img: "/Applications/mining-sites.webp",
+                  img: "/ews/Applications/mining-sites.webp",
                   icon: "landscape",
                 },
                 {
                   title: "Railways",
                   desc: "Protect tracks, yards, and transit corridors.",
-                  img: "/Applications/railways.webp",
+                  img: "/ews/Applications/railways.webp",
                   icon: "train",
                 },
                 {
                   title: "NGOs & Wildlife Conservation",
                   desc: "Monitor habitats and prevent poaching activity.",
-                  img: "/Applications/ngos-wildlife-conservation.webp",
+                  img: "/ews/Applications/ngos-wildlife-conservation.webp",
                   icon: "nature_people",
                 },
                 {
                   title: "Government Facilities",
                   desc: "Secure administrative properties and public hubs.",
-                  img: "/Applications/government-facilities.webp",
+                  img: "/ews/Applications/government-facilities.webp",
                   icon: "account_balance",
                 }
               ].map((app, idx) => (
@@ -1639,7 +1708,7 @@ export default function AmecSaaSPage() {
                   {/* Buttons */}
                   <div className="flex flex-col gap-3 mt-2">
                     <button 
-                      onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+                      onClick={() => router.push('/checkout')}
                       className="w-full bg-[#f04424] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#f04424]/90 hover:shadow-xl hover:shadow-error/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
@@ -1923,7 +1992,7 @@ export default function AmecSaaSPage() {
           </div>
           {/* Buy Now Button */}
           <button 
-            onClick={() => router.push(`/checkout?qty=${heroQuantity}`)}
+            onClick={() => router.push('/checkout')}
             className="bg-zinc-950 text-white px-6 font-bold text-xs uppercase tracking-widest shadow-lg shadow-zinc-950/15 active:scale-[0.98] transition-all duration-150 cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             style={{ height: '44px', borderRadius: '10px' }}
           >

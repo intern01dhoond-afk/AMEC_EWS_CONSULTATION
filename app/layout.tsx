@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "AMEC Technology",
     images: [
       {
-        url: "/first_page_image.jpg",
+        url: "/ews/first_page_image.jpg",
         width: 1200,
         height: 630,
         alt: "AMEC Multipurpose Early Warning System Cover",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AMEC Technology - Multipurpose Early Warning System",
     description: "Intelligent perimeter protection for sites that can't afford a missed second. One Alert Can Save Lakhs.",
-    images: ["/first_page_image.jpg"],
+    images: ["/ews/first_page_image.jpg"],
   },
   alternates: {
     canonical: "https://www.amectechnology.com",
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/AMEC_SHIELD.png",
-    apple: "/AMEC_SHIELD.png",
+    icon: "/ews/AMEC_SHIELD.png",
+    apple: "/ews/AMEC_SHIELD.png",
   },
 };
 
