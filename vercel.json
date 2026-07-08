@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/ews",
+      "permanent": false
+    },
+    {
+      "source": "/checkout",
+      "destination": "/ews/checkout",
+      "permanent": false
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/ews/api/:path*",
+      "permanent": false
+    }
+  ]
+}
