@@ -315,7 +315,7 @@ export default function AmecSaaSPage() {
       <main className="pt-[88px]">
         
         {/* --- HERO SECTION --- */}
-        <section id="hero" className="relative min-h-[70vh] md:min-h-[580px] lg:min-h-[640px] flex items-center justify-center px-4 md:px-16 overflow-x-clip overflow-y-visible">
+        <section id="hero" className="relative z-20 min-h-[70vh] md:min-h-[580px] lg:min-h-[640px] flex items-center justify-center px-4 md:px-16 overflow-x-clip overflow-y-visible">
           <style>{`
             @keyframes fadeInUp {
               from {
