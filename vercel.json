@@ -1,19 +1,12 @@
 {
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/",
-      "destination": "/ews",
-      "permanent": false
+      "source": "/ews/:path*",
+      "destination": "/ews/:path*"
     },
     {
-      "source": "/checkout",
-      "destination": "/ews/checkout",
-      "permanent": false
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "/ews/api/:path*",
-      "permanent": false
+      "source": "/:path*",
+      "destination": "68.178.227.246"
     }
   ]
 }
