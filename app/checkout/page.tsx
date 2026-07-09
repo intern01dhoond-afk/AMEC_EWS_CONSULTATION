@@ -58,7 +58,7 @@ export default function CheckoutPage() {
   const totalCommitment = subtotal + taxAmount;
 
   const handleScroll = (id: string) => {
-    window.location.href = `/ews/#${id}`;
+    window.location.href = `/#${id}`;
   };
 
   const copyToClipboard = (text: string, fieldId: string) => {
@@ -217,7 +217,7 @@ export default function CheckoutPage() {
         await saveCheckoutToGoogleSheets(paymentId);
         
         // Redirect reliably to the thank you page
-        window.location.href = `/ews/thankyou?paymentId=${paymentId}`;
+        window.location.href = `/thankyou?paymentId=${paymentId}`;
       },
       prefill: {
         name: name,
