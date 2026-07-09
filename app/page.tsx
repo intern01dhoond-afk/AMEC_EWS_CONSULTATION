@@ -99,10 +99,20 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/ews/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Unit', isDark: false, contain: false },
-    { src: '/ews/hero-images/product-image-2-3.webp', alt: 'AMEC Unit Assembly', isDark: false, contain: false },
-    { src: '/ews/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: false },
-    { src: '/ews/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false }
+    { src: '/ews/hero-images/01.png', alt: 'AMEC Early Warning System Unit', isDark: false, contain: false },
+    { src: '/ews/hero-images/002.png', alt: 'AMEC Early Warning System Alternative', isDark: false, contain: false },
+    { src: '/ews/hero-images/02.png', alt: 'AMEC Unit Assembly', isDark: false, contain: false },
+    { src: '/ews/hero-images/03.png', alt: 'AMEC Security Deployment', isDark: false, contain: false },
+    { src: '/ews/hero-images/04.png', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false },
+    { src: '/ews/hero-images/05.png', alt: 'AMEC EWS Image 5', isDark: false, contain: false },
+    { src: '/ews/hero-images/06.png', alt: 'AMEC EWS Image 6', isDark: false, contain: false },
+    { src: '/ews/hero-images/07.png', alt: 'AMEC EWS Image 7', isDark: false, contain: false },
+    { src: '/ews/hero-images/08.png', alt: 'AMEC EWS Image 8', isDark: false, contain: false },
+    { src: '/ews/hero-images/09.png', alt: 'AMEC EWS Image 9', isDark: false, contain: false },
+    { src: '/ews/hero-images/10.png', alt: 'AMEC EWS Image 10', isDark: false, contain: false },
+    { src: '/ews/hero-images/11.png', alt: 'AMEC EWS Image 11', isDark: false, contain: false },
+    { src: '/ews/hero-images/12.png', alt: 'AMEC EWS Image 12', isDark: false, contain: false },
+    { src: '/ews/hero-images/13.png', alt: 'AMEC EWS Image 13', isDark: false, contain: false }
   ];
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -764,7 +774,7 @@ export default function AmecSaaSPage() {
                   <img 
                     alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
-                    src="/ews/hero-images/product-image-2-png.webp" 
+                    src="/ews/hero-images/01.png" 
                   />
                 </div>
 
