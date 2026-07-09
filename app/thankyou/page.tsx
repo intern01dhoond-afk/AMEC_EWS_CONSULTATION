@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 const ConfettiCanvas = () => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -90,7 +91,13 @@ function ThankYouContent() {
     qty: 3,
     totalCommitment: 127411.68, // Default 3 nodes matching the mockup
     paymentId: 'pay_TEST_12345',
-    isWire: true
+    name: '',
+    email: '',
+    companyName: '',
+    address: '',
+    city: '',
+    stateName: '',
+    zip: ''
   });
 
   useEffect(() => {
@@ -98,21 +105,35 @@ function ThankYouContent() {
     const paramPaymentId = searchParams.get('paymentId') || searchParams.get('payment_id');
     const paramQty = searchParams.get('qty');
     const paramTotal = searchParams.get('total') || searchParams.get('amount');
-    const paramIsWire = searchParams.get('isWire') === 'true' || searchParams.get('wire') === 'true';
 
     // 2. Try reading from LocalStorage
-    const storedQty = localStorage.getItem('selectedQuantity');
+    const storedQty = localStorage.getItem('amec_qty');
     const qtyVal = paramQty ? parseInt(paramQty) : (storedQty ? parseInt(storedQty) : 3);
     
     const subtotal = 35992 * qtyVal;
     const taxAmount = subtotal * 0.18;
     const totalVal = paramTotal ? parseFloat(paramTotal) : (subtotal + taxAmount);
 
+    const nameVal = localStorage.getItem('checkout_name') || '';
+    const emailVal = localStorage.getItem('checkout_email') || '';
+    const companyVal = localStorage.getItem('checkout_companyName') || '';
+    const addressVal = localStorage.getItem('checkout_address') || '';
+    const cityVal = localStorage.getItem('checkout_city') || '';
+    const stateVal = localStorage.getItem('checkout_stateName') || '';
+    const zipVal = localStorage.getItem('checkout_zip') || '';
+    const storedPaymentId = localStorage.getItem('checkout_paymentId') || '';
+
     setOrderDetails({
       qty: qtyVal,
       totalCommitment: totalVal,
-      paymentId: paramPaymentId || 'pay_TEST_12345',
-      isWire: paramIsWire
+      paymentId: paramPaymentId || storedPaymentId || 'pay_TEST_12345',
+      name: nameVal,
+      email: emailVal,
+      companyName: companyVal,
+      address: addressVal,
+      city: cityVal,
+      stateName: stateVal,
+      zip: zipVal
     });
   }, [searchParams]);
 
@@ -126,7 +147,7 @@ function ThankYouContent() {
       {/* --- TOP NAVBAR (Same as homepage) --- */}
       <nav className="w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg shrink-0 relative">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
-          <a href="/ews" className="flex items-center gap-3 cursor-pointer">
+          <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
             <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
             <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
@@ -138,83 +159,66 @@ function ThankYouContent() {
               { label: 'Pricing', id: 'pricing' },
               { label: 'Contact', id: 'contact' }
             ].map((item) => (
-              <a
+              <Link
                 key={item.id}
-                href={`/ews#${item.id}`}
+                href={`/#${item.id}`}
                 className="font-semibold text-xs text-zinc-400 hover:text-white transition-colors duration-300 uppercase tracking-widest font-sans px-2"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <a
-              href="/ews/checkout"
+            <Link
+              href="/checkout"
               className="hidden lg:flex bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer shadow-md shadow-zinc-950/10 font-sans items-center justify-center"
               style={{ height: '50.71px', borderRadius: '12px' }}
             >
               Buy Now
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
 
-      {/* Confetti Animation (Only show for online payment successes) */}
-      {!orderDetails.isWire && <ConfettiCanvas />}
+      {/* Confetti Animation */}
+      <ConfettiCanvas />
 
       {/* --- MAIN CONTENT AREA --- */}
       <main className="flex-grow flex items-center justify-center p-3 relative z-20 my-4">
         
         {/* Central Card (Ultra-compact mini card) */}
-        <div className={`w-full max-w-[370px] bg-white rounded-[16px] shadow-[0_12px_32px_rgba(9,9,11,0.03)] border-t-[4px] p-4.5 flex flex-col items-center text-center gap-3.5 relative overflow-hidden ${
-          orderDetails.isWire ? 'border-[#2563eb]' : 'border-[#f04424]'
-        }`}>
+        <div className="w-full max-w-[370px] bg-white rounded-[16px] shadow-[0_12px_32px_rgba(9,9,11,0.03)] border-t-[4px] border-[#f04424] p-4.5 flex flex-col items-center text-center gap-3.5 relative overflow-hidden">
           
-          {/* Confetti graphics overlay on the card background (Only show for online successes) */}
-          {!orderDetails.isWire && (
-            <div className="absolute inset-0 pointer-events-none opacity-60 select-none">
-              <svg className="absolute left-6 top-8 w-5 h-5 text-[#f04424]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M2 3c3 3-3 6 0 9s3 6 0 9" />
-              </svg>
-              <svg className="absolute right-6 top-12 w-5 h-5 text-[#ba1a1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M2 3c-3 3 3 6 0 9s-3 6 0 9" />
-              </svg>
-              <span className="absolute left-12 top-16 w-1 h-1 rounded-full bg-[#f9ca24] block" />
-              <span className="absolute right-14 top-8 w-1 h-1 rounded-full bg-[#4285f4] block" />
-            </div>
-          )}
+          {/* Confetti graphics overlay on the card background */}
+          <div className="absolute inset-0 pointer-events-none opacity-60 select-none">
+            <svg className="absolute left-6 top-8 w-5 h-5 text-[#f04424]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M2 3c3 3-3 6 0 9s3 6 0 9" />
+            </svg>
+            <svg className="absolute right-6 top-12 w-5 h-5 text-[#ba1a1a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M2 3c-3 3 3 6 0 9s-3 6 0 9" />
+            </svg>
+            <span className="absolute left-12 top-16 w-1 h-1 rounded-full bg-[#f9ca24] block" />
+            <span className="absolute right-14 top-8 w-1 h-1 rounded-full bg-[#4285f4] block" />
+          </div>
 
           {/* Success Ring Badge (Mini size) */}
           <div className="relative flex items-center justify-center z-20">
-            {orderDetails.isWire ? (
-              /* Blue home/wire success icon */
-              <div className="w-[60px] h-[60px] rounded-full bg-[#e1ecf7] flex items-center justify-center border border-[#cdddf0] relative">
-                <span className="material-symbols-outlined text-[#0066cc] text-[24px]" style={{ fontVariationSettings: "'FILL' 0" }}>home</span>
-                <div className="absolute bottom-0 right-0 w-[15px] h-[15px] rounded-full bg-[#34a853] border border-white flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-[8px] font-extrabold">check</span>
-                </div>
+            <div className="w-[60px] h-[60px] rounded-full bg-[#e6f4ea] flex items-center justify-center border border-[#c2e7cc]">
+              <div className="w-[40px] h-[40px] rounded-full bg-[#34a853] flex items-center justify-center">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="4.2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
               </div>
-            ) : (
-              /* Green success ring checkmark */
-              <div className="w-[60px] h-[60px] rounded-full bg-[#e6f4ea] flex items-center justify-center border border-[#c2e7cc]">
-                <div className="w-[40px] h-[40px] rounded-full bg-[#34a853] flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="4.2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
           {/* Headings (Mini typography) */}
           <div className="flex flex-col gap-0.5 z-20 w-full">
             <h1 className="text-base md:text-lg font-extrabold text-[#09090b] tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              {orderDetails.isWire ? "Order Initiated!" : "Order Placed Successfully!"}
+              Order Placed Successfully!
             </h1>
-            <p className={`text-[9px] md:text-[10px] font-bold tracking-wider font-sans uppercase ${
-              orderDetails.isWire ? 'text-[#0066cc]' : 'text-[#34a853]'
-            }`}>
-              {orderDetails.isWire ? "Secure Wire Transfer Pending" : "Thank you for your trust in AMEC Technology."}
+            <p className="text-[9px] md:text-[10px] font-bold tracking-wider font-sans uppercase text-[#34a853]">
+              Thank you for your trust in AMEC Technology.
             </p>
             <p className="text-[#52525b] text-[10px] md:text-[11px] max-w-[290px] mx-auto leading-relaxed mt-0.5">
               Your transaction has been recorded. A detailed confirmation email has been dispatched to your corporate email address.
@@ -223,18 +227,12 @@ function ThankYouContent() {
 
           {/* Acquisition Block (Mini capsule) */}
           <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] py-2 px-3 relative z-20">
-            <div className={`grid grid-cols-1 gap-2 text-left ${
-              orderDetails.isWire ? 'grid-cols-2 divide-x divide-zinc-200/60' : 'grid-cols-3 divide-x divide-zinc-200/60'
-            }`}>
+            <div className="grid grid-cols-2 divide-x divide-zinc-200/60 text-left">
               
               {/* Acquisition Size */}
               <div className="flex items-center gap-2 pr-1">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                  orderDetails.isWire ? 'bg-[#e1ecf7]' : 'bg-[#e6f4ea]'
-                }`}>
-                  <span className={`material-symbols-outlined text-[13px] ${
-                    orderDetails.isWire ? 'text-[#0066cc]' : 'text-[#34a853]'
-                  }`} style={{ fontVariationSettings: "'FILL' 0" }}>hive</span>
+                <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#e6f4ea]">
+                  <span className="material-symbols-outlined text-[13px] text-[#34a853]" style={{ fontVariationSettings: "'FILL' 0" }}>hive</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Acquisition</span>
@@ -243,140 +241,91 @@ function ThankYouContent() {
               </div>
 
               {/* Total Commitment */}
-              <div className={`flex items-center gap-2 pl-3 ${
-                orderDetails.isWire ? '' : 'pr-1'
-              }`}>
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                  orderDetails.isWire ? 'bg-[#e1ecf7]' : 'bg-[#e6f4ea]'
-                }`}>
-                  <span className={`material-symbols-outlined text-[13px] ${
-                    orderDetails.isWire ? 'text-[#0066cc]' : 'text-[#34a853]'
-                  }`} style={{ fontVariationSettings: "'FILL' 0" }}>currency_rupee</span>
+              <div className="flex items-center gap-2 pl-3">
+                <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#e6f4ea]">
+                  <span className="material-symbols-outlined text-[13px] text-[#34a853]" style={{ fontVariationSettings: "'FILL' 0" }}>currency_rupee</span>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col text-left">
                   <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Total</span>
                   <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">₹{orderDetails.totalCommitment.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               </div>
 
-              {/* Payment ID (Only for Online successes) */}
-              {!orderDetails.isWire && (
-                <div className="flex items-center gap-2 pl-3">
-                  <div className="w-7 h-7 rounded-full bg-[#e6f4ea] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#34a853] text-[13px]" style={{ fontVariationSettings: "'FILL' 0" }}>credit_card</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">ID</span>
-                    <span className="font-extrabold text-[9px] text-[#09090b] font-mono tracking-tight leading-tight">{orderDetails.paymentId}</span>
-                  </div>
-                </div>
-              )}
-
             </div>
           </div>
 
-          {/* Wire Transfer bank details card (Only for Direct Bank/Wire transfers) */}
-          {orderDetails.isWire && (
-            <div className="w-full bg-[#f4f7fa] border border-[#dce6f0] rounded-[12px] p-3 flex flex-col gap-2 text-left relative z-20">
-              <span className="text-[8px] text-[#0055b3] font-extrabold uppercase tracking-wider leading-none">Direct Bank Details</span>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                
-                {/* Bank */}
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-[#e1ecf7] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#0066cc] text-xs">account_balance</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-zinc-400 text-[7px] font-bold uppercase tracking-wider leading-none">Bank</span>
-                    <span className="font-bold text-[#09090b] text-[10px]">HDFC Bank</span>
-                  </div>
+          {/* Payment ID (Only for Online successes) - Rendered as a separate wide row */}
+          {orderDetails.paymentId && (
+            <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] py-2 px-3 flex items-center justify-between gap-2 relative z-20">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#e6f4ea] flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#34a853] text-[13px]" style={{ fontVariationSettings: "'FILL' 0" }}>credit_card</span>
                 </div>
-
-                {/* IFSC Code */}
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-[#e1ecf7] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#0066cc] text-xs">qr_code_scanner</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-zinc-400 text-[7px] font-bold uppercase tracking-wider leading-none">IFSC Code</span>
-                    <span className="font-bold text-[#09090b] text-[10px]">HDFC0000123</span>
-                  </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Payment Reference ID</span>
+                  <span className="font-mono text-[9px] text-[#09090b] tracking-tight leading-tight select-all break-all">{orderDetails.paymentId}</span>
                 </div>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(orderDetails.paymentId);
+                  alert("Copied Payment ID!");
+                }}
+                className="text-[9px] font-bold text-zinc-400 hover:text-zinc-900 transition-colors uppercase font-sans cursor-pointer flex items-center gap-1 shrink-0 ml-1"
+                title="Copy ID"
+              >
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          )}
 
-                {/* Account Name */}
-                <div className="flex items-center gap-2 col-span-2">
-                  <div className="w-6 h-6 rounded-full bg-[#e1ecf7] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#0066cc] text-xs">person</span>
+          {/* Customer & Delivery Details Summary */}
+          {(orderDetails.name || orderDetails.email) && (
+            <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] p-3 text-left flex flex-col gap-1.5 relative z-20">
+              <span className="text-[7.5px] text-zinc-400 font-bold uppercase tracking-widest leading-none">Delivery Profile</span>
+              <div className="text-[10px] text-zinc-600 leading-normal flex flex-col gap-1">
+                {orderDetails.name && <div><span className="font-semibold text-zinc-800">Client:</span> {orderDetails.name}{orderDetails.companyName && ` (${orderDetails.companyName})`}</div>}
+                {orderDetails.email && <div><span className="font-semibold text-zinc-800">Email:</span> {orderDetails.email}</div>}
+                {orderDetails.address && (
+                  <div>
+                    <span className="font-semibold text-zinc-800">Address:</span> {orderDetails.address}, {orderDetails.city}, {orderDetails.stateName} - {orderDetails.zip}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-zinc-400 text-[7px] font-bold uppercase tracking-wider leading-none">Account Name</span>
-                    <span className="font-bold text-[#09090b] text-[10px]">AMEC Technology Pvt Ltd</span>
-                  </div>
-                </div>
-
-                {/* Account Number */}
-                <div className="flex items-center gap-2 col-span-2">
-                  <div className="w-6 h-6 rounded-full bg-[#e1ecf7] flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#0066cc] text-xs">credit_card</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-zinc-400 text-[7px] font-bold uppercase tracking-wider leading-none">Account Number</span>
-                    <span className="font-bold text-[#09090b] text-[10px] font-mono">50200012345678</span>
-                  </div>
-                </div>
-
+                )}
               </div>
             </div>
           )}
 
           {/* What Happens Next Card (Compact version) */}
-          <div className={`w-full border rounded-[10px] p-2.5 flex gap-2.5 text-left relative z-20 ${
-            orderDetails.isWire 
-              ? 'bg-[#e6f4ea] border-[#c2e7cc]' 
-              : 'bg-[#f0f4f8] border-[#dce6f0]'
-          }`}>
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 border ${
-              orderDetails.isWire 
-                ? 'bg-[#d2ebd7] border-[#b0dfbd]' 
-                : 'bg-[#e1ecf7] border-[#cdddf0]'
-            }`}>
-              <span className={`material-symbols-outlined text-[14px] ${
-                orderDetails.isWire ? 'text-[#137333]' : 'text-[#0066cc]'
-              }`} style={{ fontVariationSettings: "'FILL' 0" }}>
-                {orderDetails.isWire ? 'call' : 'support_agent'}
+          <div className="w-full border rounded-[10px] p-2.5 flex gap-2.5 text-left relative z-20 bg-[#f0f4f8] border-[#dce6f0]">
+            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 border bg-[#e1ecf7] border-[#cdddf0]">
+              <span className="material-symbols-outlined text-[14px] text-[#0066cc]" style={{ fontVariationSettings: "'FILL' 0" }}>
+                support_agent
               </span>
             </div>
             <div className="flex flex-col">
-              <h4 className={`font-extrabold text-[11px] tracking-tight font-sans leading-tight ${
-                orderDetails.isWire ? 'text-[#137333]' : 'text-[#0055b3]'
-              }`}>
+              <h4 className="font-extrabold text-[11px] tracking-tight font-sans leading-tight text-[#0055b3]">
                 What Happens Next?
               </h4>
               <p className="text-[#334155] text-[9.5px] leading-tight mt-0.5">
-                Our deployment engineer will contact you on your registered mobile number within <span className={`font-bold ${
-                  orderDetails.isWire ? 'text-[#137333]' : 'text-[#0055b3]'
-                }`}>24 hours</span> to schedule layout validation and node shipping.
+                Our deployment engineer will contact you on your registered mobile number within <span className="font-bold text-[#0055b3]">24 hours</span> to schedule layout validation and node shipping.
               </p>
             </div>
           </div>
 
-          {/* Script text line (Only for Online payment successes) */}
-          {!orderDetails.isWire && (
-            <div className="flex items-center justify-center gap-1 mt-0.5 relative z-20 text-[9px] md:text-[10px] text-[#34a853] font-serif italic font-semibold">
-              <span>🎉</span>
-              <span>Here's to a successful deployment ahead!</span>
-              <span>✨</span>
-            </div>
-          )}
+          <div className="flex items-center justify-center gap-1 mt-0.5 relative z-20 text-[9px] md:text-[10px] text-[#34a853] font-serif italic font-semibold">
+            <span>🎉</span>
+            <span>Here's to a successful deployment ahead!</span>
+            <span>✨</span>
+          </div>
 
           {/* Back to Home Button (Compact) */}
           <button 
-            onClick={() => router.push('/ews')}
-            className={`text-white font-bold text-xs py-2.5 px-6 uppercase tracking-widest hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 w-full cursor-pointer shadow-sm font-sans rounded-lg mt-0.5 flex items-center justify-center gap-1.5 relative z-20 ${
-              orderDetails.isWire 
-                ? 'bg-[#2563eb] hover:bg-[#1d4ed8] shadow-blue-500/5' 
-                : 'bg-[#09090b] hover:bg-zinc-800 shadow-zinc-950/5'
-            }`}
+            onClick={() => router.push('/')}
+            className="text-white font-bold text-xs py-2.5 px-6 uppercase tracking-widest bg-[#09090b] hover:bg-zinc-800 shadow-zinc-950/5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 w-full cursor-pointer shadow-sm font-sans rounded-lg mt-0.5 flex items-center justify-center gap-1.5 relative z-20"
           >
             <span>Back to Home</span>
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -20,7 +20,8 @@ export async function POST(request: Request) {
       qty,
       subtotal,
       taxAmount,
-      totalCommitment
+      totalCommitment,
+      isWire
     } = body;
 
     const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
@@ -65,11 +66,21 @@ export async function POST(request: Request) {
         const formattedTax = taxAmount ? taxAmount.toLocaleString('en-IN') : '0';
         const formattedTotal = totalCommitment ? totalCommitment.toLocaleString('en-IN') : '0';
         
+        const isWireVal = isWire === true || isWire === 'true';
+        const statusTitle = isWireVal ? 'Order Initiated (Wire Pending)' : 'Order Confirmation';
+        const introText = isWireVal
+          ? `Thank you for initiating the acquisition of the AMEC Multipurpose Early Warning System. Your order has been registered, and we are waiting for your bank wire transfer confirmation. The HDFC corporate bank details are provided below for reference.`
+          : `Thank you for acquiring the AMEC Multipurpose Early Warning System. Your payment has been successfully processed, and your order details are recorded below.`;
+        const totalLabel = isWireVal ? 'Total Amount to Transfer' : 'Total Amount Paid';
+        const emailSubject = isWireVal 
+          ? `AMEC Technology Order Initiated - Wire Pending`
+          : `AMEC Technology Order Confirmation - ${qty} ${qty === 1 ? 'Node' : 'Nodes'}`;
+
         const emailHtml = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Order Confirmation - AMEC Technology</title>
+  <title>${statusTitle} - AMEC Technology</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f4f5f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased;">
   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f4f5f7; padding: 30px 15px;">
@@ -104,9 +115,9 @@ export async function POST(request: Request) {
                 <!-- Greeting -->
                 <tr>
                   <td>
-                    <h1 style="margin: 0 0 16px; color: #09090b; font-size: 22px; font-weight: 700;">Order Confirmation</h1>
+                    <h1 style="margin: 0 0 16px; color: #09090b; font-size: 22px; font-weight: 700;">${statusTitle}</h1>
                     <p style="margin: 0 0 30px; color: #52525b; font-size: 14px; line-height: 1.6;">Hello <strong>${name}</strong>,</p>
-                    <p style="margin: 0 0 30px; color: #52525b; font-size: 14px; line-height: 1.6;">Thank you for acquiring the AMEC Multipurpose Early Warning System. Your payment has been successfully processed, and your order details are recorded below.</p>
+                    <p style="margin: 0 0 30px; color: #52525b; font-size: 14px; line-height: 1.6;">${introText}</p>
                   </td>
                 </tr>
 
@@ -136,7 +147,7 @@ export async function POST(request: Request) {
                         <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">₹${formattedTax}.00</td>
                       </tr>
                       <tr>
-                        <td style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #09090b; font-size: 14px; font-weight: 700;">Total Amount Paid</td>
+                        <td style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #09090b; font-size: 14px; font-weight: 700;">${totalLabel}</td>
                         <td align="right" style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #ba1a1a; font-size: 16px; font-weight: 800;">₹${formattedTotal}.00</td>
                       </tr>
                       <tr>
@@ -149,6 +160,38 @@ export async function POST(request: Request) {
 
                 <!-- Spacer -->
                 <tr><td height="25"></td></tr>
+
+                ${isWireVal ? `
+                <!-- Bank Details for Wire Transfer -->
+                <tr>
+                  <td style="padding: 24px; border-radius: 12px; border: 1px solid #eaeaea; background-color: #f5f8fa;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td colspan="2" style="padding-bottom: 12px; border-bottom: 1px solid #dce6f0;">
+                          <h4 style="margin: 0; color: #0055b3; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Corporate Bank details</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="35%" style="padding: 12px 0 6px; color: #71717a; font-size: 13px;">Bank</td>
+                        <td style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">HDFC Bank</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Account Name</td>
+                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Technology Pvt Ltd</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Account Number</td>
+                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600; font-family: monospace;">50200012345678</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">IFSC Code</td>
+                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600; font-family: monospace;">HDFC0000123</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr><td height="25"></td></tr>
+                ` : ''}
 
                 <!-- B2B & Client details -->
                 <tr>
@@ -256,7 +299,7 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             from: `AMEC Technology <${senderEmail}>`,
             to: email,
-            subject: `AMEC Technology Order Confirmation - ${qty} ${qty === 1 ? 'Node' : 'Nodes'}`,
+            subject: emailSubject,
             html: emailHtml
           })
         });

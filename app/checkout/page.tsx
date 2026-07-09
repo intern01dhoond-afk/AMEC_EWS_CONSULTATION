@@ -199,7 +199,7 @@ export default function CheckoutPage() {
       name: "AMEC Technology",
       description: "Secure Node Acquisition",
       image: "/ews/logo_shield.png",
-      handler: function (response: any) {
+      handler: async function (response: any) {
         const paymentId = response.razorpay_payment_id;
         
         // Persist checkout details for the thank you page
@@ -210,9 +210,14 @@ export default function CheckoutPage() {
         localStorage.setItem('checkout_city', city);
         localStorage.setItem('checkout_stateName', stateName);
         localStorage.setItem('checkout_zip', zip);
+        localStorage.setItem('checkout_paymentId', paymentId);
         
-        saveCheckoutToGoogleSheets(paymentId);
-        router.push(`/thankyou?paymentId=${paymentId}`);
+        // Wait for server API to process order (Sheets save + Resend email) before redirecting
+        // to prevent the browser from cancelling the fetch request during page unload.
+        await saveCheckoutToGoogleSheets(paymentId);
+        
+        // Redirect reliably to the thank you page
+        window.location.href = `/ews/thankyou?paymentId=${paymentId}`;
       },
       prefill: {
         name: name,
