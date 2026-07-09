@@ -135,6 +135,11 @@ function ThankYouContent() {
       stateName: stateVal,
       zip: zipVal
     });
+
+    // Trigger Meta Pixel Purchase Event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Purchase');
+    }
   }, [searchParams]);
 
   return (
