@@ -152,9 +152,9 @@ function ThankYouContent() {
       {/* --- TOP NAVBAR (Same as homepage) --- */}
       <nav className="w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg shrink-0 relative">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
-          <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-8 w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-8 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
+          <a href="https://amectechnology.com/" className="flex items-center gap-1.5 cursor-pointer">
+            <img alt="AMEC Shield Logo" className="h-[50px] w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-[25px] w-auto object-contain brightness-0 invert translate-y-[4px]" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
