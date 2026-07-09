@@ -458,8 +458,15 @@ export default function CheckoutPage() {
                     type="tel" 
                     value={phone} 
                     onChange={(e) => {
-                      setPhone(e.target.value);
-                      if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }));
+                      const val = e.target.value;
+                      // Filter out anything that is not a number, space, +, -, or parentheses
+                      const filtered = val.replace(/[^0-9+\s-()]/g, '');
+                      // Count only the digits to limit to a max of 12 (e.g. 91 + 10-digit number)
+                      const digitsOnly = filtered.replace(/\D/g, '');
+                      if (digitsOnly.length <= 12) {
+                        setPhone(filtered);
+                        if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }));
+                      }
                     }}
                     placeholder="+91 99000 12345"
                     className={`w-full bg-[#f4f4f5]/60 hover:bg-[#f4f4f5]/90 focus:bg-white border outline-none rounded-xl px-4 py-2.5 sm:py-3.5 text-sm font-medium text-zinc-800 transition-all duration-200 focus:shadow-inner ${
