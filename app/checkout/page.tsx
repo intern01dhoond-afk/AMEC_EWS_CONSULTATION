@@ -673,7 +673,7 @@ export default function CheckoutPage() {
             {/* Mission Inventory Card */}
             <div className="border border-zinc-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <h3 className="font-bold text-lg text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Mission Inventory
+                Your Cart
               </h3>
               
               {/* Product row */}
@@ -691,7 +691,7 @@ export default function CheckoutPage() {
                   <span className="text-xs text-zinc-500 mt-1">Qty: {qty.toString().padStart(2, '0')}</span>
                 </div>
                 <div className="font-bold text-sm text-zinc-900">
-                  ₹{(UNIT_PRICE * qty).toLocaleString('en-IN')}.00
+                  ₹{(UNIT_PRICE * qty).toLocaleString('en-IN')}
                 </div>
               </div>
 
@@ -702,18 +702,18 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-3 text-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-500">Subtotal</span>
-                  <span className="font-bold text-zinc-900">₹{subtotal.toLocaleString('en-IN')}.00</span>
+                  <span className="font-bold text-zinc-900">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-500">Delivery Fee</span>
                   <span className="font-bold text-zinc-900">
-                    <span className="line-through text-zinc-400 mr-1.5">₹2,000.00</span>
+                    <span className="line-through text-zinc-400 mr-1.5">₹2,000</span>
                     <span className="text-green-600 font-bold">Free</span>
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-500">Tax (18% GST)</span>
-                  <span className="font-bold text-zinc-900">₹{taxAmount.toLocaleString('en-IN')}.00</span>
+                  <span className="font-bold text-zinc-900">₹{taxAmount.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
@@ -726,12 +726,12 @@ export default function CheckoutPage() {
                 </span>
                 <div className="flex items-baseline justify-between">
                   <span className="text-3xl font-extrabold text-zinc-950 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    ₹{totalCommitment.toLocaleString('en-IN')}.00
+                    ₹{totalCommitment.toLocaleString('en-IN')}
                   </span>
                   <span className="text-xs font-bold text-error uppercase tracking-wider">INR</span>
                 </div>
                 <span className="text-[10px] text-zinc-400 font-medium leading-snug">
-                  ₹{subtotal.toLocaleString('en-IN')}.00 + ₹{taxAmount.toLocaleString('en-IN')}.00 (18% GST) = ₹{totalCommitment.toLocaleString('en-IN')}.00
+                  ₹{subtotal.toLocaleString('en-IN')} + ₹{taxAmount.toLocaleString('en-IN')} (18% GST) = ₹{totalCommitment.toLocaleString('en-IN')}
                 </span>
               </div>
 
@@ -987,14 +987,14 @@ export default function CheckoutPage() {
                   {/* Amount to Wire */}
                   <div className="flex justify-between items-center py-1 relative z-10">
                     <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Amount to Wire</span>
-                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}.00</span>
+                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 
                 {/* Bulk copy details button */}
                 <button
                   onClick={() => {
-                    const textToCopy = `Bank Name: HDFC Bank\nAccount Name: AMEC Technology Pvt Ltd\nAccount Number: 50200012345678\nIFSC Code: HDFC0000123\nAmount: ₹${totalCommitment.toLocaleString('en-IN')}.00`;
+                    const textToCopy = `Bank Name: HDFC Bank\nAccount Name: AMEC Technology Pvt Ltd\nAccount Number: 50200012345678\nIFSC Code: HDFC0000123\nAmount: ₹${totalCommitment.toLocaleString('en-IN')}`;
                     copyToClipboard(textToCopy, 'allWireDetails');
                   }}
                   className="w-full px-4 border border-zinc-200 hover:border-zinc-300 text-zinc-600 hover:text-zinc-900 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-zinc-50/50 hover:bg-zinc-50"
@@ -1047,7 +1047,7 @@ export default function CheckoutPage() {
                   {/* Amount Row */}
                   <div className="flex justify-between items-center relative z-10">
                     <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">Amount Paid</span>
-                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}.00</span>
+                    <span className="font-extrabold text-sm text-zinc-900 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹{totalCommitment.toLocaleString('en-IN')}</span>
                   </div>
 
                   {/* Divider line */}

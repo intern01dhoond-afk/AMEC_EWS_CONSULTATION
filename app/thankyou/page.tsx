@@ -252,7 +252,7 @@ function ThankYouContent() {
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Total</span>
-                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">₹{orderDetails.totalCommitment.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">₹{Math.round(orderDetails.totalCommitment).toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
