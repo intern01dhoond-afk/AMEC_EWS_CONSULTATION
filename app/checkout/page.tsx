@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const [qty, setQty] = useState(1);
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -101,7 +103,11 @@ export default function CheckoutPage() {
         siteLocation,
         areaToCover,
         application: application === 'Other' ? customApplication : application,
-        paymentId
+        paymentId,
+        qty,
+        subtotal,
+        taxAmount,
+        totalCommitment
       };
       
       await fetch('/api/checkout', {
@@ -195,8 +201,18 @@ export default function CheckoutPage() {
       image: "/ews/logo_shield.png",
       handler: function (response: any) {
         const paymentId = response.razorpay_payment_id;
-        setSuccessModal({ isOpen: true, paymentId, isWire: false });
+        
+        // Persist checkout details for the thank you page
+        localStorage.setItem('checkout_name', name);
+        localStorage.setItem('checkout_email', email);
+        localStorage.setItem('checkout_companyName', companyName);
+        localStorage.setItem('checkout_address', address);
+        localStorage.setItem('checkout_city', city);
+        localStorage.setItem('checkout_stateName', stateName);
+        localStorage.setItem('checkout_zip', zip);
+        
         saveCheckoutToGoogleSheets(paymentId);
+        router.push(`/thankyou?paymentId=${paymentId}`);
       },
       prefill: {
         name: name,
