@@ -1,11 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/ews/:path*",
-      "destination": "/ews/:path*"
-    },
-    {
-      "source": "/:path*",
+      "source": "/:path((?!ews).*)",
       "destination": "http://68.178.227.246/:path*"
     }
   ]
