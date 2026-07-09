@@ -6,7 +6,7 @@
     },
     {
       "source": "/:path*",
-      "destination": "https://68.178.227.246/:path*"
+      "destination": "http://68.178.227.246/:path*"
     }
   ]
 }
