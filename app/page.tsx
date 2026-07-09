@@ -99,8 +99,8 @@ export default function AmecSaaSPage() {
     setActiveTestimonialIndex(index);
   };
   const heroImages = [
-    { src: '/ews/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Node', isDark: false, contain: false },
-    { src: '/ews/hero-images/product-image-2-3.webp', alt: 'AMEC Node Assembly', isDark: false, contain: false },
+    { src: '/ews/hero-images/product-image-2-1.webp', alt: 'AMEC Early Warning System Unit', isDark: false, contain: false },
+    { src: '/ews/hero-images/product-image-2-3.webp', alt: 'AMEC Unit Assembly', isDark: false, contain: false },
     { src: '/ews/hero-images/product-image-2-4.webp', alt: 'AMEC Security Deployment', isDark: false, contain: false },
     { src: '/ews/hero-images/product-image-2-5.webp', alt: 'AMEC Sensor Unit detail', isDark: false, contain: false }
   ];
@@ -204,7 +204,7 @@ export default function AmecSaaSPage() {
     },
     {
       q: "Does AMEC work in remote locations without power?",
-      a: "Yes. Every node runs on solar power with a built-in battery backup. The system operates fully off-grid, ensuring continuous protection even during power outages."
+      a: "Yes. Every unit runs on solar power with a built-in battery backup. The system operates fully off-grid, ensuring continuous protection even during power outages."
     },
     {
       q: "How does AMEC handle false alarms?",
@@ -212,7 +212,7 @@ export default function AmecSaaSPage() {
     },
     {
       q: "What happens if a device is tampered or goes offline?",
-      a: "The LoRa mesh network automatically self-heals and reroutes signal paths. If a node is tampered with or loses connection, the system immediately alerts the command center with its last known status."
+      a: "The LoRa mesh network automatically self-heals and reroutes signal paths. If a unit is tampered with or loses connection, the system immediately alerts the command center with its last known status."
     },
     {
       q: "How long does installation take?",
@@ -224,7 +224,7 @@ export default function AmecSaaSPage() {
     },
     {
       q: "What kind of maintenance is required?",
-      a: "Virtually none. The solar panels and nodes are designed to be self-cleaning and maintenance-free. System diagnostics are run automatically to monitor node health."
+      a: "Virtually none. The solar panels and units are designed to be self-cleaning and maintenance-free. System diagnostics are run automatically to monitor unit health."
     },
     {
       q: "Are there ongoing subscription or annual costs?",
@@ -239,8 +239,8 @@ export default function AmecSaaSPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-8 w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-8 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -722,7 +722,7 @@ export default function AmecSaaSPage() {
                       LIDAR Verification
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
-                      LIDAR sensor nodes classify perimeter movement signatures in sub-seconds, eliminating false alarms and alert fatigue.
+                      LIDAR sensor units classify perimeter movement signatures in sub-seconds, eliminating false alarms and alert fatigue.
                     </p>
                   </div>
                 </div>
@@ -737,7 +737,7 @@ export default function AmecSaaSPage() {
                       Self-Healing Mesh
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
-                      Nodes form an autonomous wireless mesh via long-range LoRa, requiring no local cellular or internet connectivity.
+                      Units form an autonomous wireless mesh via long-range LoRa, requiring no local cellular or internet connectivity.
                     </p>
                   </div>
                 </div>
@@ -783,7 +783,7 @@ export default function AmecSaaSPage() {
                       Solar Autonomy
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
-                      Each node is entirely solar-powered with built-in battery storage, engineered for continuous off-grid operation.
+                      Each unit is entirely solar-powered with built-in battery storage, engineered for continuous off-grid operation.
                     </p>
                   </div>
                 </div>
@@ -798,7 +798,7 @@ export default function AmecSaaSPage() {
                       Hardware Redundancy
                     </h3>
                     <p className="text-xs text-on-surface-variant font-sans font-medium leading-relaxed max-w-[280px]">
-                      Multi-path communications prevent single points of failure. The mesh self-heals in real time if any node goes offline.
+                      Multi-path communications prevent single points of failure. The mesh self-heals in real time if any unit goes offline.
                     </p>
                   </div>
                 </div>
@@ -834,7 +834,7 @@ export default function AmecSaaSPage() {
                   {
                     num: 1,
                     title: 'Detect',
-                    desc: 'LIDAR sensor nodes scan your perimeter, detecting and classifying threats in real time.',
+                    desc: 'LIDAR sensor units scan your perimeter, detecting and classifying threats in real time.',
                     icon: 'radar'
                   },
                   {
@@ -906,7 +906,7 @@ export default function AmecSaaSPage() {
           <div className="max-w-[1000px] mx-auto relative">
             <div className="text-left max-w-[650px] mb-24 md:mb-8">
               <h2 className="text-3xl md:text-[40px] md:leading-[48px] font-bold text-primary mb-4 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>Mesh Network</h2>
-              <p className="text-base text-on-surface-variant leading-relaxed">Wireless LoRa nodes verify each detection - no internet required.</p>
+              <p className="text-base text-on-surface-variant leading-relaxed">Wireless LoRa units verify each detection - no internet required.</p>
             </div>
             {/* Network Diagram container made relative to anchor the device preview image */}
             <div className="py-4 relative">
@@ -1190,7 +1190,7 @@ export default function AmecSaaSPage() {
                 </div>
               </div>
               <p className="text-sm text-on-surface-variant text-center max-w-4xl mx-auto leading-relaxed">
-                The system uses LiDAR sensing, wireless node-to-node communication, solar-powered operation, and alert verification logic to reduce false triggers and ensure reliable performance.
+                The system uses LiDAR sensing, wireless unit-to-unit communication, solar-powered operation, and alert verification logic to reduce false triggers and ensure reliable performance.
               </p>
             </div>
           </div>
@@ -1692,7 +1692,7 @@ export default function AmecSaaSPage() {
                       <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">20% Off</span>
                     </div>
                     <div className="text-[11px] text-zinc-400 font-medium leading-relaxed">
-                      One-time node cost • + 18% GST • 1 Year Warranty • No annual contract fees
+                      One-time unit cost • + 18% GST • 1 Year Warranty • No annual contract fees
                     </div>
                   </div>
 
@@ -1952,10 +1952,7 @@ export default function AmecSaaSPage() {
             <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
               <ul className="flex flex-col gap-3 text-xs">
-                <li><a href="/ews/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
-                <li><a href="/ews/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Node Specs</button></li>
-                <li><button onClick={() => handleScroll('safety')} className="hover:text-error transition-colors cursor-pointer text-left">Gateway Hub Manual</button></li>
+                <li><a href="https://i.ibb.co/ZRNrVGHT/Amec-Early-Warning-System.png" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
               </ul>
             </div>
 
@@ -1988,7 +1985,7 @@ export default function AmecSaaSPage() {
               <span className="text-xs font-semibold text-zinc-400 line-through">₹{(44991 * heroQuantity).toLocaleString('en-IN')}</span>
               <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">20% Off</span>
             </div>
-            <span className="text-[10px] text-zinc-500 font-medium">(+18% GST) · {heroQuantity} {heroQuantity === 1 ? 'Node' : 'Nodes'}</span>
+            <span className="text-[10px] text-zinc-500 font-medium">(+18% GST) · {heroQuantity} {heroQuantity === 1 ? 'Unit' : 'Units'}</span>
           </div>
           {/* Buy Now Button */}
           <button 

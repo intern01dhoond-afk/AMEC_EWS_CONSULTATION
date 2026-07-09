@@ -197,7 +197,7 @@ export default function CheckoutPage() {
       amount: totalCommitment * 100, // Total Commitment including 18% GST in paisa
       currency: "INR",
       name: "AMEC Technology",
-      description: "Secure Node Acquisition",
+      description: "Secure Unit Acquisition",
       image: "/ews/logo_shield.png",
       handler: async function (response: any) {
         const paymentId = response.razorpay_payment_id;
@@ -302,8 +302,8 @@ export default function CheckoutPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-8 w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-8 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -852,10 +852,7 @@ export default function CheckoutPage() {
             <div className="col-span-1 text-left">
               <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
               <ul className="flex flex-col gap-3 text-xs">
-                <li><a href="/ews/brochure_page1.jpg" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
-                <li><a href="/ews/diagram_v5.jpg" target="_blank" className="hover:text-error transition-colors">Technical Datasheet</a></li>
-                <li><button onClick={() => handleScroll('systems')} className="hover:text-error transition-colors cursor-pointer text-left">LIDAR Node Specs</button></li>
-                <li><button onClick={() => handleScroll('safety')} className="hover:text-error transition-colors cursor-pointer text-left">Gateway Hub Manual</button></li>
+                <li><a href="https://i.ibb.co/ZRNrVGHT/Amec-Early-Warning-System.png" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
               </ul>
             </div>
 

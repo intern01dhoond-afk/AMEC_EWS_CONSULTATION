@@ -153,8 +153,8 @@ function ThankYouContent() {
       <nav className="w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg shrink-0 relative">
         <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-3 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-6 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-8 w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-8 w-auto object-contain brightness-0 invert" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -241,7 +241,7 @@ function ThankYouContent() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Acquisition</span>
-                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">{orderDetails.qty} Node{orderDetails.qty > 1 ? 's' : ''}</span>
+                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">{orderDetails.qty} Unit{orderDetails.qty > 1 ? 's' : ''}</span>
                 </div>
               </div>
 
@@ -316,7 +316,7 @@ function ThankYouContent() {
                 What Happens Next?
               </h4>
               <p className="text-[#334155] text-[9.5px] leading-tight mt-0.5">
-                Our deployment engineer will contact you on your registered mobile number within <span className="font-bold text-[#0055b3]">24 hours</span> to schedule layout validation and node shipping.
+                Our deployment engineer will contact you on your registered mobile number within <span className="font-bold text-[#0055b3]">24 hours</span> to schedule layout validation and unit shipping.
               </p>
             </div>
           </div>

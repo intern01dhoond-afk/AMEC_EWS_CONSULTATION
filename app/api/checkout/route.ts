@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         const totalLabel = isWireVal ? 'Total Amount to Transfer' : 'Total Amount Paid';
         const emailSubject = isWireVal 
           ? `AMEC Technology Order Initiated - Wire Pending`
-          : `AMEC Technology Order Confirmation - ${qty} ${qty === 1 ? 'Node' : 'Nodes'}`;
+          : `AMEC Technology Order Confirmation - ${qty} ${qty === 1 ? 'Unit' : 'Units'}`;
 
         const emailHtml = `<!DOCTYPE html>
 <html>
@@ -132,11 +132,11 @@ export async function POST(request: Request) {
                       </tr>
                       <tr>
                         <td style="padding: 12px 0 6px; color: #71717a; font-size: 13px;">Item</td>
-                        <td align="right" style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Early Warning System Node</td>
+                        <td align="right" style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Early Warning System Unit</td>
                       </tr>
                       <tr>
                         <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Quantity</td>
-                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">${qty} ${qty === 1 ? 'Node' : 'Nodes'}</td>
+                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">${qty} ${qty === 1 ? 'Unit' : 'Units'}</td>
                       </tr>
                       <tr>
                         <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Subtotal</td>
@@ -261,8 +261,8 @@ export async function POST(request: Request) {
                     <h3 style="margin: 0 0 12px; color: #09090b; font-size: 16px; font-weight: 700;">What Happens Next?</h3>
                     <ol style="margin: 0; padding-left: 20px; color: #52525b; font-size: 13px; line-height: 1.8;">
                       <li style="margin-bottom: 8px;"><strong>Quantity & Layout Consultation:</strong> Our technical deployment experts will contact you within 24 hours to review your site parameters, verify the sensor placement layout, and schedule shipping.</li>
-                      <li style="margin-bottom: 8px;"><strong>Order Dispatch:</strong> Your hardware nodes will be mesh-configured at our factory and dispatched to your site.</li>
-                      <li style="margin-bottom: 8px;"><strong>Commissioning:</strong> Our team will guide your staff or installer partner through placing the sensor nodes and activating the LoRa gateway hub.</li>
+                      <li style="margin-bottom: 8px;"><strong>Order Dispatch:</strong> Your hardware units will be mesh-configured at our factory and dispatched to your site.</li>
+                      <li style="margin-bottom: 8px;"><strong>Commissioning:</strong> Our team will guide your staff or installer partner through placing the sensor units and activating the LoRa gateway hub.</li>
                     </ol>
                   </td>
                 </tr>
