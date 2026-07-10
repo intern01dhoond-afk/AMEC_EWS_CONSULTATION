@@ -774,7 +774,7 @@ export default function AmecSaaSPage() {
                   <img 
                     alt="AMEC Multipurpose Early Warning System" 
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,0,0,0.06)]" 
-                    src="/ews/hero-images/01.webp" 
+                    src="/ews/hero-images/product-image-2-png.webp" 
                   />
                 </div>
 
