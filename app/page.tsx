@@ -1894,7 +1894,7 @@ export default function AmecSaaSPage() {
         </div>
       </footer>
 
-      <div className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200/80 px-4 pt-3 pb-6 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-[transform,opacity] duration-300 ease-in-out lg:hidden ${
+      <div className={`fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200/80 px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-[transform,opacity] duration-300 ease-in-out lg:hidden ${
         showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
       }`}>
         <div className="flex items-center justify-between gap-3">
