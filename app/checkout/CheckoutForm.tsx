@@ -85,10 +85,10 @@ export default function CheckoutPage() {
     selectedTimeSlot?: string;
   }>({});
 
-  const UNIT_PRICE = 499; // Consultation Fee: ₹499
-  const subtotal = 499;
+  const UNIT_PRICE = 35992;
+  const subtotal = UNIT_PRICE * qty;
   const taxAmount = 0;
-  const totalCommitment = 499;
+  const totalCommitment = UNIT_PRICE * qty;
 
   const handleScroll = (id: string) => {
     window.location.href = `/#${id}`;
@@ -137,10 +137,10 @@ export default function CheckoutPage() {
         areaToCover,
         application: application === 'Other' ? customApplication : application,
         paymentId,
-        qty: 1,
-        subtotal: 499,
+        qty: qty,
+        subtotal: subtotal,
         taxAmount: 0,
-        totalCommitment: 499,
+        totalCommitment: totalCommitment,
         date: selectedDate ? selectedDate.toDateString() : '',
         timeSlot: selectedTimeSlot
       };
@@ -424,7 +424,7 @@ export default function CheckoutPage() {
               <div>
                 <span className="text-[10px] font-bold text-error uppercase tracking-widest block mb-1">● What Happens Next</span>
                 <h2 className="text-xl font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Consultation Journey
+                  How To Buy
                 </h2>
               </div>
               
@@ -435,23 +435,13 @@ export default function CheckoutPage() {
                 {[
                   {
                     num: 1,
-                    title: "Submit site specifications & pay ₹499",
-                    desc: "Complete the registration details and make the payment to secure your booking."
+                    title: "Complete Your Payment",
+                    desc: "Secure your order by completing the payment."
                   },
                   {
                     num: 2,
-                    title: "Schedule preferred Date & Time Slot",
-                    desc: "Our team will contact you to choose a convenient weekday and time for your session."
-                  },
-                  {
-                    num: 3,
-                    title: "Specialist Site Pre-Analysis",
-                    desc: "Our perimeter security engineers analyze your site coordinates and terrain layout prior to the call."
-                  },
-                  {
-                    num: 4,
-                    title: "Interactive Video consultation",
-                    desc: "A 45-minute video call to review layout mapping, device selection, and custom project quotation."
+                    title: "Quantity Consultation Call",
+                    desc: "Our team will contact you to verify your required quantities and confirm your installation location details."
                   }
                 ].map((step) => (
                   <div key={step.num} className="flex gap-4 items-start relative z-10">
@@ -712,25 +702,25 @@ export default function CheckoutPage() {
             {/* Consultation Booking Summary Card */}
             <div className="border border-zinc-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-white shadow-sm flex flex-col gap-5 sm:gap-6">
               <h3 className="font-bold text-lg text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Booking Summary
+                Your Cart
               </h3>
               
               {/* Product row */}
               <div className="flex items-start gap-4">
                 <div className="w-16 h-16 rounded-xl border border-zinc-100 overflow-hidden bg-zinc-50 shrink-0">
                   <img 
-                    alt="AMEC Security Design & Layout Consultation" 
+                    alt="AMEC MULTIPURPOSE EARLY WARNING SYSTEM" 
                     className="w-full h-full object-cover" 
                     src="/ews/solar_pole_forest.png"
                   />
                 </div>
                 <div className="flex-grow flex flex-col">
-                  <span className="font-bold text-xs uppercase tracking-wider text-zinc-900 leading-tight">AMEC Security Design &amp; Layout Consultation</span>
-                  <span className="text-[10px] text-zinc-500 font-medium mt-1 leading-normal">Comprehensive site security assessment, custom LiDAR/sensor coverage map, product layout design, and quotation.</span>
-                  <span className="text-xs text-zinc-500 mt-1 font-bold">Duration: 45 Minutes</span>
+                  <span className="font-bold text-xs uppercase tracking-wider text-zinc-900 leading-tight">AMEC MULTIPURPOSE EARLY WARNING SYSTEM</span>
+                  <span className="text-[10px] text-zinc-500 font-medium mt-1 leading-normal">A smart, reliable &amp; self-sufficient solution designed to provide real-time alerts &amp; early warnings across critical infrastructure &amp; remote locations.</span>
+                  <span className="text-xs text-zinc-500 mt-1 font-semibold">Qty: {qty < 10 ? '0' + qty : qty}</span>
                 </div>
                 <div className="font-bold text-sm text-zinc-900">
-                  ₹499
+                  ₹{UNIT_PRICE.toLocaleString('en-IN')}
                 </div>
               </div>
 
@@ -740,8 +730,8 @@ export default function CheckoutPage() {
               {/* Cost table */}
               <div className="flex flex-col gap-3 text-sm">
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Consultation Fee</span>
-                  <span className="font-bold text-zinc-900">₹499</span>
+                  <span className="text-zinc-500">Subtotal</span>
+                  <span className="font-bold text-zinc-900">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
@@ -754,7 +744,7 @@ export default function CheckoutPage() {
                 </span>
                 <div className="flex items-baseline justify-between">
                   <span className="text-3xl font-extrabold text-zinc-950 tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    ₹499
+                    ₹{totalCommitment.toLocaleString('en-IN')}
                   </span>
                   <span className="text-xs font-bold text-error uppercase tracking-wider">INR</span>
                 </div>
@@ -766,7 +756,7 @@ export default function CheckoutPage() {
                 className="bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 w-full cursor-pointer shadow-md shadow-zinc-950/10 font-sans flex items-center justify-center gap-2"
                 style={{ height: '50.71px', borderRadius: '12px' }}
               >
-                <span>Confirm &amp; Pay ₹499</span>
+                <span>Confirm &amp; Pay ₹{totalCommitment.toLocaleString('en-IN')}</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
