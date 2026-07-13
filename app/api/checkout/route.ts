@@ -229,7 +229,7 @@ export async function POST(request: Request) {
                 <tr>
                   <td align="center" style="border-top: 1px solid #eaeaea; padding-top: 25px; color: #71717a; font-size: 12px; line-height: 1.6;">
                     <p style="margin: 0 0 8px; font-weight: 600; color: #09090b;">AMEC Technology Support Desk</p>
-                    <p style="margin: 0 0 4px;">Sales Helpline: +91 7887870040 | Service Helpline: +91 8087758405</p>
+                    <p style="margin: 0 0 4px;">Sales Helpline: +91 7887870040 | Service Helpline: +91 8405840555</p>
                     <p style="margin: 0;">Email: <a href="mailto:sales@amectechnology.com" style="color: #ba1a1a; text-decoration: none;">sales@amectechnology.com</a></p>
                   </td>
                 </tr>

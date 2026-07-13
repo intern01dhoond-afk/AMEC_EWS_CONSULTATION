@@ -1683,8 +1683,8 @@ export default function AmecSaaSPage() {
                     </svg>
                   </span>
                   <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
-                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA, India - 560102</p>
-                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH, India - 440016</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016</p>
                   </div>
                 </div>
 
@@ -1696,7 +1696,7 @@ export default function AmecSaaSPage() {
                   </div>
                   <div>
                     <span className="text-zinc-500 font-medium mr-2">Service:</span>
-                    <a href="tel:+918087758405" className="hover:text-error transition-colors">+91 8087758405</a>
+                    <a href="tel:+918405840555" className="hover:text-error transition-colors">+91 8405840555</a>
                   </div>
                 </div>
 
@@ -1769,10 +1769,10 @@ export default function AmecSaaSPage() {
                 </span>
                 <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
                   <p>
-                    <span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102
+                    <span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102
                   </p>
                   <p>
-                    <span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016
+                    <span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016
                   </p>
                 </div>
               </div>
@@ -1806,12 +1806,12 @@ export default function AmecSaaSPage() {
                   <div className="flex flex-col gap-0.5 text-left font-sans">
                     <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Service Helpline</span>
                     <div className="text-xs md:text-sm font-bold text-zinc-800 tracking-tight">
-                      <a href="tel:+918087758405" className="hover:text-error transition-colors">+91 8087758405</a>
+                      <a href="tel:+918405840555" className="hover:text-error transition-colors">+91 8405840555</a>
                     </div>
                   </div>
                   {/* Phone button aligned right */}
                   <a 
-                    href="tel:+918087758405"
+                    href="tel:+918405840555"
                     className="w-10 h-10 rounded-full bg-[#e2f0fd] hover:bg-[#d0e5fb] flex items-center justify-center transition-all shadow-sm border border-blue-100 group shrink-0 cursor-pointer"
                     title="Call Service"
                   >

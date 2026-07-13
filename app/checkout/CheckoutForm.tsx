@@ -785,8 +785,8 @@ export default function CheckoutPage() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   <div className="flex flex-col gap-1.5 text-zinc-600 font-medium font-sans">
-                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru - 560102</p>
-                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur - 440016</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016</p>
                   </div>
                 </div>
 
@@ -811,9 +811,9 @@ export default function CheckoutPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-0.5">
                       <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider font-sans">Service Helpline</span>
-                      <span className="font-bold text-zinc-800">+91 8087758405</span>
+                      <span className="font-bold text-zinc-800">+91 8405840555</span>
                     </div>
-                    <a href="tel:+918087758405" className="w-8 h-8 rounded-full bg-[#e2f0fd] flex items-center justify-center text-blue-700 border border-blue-100 hover:bg-[#d0e5fb] transition-colors shrink-0" title="Call Service">
+                    <a href="tel:+918405840555" className="w-8 h-8 rounded-full bg-[#e2f0fd] flex items-center justify-center text-blue-700 border border-blue-100 hover:bg-[#d0e5fb] transition-colors shrink-0" title="Call Service">
                       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
                         <line x1="12" y1="18" x2="12.01" y2="18" />
