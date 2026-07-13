@@ -785,8 +785,8 @@ export default function CheckoutPage() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   <div className="flex flex-col gap-1.5 text-zinc-600 font-medium font-sans">
-                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102</p>
-                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> Bengaluru, KA - 550102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Nagpur, MH - 440016</p>
                   </div>
                 </div>
 

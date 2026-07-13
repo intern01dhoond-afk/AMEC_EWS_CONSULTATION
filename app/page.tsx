@@ -1683,8 +1683,8 @@ export default function AmecSaaSPage() {
                     </svg>
                   </span>
                   <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
-                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102</p>
-                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> Bengaluru, KA - 550102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Nagpur, MH - 440016</p>
                   </div>
                 </div>
 
@@ -1769,10 +1769,10 @@ export default function AmecSaaSPage() {
                 </span>
                 <div className="flex flex-col gap-2 text-xs md:text-sm text-zinc-600 font-medium leading-relaxed font-sans">
                   <p>
-                    <span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA - 550102
+                    <span className="font-bold text-zinc-800">Sales Office:</span> Bengaluru, KA - 550102
                   </p>
                   <p>
-                    <span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH - 440016
+                    <span className="font-bold text-zinc-800">Factory Address:</span> Nagpur, MH - 440016
                   </p>
                 </div>
               </div>
