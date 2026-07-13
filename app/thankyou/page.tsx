@@ -86,10 +86,8 @@ function ThankYouContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // State for order details
-  const [orderDetails, setOrderDetails] = useState({
-    qty: 3,
-    totalCommitment: 127411.68, // Default 3 nodes matching the mockup
+  // State for booking details
+  const [bookingDetails, setBookingDetails] = useState({
     paymentId: 'pay_TEST_12345',
     name: '',
     email: '',
@@ -97,23 +95,16 @@ function ThankYouContent() {
     address: '',
     city: '',
     stateName: '',
-    zip: ''
+    zip: '',
+    date: '',
+    timeSlot: ''
   });
 
   useEffect(() => {
     // 1. Try reading from URL parameters first
     const paramPaymentId = searchParams.get('paymentId') || searchParams.get('payment_id');
-    const paramQty = searchParams.get('qty');
-    const paramTotal = searchParams.get('total') || searchParams.get('amount');
 
     // 2. Try reading from LocalStorage
-    const storedQty = localStorage.getItem('amec_qty');
-    const qtyVal = paramQty ? parseInt(paramQty) : (storedQty ? parseInt(storedQty) : 3);
-    
-    const subtotal = 35992 * qtyVal;
-    const taxAmount = subtotal * 0.18;
-    const totalVal = paramTotal ? parseFloat(paramTotal) : (subtotal + taxAmount);
-
     const nameVal = localStorage.getItem('checkout_name') || '';
     const emailVal = localStorage.getItem('checkout_email') || '';
     const companyVal = localStorage.getItem('checkout_companyName') || '';
@@ -121,11 +112,11 @@ function ThankYouContent() {
     const cityVal = localStorage.getItem('checkout_city') || '';
     const stateVal = localStorage.getItem('checkout_stateName') || '';
     const zipVal = localStorage.getItem('checkout_zip') || '';
+    const dateVal = localStorage.getItem('checkout_date') || '';
+    const timeSlotVal = localStorage.getItem('checkout_timeSlot') || '';
     const storedPaymentId = localStorage.getItem('checkout_paymentId') || '';
 
-    setOrderDetails({
-      qty: qtyVal,
-      totalCommitment: totalVal,
+    setBookingDetails({
       paymentId: paramPaymentId || storedPaymentId || 'pay_TEST_12345',
       name: nameVal,
       email: emailVal,
@@ -133,12 +124,14 @@ function ThankYouContent() {
       address: addressVal,
       city: cityVal,
       stateName: stateVal,
-      zip: zipVal
+      zip: zipVal,
+      date: dateVal,
+      timeSlot: timeSlotVal
     });
 
     // Trigger Meta Pixel Purchase Event
     if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Purchase');
+      (window as any).fbq('track', 'Purchase', { value: 499, currency: 'INR' });
     }
   }, [searchParams]);
 
@@ -161,7 +154,7 @@ function ThankYouContent() {
               { label: 'Product', id: 'systems' },
               { label: 'Technology', id: 'safety' },
               { label: 'Applications', id: 'applications' },
-              { label: 'Pricing', id: 'pricing' },
+              { label: 'Booking', id: 'pricing' },
               { label: 'Contact', id: 'contact' }
             ].map((item) => (
               <Link
@@ -179,7 +172,7 @@ function ThankYouContent() {
               className="hidden lg:flex bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer shadow-md shadow-zinc-950/10 font-sans items-center justify-center"
               style={{ height: '50.71px', borderRadius: '12px' }}
             >
-              Buy Now
+              Book Consultation
             </Link>
           </div>
         </div>
@@ -220,47 +213,31 @@ function ThankYouContent() {
           {/* Headings (Mini typography) */}
           <div className="flex flex-col gap-0.5 z-20 w-full">
             <h1 className="text-base md:text-lg font-extrabold text-[#09090b] tracking-tight font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Order Placed Successfully!
+              Consultation Booked Successfully!
             </h1>
             <p className="text-[9px] md:text-[10px] font-bold tracking-wider font-sans uppercase text-[#34a853]">
-              Thank you for your trust in AMEC Technology.
+              Your interactive session is confirmed.
             </p>
             <p className="text-[#52525b] text-[10px] md:text-[11px] max-w-[290px] mx-auto leading-relaxed mt-0.5">
-              Your transaction has been recorded. A detailed confirmation email has been dispatched to your corporate email address.
+              Your consultation booking fee of ₹499 has been processed. A detailed confirmation email and Google Meet invitation have been sent to your inbox.
             </p>
           </div>
 
-          {/* Acquisition Block (Mini capsule) */}
-          <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] py-2 px-3 relative z-20">
-            <div className="grid grid-cols-2 divide-x divide-zinc-200/60 text-left">
-              
-              {/* Acquisition Size */}
-              <div className="flex items-center gap-2 pr-1">
-                <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#e6f4ea]">
-                  <span className="material-symbols-outlined text-[13px] text-[#34a853]" style={{ fontVariationSettings: "'FILL' 0" }}>hive</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Acquisition</span>
-                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">{orderDetails.qty} Unit{orderDetails.qty > 1 ? 's' : ''}</span>
-                </div>
+          {/* Schedule Block (Mini capsule) */}
+          <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] py-2.5 px-3 relative z-20">
+            <div className="flex items-center gap-2.5 text-left">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#e8f4fd]">
+                <span className="material-symbols-outlined text-[13px] text-[#1a73e8]" style={{ fontVariationSettings: "'FILL' 0" }}>calendar_today</span>
               </div>
-
-              {/* Total Commitment */}
-              <div className="flex items-center gap-2 pl-3">
-                <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#e6f4ea]">
-                  <span className="material-symbols-outlined text-[13px] text-[#34a853]" style={{ fontVariationSettings: "'FILL' 0" }}>currency_rupee</span>
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Total</span>
-                  <span className="font-extrabold text-[11px] text-[#09090b] font-sans leading-tight">₹{Math.round(orderDetails.totalCommitment).toLocaleString('en-IN')}</span>
-                </div>
+              <div className="flex flex-col">
+                <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Consultation Schedule</span>
+                <span className="font-extrabold text-[10px] text-[#09090b] font-sans leading-tight">To Be Coordinated (TBD)</span>
               </div>
-
             </div>
           </div>
 
-          {/* Payment ID (Only for Online successes) - Rendered as a separate wide row */}
-          {orderDetails.paymentId && (
+          {/* Payment ID - Rendered as a separate wide row */}
+          {bookingDetails.paymentId && (
             <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] py-2 px-3 flex items-center justify-between gap-2 relative z-20">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-full bg-[#e6f4ea] flex items-center justify-center shrink-0">
@@ -268,12 +245,12 @@ function ThankYouContent() {
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-[7px] text-zinc-400 font-bold uppercase tracking-wider leading-none">Payment Reference ID</span>
-                  <span className="font-mono text-[9px] text-[#09090b] tracking-tight leading-tight select-all break-all">{orderDetails.paymentId}</span>
+                  <span className="font-mono text-[9px] text-[#09090b] tracking-tight leading-tight select-all break-all">{bookingDetails.paymentId}</span>
                 </div>
               </div>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(orderDetails.paymentId);
+                  navigator.clipboard.writeText(bookingDetails.paymentId);
                   alert("Copied Payment ID!");
                 }}
                 className="text-[9px] font-bold text-zinc-400 hover:text-zinc-900 transition-colors uppercase font-sans cursor-pointer flex items-center gap-1 shrink-0 ml-1"
@@ -288,16 +265,16 @@ function ThankYouContent() {
             </div>
           )}
 
-          {/* Customer & Delivery Details Summary */}
-          {(orderDetails.name || orderDetails.email) && (
+          {/* Client Details Summary */}
+          {(bookingDetails.name || bookingDetails.email) && (
             <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] p-3 text-left flex flex-col gap-1.5 relative z-20">
-              <span className="text-[7.5px] text-zinc-400 font-bold uppercase tracking-widest leading-none">Delivery Profile</span>
+              <span className="text-[7.5px] text-zinc-400 font-bold uppercase tracking-widest leading-none">Client Profile</span>
               <div className="text-[10px] text-zinc-600 leading-normal flex flex-col gap-1">
-                {orderDetails.name && <div><span className="font-semibold text-zinc-800">Client:</span> {orderDetails.name}{orderDetails.companyName && ` (${orderDetails.companyName})`}</div>}
-                {orderDetails.email && <div><span className="font-semibold text-zinc-800">Email:</span> {orderDetails.email}</div>}
-                {orderDetails.address && (
+                {bookingDetails.name && <div><span className="font-semibold text-zinc-800">Client:</span> {bookingDetails.name}{bookingDetails.companyName && ` (${bookingDetails.companyName})`}</div>}
+                {bookingDetails.email && <div><span className="font-semibold text-zinc-800">Email:</span> {bookingDetails.email}</div>}
+                {bookingDetails.address && (
                   <div>
-                    <span className="font-semibold text-zinc-800">Address:</span> {orderDetails.address}, {orderDetails.city}, {orderDetails.stateName} - {orderDetails.zip}
+                    <span className="font-semibold text-zinc-800">Site Address:</span> {bookingDetails.address}, {bookingDetails.city}, {bookingDetails.stateName} - {bookingDetails.zip}
                   </div>
                 )}
               </div>
@@ -316,14 +293,14 @@ function ThankYouContent() {
                 What Happens Next?
               </h4>
               <p className="text-[#334155] text-[9.5px] leading-tight mt-0.5">
-                Our deployment engineer will contact you on your registered mobile number within <span className="font-bold text-[#0055b3]">24 hours</span> to schedule layout validation and unit shipping.
+                Our senior perimeter design engineer will contact you shortly to schedule your consultation session and send the Google Meet invitation link.
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-center gap-1 mt-0.5 relative z-20 text-[9px] md:text-[10px] text-[#34a853] font-serif italic font-semibold">
             <span>🎉</span>
-            <span>Here's to a successful deployment ahead!</span>
+            <span>We look forward to designing your secure perimeter!</span>
             <span>✨</span>
           </div>
 

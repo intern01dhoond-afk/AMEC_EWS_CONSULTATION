@@ -17,11 +17,8 @@ export async function POST(request: Request) {
       areaToCover,
       application,
       paymentId,
-      qty,
-      subtotal,
-      taxAmount,
-      totalCommitment,
-      isWire
+      date,
+      timeSlot
     } = body;
 
     const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
@@ -57,24 +54,14 @@ export async function POST(request: Request) {
       console.log("Response body parsing as JSON failed, proceeding with generic success.", e);
     }
 
-    // 2. Send Confirmation Email via Resend API (HTTP REST Call)
+    // 2. Send Confirmation Email via Resend API
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey && email) {
       try {
         const senderEmail = process.env.SENDER_EMAIL || 'sales@amectechnology.com';
-        const formattedSubtotal = subtotal ? subtotal.toLocaleString('en-IN') : '0';
-        const formattedTax = taxAmount ? taxAmount.toLocaleString('en-IN') : '0';
-        const formattedTotal = totalCommitment ? totalCommitment.toLocaleString('en-IN') : '0';
-        
-        const isWireVal = isWire === true || isWire === 'true';
-        const statusTitle = isWireVal ? 'Order Initiated (Wire Pending)' : 'Order Confirmation';
-        const introText = isWireVal
-          ? `Thank you for initiating the acquisition of the AMEC Multipurpose Early Warning System. Your order has been registered, and we are waiting for your bank wire transfer confirmation. The HDFC corporate bank details are provided below for reference.`
-          : `Thank you for acquiring the AMEC Multipurpose Early Warning System. Your payment has been successfully processed, and your order details are recorded below.`;
-        const totalLabel = isWireVal ? 'Total Amount to Transfer' : 'Total Amount Paid';
-        const emailSubject = isWireVal 
-          ? `AMEC Technology Order Initiated - Wire Pending`
-          : `AMEC Technology Order Confirmation - ${qty} ${qty === 1 ? 'Unit' : 'Units'}`;
+        const statusTitle = 'Consultation Confirmed';
+        const introText = `Your interactive site security consultation booking has been successfully confirmed. Below are your details. A team member will contact you shortly to coordinate a convenient date and time slot for your session.`;
+        const emailSubject = `AMEC Security Consultation Confirmed`;
 
         const emailHtml = `<!DOCTYPE html>
 <html>
@@ -99,7 +86,7 @@ export async function POST(request: Request) {
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center">
-                    <h2 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-family: Montserrat, sans-serif; font-family: 'Montserrat', sans-serif;">AMEC TECHNOLOGY</h2>
+                    <h2 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-family: Montserrat, sans-serif;">AMEC TECHNOLOGY</h2>
                     <p style="margin: 4px 0 0; color: #a1a1aa; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Intelligent Perimeter Protection</p>
                   </td>
                 </tr>
@@ -116,39 +103,39 @@ export async function POST(request: Request) {
                 <tr>
                   <td>
                     <h1 style="margin: 0 0 16px; color: #09090b; font-size: 22px; font-weight: 700;">${statusTitle}</h1>
-                    <p style="margin: 0 0 30px; color: #52525b; font-size: 14px; line-height: 1.6;">Hello <strong>${name}</strong>,</p>
+                    <p style="margin: 0 0 20px; color: #52525b; font-size: 14px; line-height: 1.6;">Hello <strong>${name}</strong>,</p>
                     <p style="margin: 0 0 30px; color: #52525b; font-size: 14px; line-height: 1.6;">${introText}</p>
                   </td>
                 </tr>
 
-                <!-- Order Details Card -->
+                <!-- Consultation Details Card -->
                 <tr>
                   <td style="padding: 24px; background-color: #fafafa; border-radius: 12px; border: 1px solid #f0f0f0; margin-bottom: 30px;">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                         <td colspan="2" style="padding-bottom: 12px; border-bottom: 1px solid #eaeaea;">
-                          <h4 style="margin: 0; color: #09090b; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Mission Summary</h4>
+                          <h4 style="margin: 0; color: #09090b; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Consultation Summary</h4>
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 12px 0 6px; color: #71717a; font-size: 13px;">Item</td>
-                        <td align="right" style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Early Warning System Unit</td>
+                        <td style="padding: 12px 0 6px; color: #71717a; font-size: 13px;">Session Type</td>
+                        <td align="right" style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Security Design &amp; Layout</td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Quantity</td>
-                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">${qty} ${qty === 1 ? 'Unit' : 'Units'}</td>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Schedule</td>
+                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">To Be Coordinated (TBD)</td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Subtotal</td>
-                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">₹${formattedSubtotal}.00</td>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Duration</td>
+                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">45 Minutes</td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Tax (18% GST)</td>
-                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">₹${formattedTax}.00</td>
+                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Booking Fee</td>
+                        <td align="right" style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">₹499.00 (Paid)</td>
                       </tr>
                       <tr>
-                        <td style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #09090b; font-size: 14px; font-weight: 700;">${totalLabel}</td>
-                        <td align="right" style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #ba1a1a; font-size: 16px; font-weight: 800;">₹${formattedTotal}.00</td>
+                        <td style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #09090b; font-size: 14px; font-weight: 700;">Total Amount Paid</td>
+                        <td align="right" style="padding: 12px 0 0; border-top: 1px solid #eaeaea; color: #ba1a1a; font-size: 16px; font-weight: 800;">₹499.00</td>
                       </tr>
                       <tr>
                         <td style="padding: 16px 0 0; color: #71717a; font-size: 11px;">Payment Reference ID</td>
@@ -160,38 +147,6 @@ export async function POST(request: Request) {
 
                 <!-- Spacer -->
                 <tr><td height="25"></td></tr>
-
-                ${isWireVal ? `
-                <!-- Bank Details for Wire Transfer -->
-                <tr>
-                  <td style="padding: 24px; border-radius: 12px; border: 1px solid #eaeaea; background-color: #f5f8fa;">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td colspan="2" style="padding-bottom: 12px; border-bottom: 1px solid #dce6f0;">
-                          <h4 style="margin: 0; color: #0055b3; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Corporate Bank details</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="35%" style="padding: 12px 0 6px; color: #71717a; font-size: 13px;">Bank</td>
-                        <td style="padding: 12px 0 6px; color: #09090b; font-size: 13px; font-weight: 600;">HDFC Bank</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Account Name</td>
-                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">AMEC Technology Pvt Ltd</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">Account Number</td>
-                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600; font-family: monospace;">50200012345678</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 6px 0; color: #71717a; font-size: 13px;">IFSC Code</td>
-                        <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600; font-family: monospace;">HDFC0000123</td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr><td height="25"></td></tr>
-                ` : ''}
 
                 <!-- B2B & Client details -->
                 <tr>
@@ -217,7 +172,7 @@ export async function POST(request: Request) {
                         <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600;">${phone}</td>
                       </tr>
                       <tr>
-                        <td valign="top" style="padding: 6px 0; color: #71717a; font-size: 13px;">Delivery Address</td>
+                        <td valign="top" style="padding: 6px 0; color: #71717a; font-size: 13px;">Site Address</td>
                         <td style="padding: 6px 0; color: #09090b; font-size: 13px; font-weight: 600; line-height: 1.4;">${address}, ${city}, ${stateName} - ${zip}</td>
                       </tr>
                     </table>
@@ -233,7 +188,7 @@ export async function POST(request: Request) {
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                         <td colspan="2" style="padding-bottom: 12px; border-bottom: 1px solid #eaeaea;">
-                          <h4 style="margin: 0; color: #09090b; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Deployment Parameters</h4>
+                          <h4 style="margin: 0; color: #09090b; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Assessment Parameters</h4>
                         </td>
                       </tr>
                       <tr>
@@ -260,9 +215,9 @@ export async function POST(request: Request) {
                   <td>
                     <h3 style="margin: 0 0 12px; color: #09090b; font-size: 16px; font-weight: 700;">What Happens Next?</h3>
                     <ol style="margin: 0; padding-left: 20px; color: #52525b; font-size: 13px; line-height: 1.8;">
-                      <li style="margin-bottom: 8px;"><strong>Quantity & Layout Consultation:</strong> Our technical deployment experts will contact you within 24 hours to review your site parameters, verify the sensor placement layout, and schedule shipping.</li>
-                      <li style="margin-bottom: 8px;"><strong>Order Dispatch:</strong> Your hardware units will be mesh-configured at our factory and dispatched to your site.</li>
-                      <li style="margin-bottom: 8px;"><strong>Commissioning:</strong> Our team will guide your staff or installer partner through placing the sensor units and activating the LoRa gateway hub.</li>
+                      <li style="margin-bottom: 8px;"><strong>Scheduling Call:</strong> Our engineering team will reach out to you shortly to coordinate a convenient date and time for your video consultation.</li>
+                      <li style="margin-bottom: 8px;"><strong>Prepare Site Specifications:</strong> Having site boundaries or terrain layout maps ready helps our engineers perform visual simulation modeling.</li>
+                      <li style="margin-bottom: 8px;"><strong>Perimeter Layout Proposal:</strong> During the call, we will map optimal sensor placement nodes visually and share a project quote.</li>
                     </ol>
                   </td>
                 </tr>

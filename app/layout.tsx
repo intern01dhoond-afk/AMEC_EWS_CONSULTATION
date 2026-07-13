@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -64,8 +65,10 @@ export default function RootLayout({
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+      </head>
+      <body className="min-h-full flex flex-col">
         {/* Meta Pixel Code */}
-        <script dangerouslySetInnerHTML={{ __html: `
+        <Script id="fb-pixel" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -86,8 +89,6 @@ export default function RootLayout({
             alt=""
           />
         </noscript>
-      </head>
-      <body className="min-h-full flex flex-col">
         {children}
       </body>
     </html>

@@ -257,7 +257,7 @@ export default function AmecSaaSPage() {
               { label: 'Product', id: 'systems' },
               { label: 'Technology', id: 'safety' },
               { label: 'Applications', id: 'applications' },
-              { label: 'Pricing', id: 'pricing' },
+              { label: 'Booking', id: 'pricing' },
               { label: 'Contact', id: 'contact' }
             ].map((item) => (
               <button 
@@ -284,7 +284,7 @@ export default function AmecSaaSPage() {
               className="hidden lg:flex bg-zinc-950 text-white font-bold text-xs px-6 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer shadow-md shadow-zinc-950/10 font-sans items-center justify-center"
               style={{ height: '50.71px', borderRadius: '12px' }}
             >
-              Buy Now
+              Book Consultation
             </button>
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -304,7 +304,7 @@ export default function AmecSaaSPage() {
               { label: 'Product', id: 'systems' },
               { label: 'Technology', id: 'safety' },
               { label: 'Applications', id: 'applications' },
-              { label: 'Pricing', id: 'pricing' },
+              { label: 'Booking', id: 'pricing' },
               { label: 'Contact', id: 'contact' }
             ].map((item) => (
               <button
@@ -428,113 +428,23 @@ export default function AmecSaaSPage() {
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star_half</span>
                 </div>
                 <span className="font-semibold text-xs text-on-surface-variant uppercase tracking-wider">4.9 · {deploymentsCount.toLocaleString()} verified deployments</span>
-              </div>
-              <div className="flex flex-col gap-0.5 animate-fade-up delay-200">
+              </div>              <div className="flex flex-col gap-0.5 animate-fade-up delay-200">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹35,992</span>
-                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹44,991</span>
-                  <span className="text-[10px] md:text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded">20% Off</span>
+                  <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹499</span>
+                  <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹1,299</span>
+                  <span className="text-[10px] md:text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded">61% Off</span>
                 </div>
-                <span className="text-xs text-on-surface-variant/85 font-medium tracking-wide">(+18% GST) · No subscription or annual contract required</span>
+                <span className="text-xs text-on-surface-variant/85 font-medium tracking-wide">Custom Site Security Assessment & Layout Design Consultation</span>
               </div>
               <div className="flex flex-col gap-2 mt-2 font-sans animate-fade-up delay-250">
                 <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto items-stretch md:items-center">
                   <div className="flex flex-row gap-2 w-full md:w-auto items-stretch">
-                    {isCustomQty ? (
-                      <div className="relative flex items-center bg-white border border-zinc-300 rounded-xl px-3 shrink-0" style={{ height: '50.71px', width: '95px' }}>
-                        <input
-                          type="number"
-                          min="1"
-                          value={heroQuantity}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value, 10);
-                            setHeroQuantity(isNaN(val) ? 1 : val);
-                          }}
-                          className="w-full h-full bg-transparent border-0 outline-none text-zinc-800 font-extrabold text-sm font-sans [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          autoFocus
-                          placeholder="Qty"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsCustomQty(false);
-                            if (heroQuantity > 10) {
-                              setHeroQuantity(10);
-                            }
-                          }}
-                          className="text-zinc-400 hover:text-zinc-850 transition-colors ml-1 cursor-pointer shrink-0"
-                          title="Switch back to list"
-                        >
-                          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
-                          </svg>
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="relative shrink-0" style={{ height: '50.71px', width: '80px' }}>
-                        <button
-                          type="button"
-                          onClick={() => setIsQtyDropdownOpen(!isQtyDropdownOpen)}
-                          className="w-full h-full bg-white border border-zinc-300 text-zinc-800 font-extrabold text-sm rounded-xl flex items-center justify-between px-3.5 hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-200 cursor-pointer font-sans"
-                          aria-label="Select Quantity"
-                        >
-                          <span>{heroQuantity}</span>
-                          <svg 
-                            viewBox="0 0 20 20" 
-                            className={`h-4 w-4 text-zinc-550 transition-transform duration-200 ${isQtyDropdownOpen ? 'rotate-180' : ''}`}
-                            fill="currentColor"
-                          >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </button>
-
-                        {isQtyDropdownOpen && (
-                          <>
-                            <div 
-                              className="fixed inset-0 z-40 cursor-default" 
-                              onClick={() => setIsQtyDropdownOpen(false)} 
-                            />
-                            <div className="absolute left-0 top-full mt-1.5 w-full bg-white border border-zinc-200 rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-150 py-1">
-                              {[...Array(10)].map((_, i) => {
-                                const val = i + 1;
-                                return (
-                                  <button
-                                    key={val}
-                                    type="button"
-                                    onClick={() => {
-                                      setHeroQuantity(val);
-                                      setIsQtyDropdownOpen(false);
-                                    }}
-                                    className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-zinc-50 transition-colors ${
-                                      heroQuantity === val ? 'text-error bg-red-50/50' : 'text-zinc-705'
-                                    }`}
-                                  >
-                                    {val}
-                                  </button>
-                                );
-                              })}
-                              <div className="h-px bg-zinc-100 my-1" />
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setIsCustomQty(true);
-                                  setIsQtyDropdownOpen(false);
-                                }}
-                                className="w-full text-left px-4 py-2 text-xs font-bold text-error hover:bg-zinc-50 transition-colors"
-                              >
-                                Custom...
-                              </button>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    )}
                     <button 
                       onClick={() => router.push('/checkout')}
-                      className="flex-1 md:flex-none bg-zinc-950 text-white font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer font-sans shadow-lg shadow-zinc-950/15 flex items-center justify-center"
+                      className="flex-1 md:flex-none bg-zinc-950 text-white font-bold text-xs px-10 uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer font-sans shadow-lg shadow-zinc-950/15 flex items-center justify-center animate-pulse"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
-                      Buy Now
+                      Book Consultation
                     </button>
                   </div>
                   <a 
@@ -547,9 +457,9 @@ export default function AmecSaaSPage() {
                     <span className="material-symbols-outlined text-base mr-2" style={{ fontVariationSettings: "'FILL' 0" }}>videocam</span>
                     Watch Demo
                   </a>
-                </div>
               </div>
             </div>
+          </div>
             
             {/* Visually balanced product visual container with technical blueprint overlays and horizontal image carousel */}
             <div className="relative flex flex-col justify-center items-center w-full md:h-full order-1 md:order-2">
@@ -1345,7 +1255,7 @@ export default function AmecSaaSPage() {
                       </td>
                     </tr>
                   ))}
-                  {/* Action Row containing the Buy Now button under AMEC column */}
+                  {/* Action Row containing the Book Consultation button under AMEC column */}
                   <tr className="hover:bg-zinc-50/30 transition-colors">
                     <td className="p-2 md:p-6"></td>
                     <td className="p-2 md:p-6 text-center bg-red-50/50 border-x-2 border-b-2 border-red-500 rounded-b-3xl">
@@ -1354,7 +1264,7 @@ export default function AmecSaaSPage() {
                         className="w-full bg-zinc-950 text-white font-bold text-xs uppercase tracking-widest hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-950/20 transition-all duration-300 cursor-pointer flex items-center justify-center"
                         style={{ height: '50.71px', borderRadius: '12px' }}
                       >
-                        Buy Now
+                        Book Consultation
                       </button>
                     </td>
                     <td className="p-2 md:p-6"></td>
@@ -1695,14 +1605,14 @@ export default function AmecSaaSPage() {
 
                   {/* Pricing Details */}
                   <div className="flex flex-col gap-3 text-left">
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Initial Investment</span>
+                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Consultation & Assessment</span>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹35,992</span>
-                      <span className="text-sm font-semibold text-error line-through">₹44,991</span>
-                      <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">20% Off</span>
+                      <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹499</span>
+                      <span className="text-sm font-semibold text-error line-through">₹1,299</span>
+                      <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">61% Off</span>
                     </div>
-                    <div className="text-[11px] text-zinc-400 font-medium leading-relaxed">
-                      One-time unit cost • + 18% GST • 1 Year Warranty • No annual contract fees
+                    <div className="text-[11px] text-zinc-400 font-medium leading-relaxed font-semibold">
+                      Includes custom perimeter design, visual coverage map layout, hardware proposal, and expert call.
                     </div>
                   </div>
 
@@ -1710,8 +1620,8 @@ export default function AmecSaaSPage() {
                   <div className="bg-[#f04424]/10 border border-[#f04424]/20 p-4 rounded-xl text-left flex items-start gap-3">
                     <span className="material-symbols-outlined text-[#f04424] text-lg shrink-0 mt-0.5">info</span>
                     <div className="flex flex-col min-w-0">
-                      <span className="font-bold text-xs text-white">Customized Onboarding Queue</span>
-                      <span className="text-[11px] text-zinc-400 leading-snug mt-0.5">Only a limited number of corporate sites can be commissioned each month. Slots fill rapidly.</span>
+                      <span className="font-bold text-xs text-white">Interactive Session Booking</span>
+                      <span className="text-[11px] text-zinc-400 leading-snug mt-0.5">Consultations are scheduled with our senior design engineers. Slots are subject to availability.</span>
                     </div>
                   </div>
 
@@ -1722,7 +1632,7 @@ export default function AmecSaaSPage() {
                       className="w-full bg-[#f04424] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#f04424]/90 hover:shadow-xl hover:shadow-error/30 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center cursor-pointer"
                       style={{ height: '50.71px', borderRadius: '12px' }}
                     >
-                      SHOP NOW
+                      BOOK CONSULTATION NOW
                     </button>
                   </div>
 
@@ -1991,19 +1901,19 @@ export default function AmecSaaSPage() {
           {/* Pricing Info */}
           <div className="flex flex-col items-start shrink-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold text-zinc-900 tracking-tight">₹{(35992 * heroQuantity).toLocaleString('en-IN')}</span>
-              <span className="text-xs font-semibold text-zinc-400 line-through">₹{(44991 * heroQuantity).toLocaleString('en-IN')}</span>
-              <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">20% Off</span>
+              <span className="text-base font-bold text-zinc-900 tracking-tight">₹499</span>
+              <span className="text-xs font-semibold text-zinc-400 line-through">₹1,299</span>
+              <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">61% Off</span>
             </div>
-            <span className="text-[10px] text-zinc-500 font-medium">(+18% GST) · {heroQuantity} {heroQuantity === 1 ? 'Unit' : 'Units'}</span>
+            <span className="text-[10px] text-zinc-500 font-medium">Security Assessment Consultation</span>
           </div>
-          {/* Buy Now Button */}
+          {/* Book Consultation Button */}
           <button 
             onClick={() => router.push('/checkout')}
             className="bg-zinc-950 text-white px-6 font-bold text-xs uppercase tracking-widest shadow-lg shadow-zinc-950/15 active:scale-[0.98] transition-all duration-150 cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             style={{ height: '44px', borderRadius: '10px' }}
           >
-            Buy Now
+            Book Consultation
             <span className="material-symbols-outlined text-sm leading-none font-bold">arrow_forward</span>
           </button>
         </div>
