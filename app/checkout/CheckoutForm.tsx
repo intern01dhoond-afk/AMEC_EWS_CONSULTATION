@@ -764,16 +764,25 @@ export default function CheckoutPage() {
               
             </div>
 
-            {/* Corporate Office Contact Widget */}
+            {/* AMEC Technology Contact Widget */}
             <div className="bg-[#f0f4f8] border border-zinc-200/60 rounded-2xl p-5 flex flex-col gap-4">
               
               <div className="flex items-center gap-2">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700">
                   <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
                   <line x1="9" y1="22" x2="9" y2="16" />
                   <line x1="15" y1="22" x2="15" y2="16" />
+                  <line x1="9" y1="16" x2="15" y2="16" />
+                  <path d="M8 6h.01" />
+                  <path d="M16 6h.01" />
+                  <path d="M8 10h.01" />
+                  <path d="M16 10h.01" />
+                  <path d="M12 6h.01" />
+                  <path d="M12 10h.01" />
                 </svg>
-                <span className="font-bold text-xs text-zinc-900 tracking-wider uppercase">Corporate Office</span>
+                <span className="font-bold text-sm text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  AMEC Technology
+                </span>
               </div>
               
               <div className="flex flex-col gap-3 text-xs">
@@ -785,8 +794,8 @@ export default function CheckoutPage() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   <div className="flex flex-col gap-1.5 text-zinc-600 font-medium font-sans">
-                    <p><span className="font-bold text-zinc-800">Sales Office:</span> Bengaluru, KA - 550102</p>
-                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Nagpur, MH - 440016</p>
+                    <p><span className="font-bold text-zinc-800">Sales Office:</span> 868, 25th Main Road, HSR Layout, Sector-1, Bengaluru, KA, India - 560102</p>
+                    <p><span className="font-bold text-zinc-800">Factory Address:</span> Plot No. 5A, 14A, Hingna MIDC, Digdoh, Nagpur, MH, India - 440016</p>
                   </div>
                 </div>
 
