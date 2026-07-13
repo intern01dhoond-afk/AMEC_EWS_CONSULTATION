@@ -85,7 +85,7 @@ export default function CheckoutPage() {
     selectedTimeSlot?: string;
   }>({});
 
-  const UNIT_PRICE = 35992;
+  const UNIT_PRICE = 499;
   const subtotal = UNIT_PRICE * qty;
   const taxAmount = 0;
   const totalCommitment = UNIT_PRICE * qty;
