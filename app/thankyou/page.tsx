@@ -216,10 +216,10 @@ function ThankYouContent() {
               Consultation Booked Successfully!
             </h1>
             <p className="text-[9px] md:text-[10px] font-bold tracking-wider font-sans uppercase text-[#34a853]">
-              Your interactive session is confirmed.
+              Your consultation request has been successfully received.
             </p>
-            <p className="text-[#52525b] text-[10px] md:text-[11px] max-w-[290px] mx-auto leading-relaxed mt-0.5">
-              Your consultation booking fee of ₹499 has been processed. A detailed confirmation email and Google Meet invitation have been sent to your inbox.
+            <p className="text-[#52525b] text-[10px] md:text-[11px] max-w-[320px] mx-auto leading-relaxed mt-0.5">
+              Thank you for booking a consultation with us. Our team will review your request and one of our executives will contact you shortly to confirm the details and schedule your consultation.
             </p>
           </div>
 
