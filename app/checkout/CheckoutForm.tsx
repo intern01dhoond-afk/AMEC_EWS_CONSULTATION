@@ -717,7 +717,6 @@ export default function CheckoutPage() {
                 <div className="flex-grow flex flex-col">
                   <span className="font-bold text-xs uppercase tracking-wider text-zinc-900 leading-tight">AMEC MULTIPURPOSE EARLY WARNING SYSTEM</span>
                   <span className="text-[10px] text-zinc-500 font-medium mt-1 leading-normal">A smart, reliable &amp; self-sufficient solution designed to provide real-time alerts &amp; early warnings across critical infrastructure &amp; remote locations.</span>
-                  <span className="text-xs text-zinc-500 mt-1 font-semibold">Qty: {qty < 10 ? '0' + qty : qty}</span>
                 </div>
                 <div className="font-bold text-sm text-zinc-900">
                   ₹{UNIT_PRICE.toLocaleString('en-IN')}
