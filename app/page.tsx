@@ -247,10 +247,10 @@ export default function AmecSaaSPage() {
       
       {/* --- TOP NAVBAR --- */}
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
-        <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
+        <div className="flex justify-between items-center px-4 md:px-16 py-3.5 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-1.5 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-[50px] w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-[25px] w-auto object-contain brightness-0 invert translate-y-[4px]" src="/ews/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-[36px] md:h-[50px] w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-[18px] md:h-[25px] w-auto object-contain brightness-0 invert translate-y-[2px] md:translate-y-[4px]" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -1910,11 +1910,11 @@ export default function AmecSaaSPage() {
           {/* Book Consultation Button */}
           <button 
             onClick={() => router.push('/checkout')}
-            className="bg-zinc-950 text-white px-6 font-bold text-xs uppercase tracking-widest shadow-lg shadow-zinc-950/15 active:scale-[0.98] transition-all duration-150 cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
+            className="bg-zinc-950 text-white px-4 sm:px-6 font-bold text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-widest shadow-lg shadow-zinc-950/15 active:scale-[0.98] transition-all duration-150 cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
             style={{ height: '44px', borderRadius: '10px' }}
           >
             Book Consultation
-            <span className="material-symbols-outlined text-sm leading-none font-bold">arrow_forward</span>
+            <span className="material-symbols-outlined text-[13px] sm:text-sm leading-none font-bold">arrow_forward</span>
           </button>
         </div>
       </div>
