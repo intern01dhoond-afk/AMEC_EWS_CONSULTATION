@@ -339,10 +339,10 @@ export default function CheckoutPage() {
       
       {/* --- TOP NAVBAR --- */}
       <nav className="fixed top-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/40 shadow-lg">
-        <div className="flex justify-between items-center px-6 md:px-16 pt-7 pb-4 md:py-5 max-w-[1440px] mx-auto">
+        <div className="flex justify-between items-center px-4 md:px-16 py-3.5 md:py-5 max-w-[1440px] mx-auto">
           <a href="https://amectechnology.com/" className="flex items-center gap-1.5 cursor-pointer">
-            <img alt="AMEC Shield Logo" className="h-[50px] w-auto object-contain" src="/ews/logo_shield.png" />
-            <img alt="AMEC Logo" className="h-[25px] w-auto object-contain brightness-0 invert translate-y-[4px]" src="/ews/logo_amec_new.png" />
+            <img alt="AMEC Shield Logo" className="h-[36px] md:h-[50px] w-auto object-contain" src="/ews/logo_shield.png" />
+            <img alt="AMEC Logo" className="h-[18px] md:h-[25px] w-auto object-contain brightness-0 invert translate-y-[2px] md:translate-y-[4px]" src="/ews/logo_amec_new.png" />
           </a>
           <div className="hidden lg:flex gap-8 items-center">
             {[
@@ -406,7 +406,7 @@ export default function CheckoutPage() {
       </nav>
 
       {/* --- CHECKOUT CONTENT --- */}
-      <main className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-16 py-8 sm:py-12 md:py-20 pt-24 md:pt-32">
+      <main className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-16 py-8 sm:py-12 md:py-20 pt-20 md:pt-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start">
           
           {/* LEFT: Checkout Form */}
