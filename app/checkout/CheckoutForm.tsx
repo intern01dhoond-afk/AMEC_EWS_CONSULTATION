@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -89,6 +89,33 @@ export default function CheckoutPage() {
   const subtotal = UNIT_PRICE * qty;
   const taxAmount = 0;
   const totalCommitment = UNIT_PRICE * qty;
+
+  // Fetch city and state from PIN code (India Postal PIN Code API)
+  useEffect(() => {
+    const pincodeRegex = /^\d{6}$/;
+    if (pincodeRegex.test(zip)) {
+      const fetchAddressDetails = async () => {
+        try {
+          const response = await fetch(`https://api.postalpincode.in/pincode/${zip}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data && data[0] && data[0].Status === "Success") {
+              const postOffice = data[0].PostOffice[0];
+              if (postOffice) {
+                setCity(postOffice.District);
+                setStateName(postOffice.State);
+                // Clear any errors for city/state once autofilled
+                setErrors(prev => ({ ...prev, city: undefined, stateName: undefined }));
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching PIN code details:", error);
+        }
+      };
+      fetchAddressDetails();
+    }
+  }, [zip]);
 
   const handleScroll = (id: string) => {
     window.location.href = `/#${id}`;

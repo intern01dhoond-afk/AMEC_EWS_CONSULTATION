@@ -1899,13 +1899,13 @@ export default function AmecSaaSPage() {
       }`}>
         <div className="flex items-center justify-between gap-3">
           {/* Pricing Info */}
-          <div className="flex flex-col items-start shrink-0">
-            <div className="flex items-center gap-1.5">
+          <div className="flex flex-col items-start min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-base font-bold text-zinc-900 tracking-tight">₹499</span>
               <span className="text-xs font-semibold text-zinc-400 line-through">₹1,299</span>
-              <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded">61% Off</span>
+              <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded shrink-0">61% Off</span>
             </div>
-            <span className="text-[10px] text-zinc-500 font-medium">Security Assessment Consultation</span>
+            <span className="text-[10px] text-zinc-500 font-medium leading-tight mt-0.5">Security Assessment Consultation</span>
           </div>
           {/* Book Consultation Button */}
           <button 
