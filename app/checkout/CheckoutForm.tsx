@@ -424,7 +424,7 @@ export default function CheckoutPage() {
               <div>
                 <span className="text-[10px] font-bold text-error uppercase tracking-widest block mb-1">● What Happens Next</span>
                 <h2 className="text-xl font-bold text-zinc-950 font-sans" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  How To Buy
+                  How to Book
                 </h2>
               </div>
               
