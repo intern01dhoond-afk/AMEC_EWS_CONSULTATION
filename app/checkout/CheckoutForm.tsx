@@ -463,12 +463,22 @@ export default function CheckoutPage() {
                   {
                     num: 1,
                     title: "Complete Your Payment",
-                    desc: "Secure your order by completing the payment."
+                    desc: "Secure your time slot for consultation call with our experts."
                   },
                   {
                     num: 2,
                     title: "Quantity Consultation Call",
-                    desc: "Our team will contact you to verify your required quantities and confirm your installation location details."
+                    desc: "Our team will contact you to verify your required quantities and confirm your installation location details. (Within 24 to 48 hours)"
+                  },
+                  {
+                    num: 3,
+                    title: "Order Processing & Dispatch",
+                    desc: "Once the consultation is complete, we'll process and dispatch your order."
+                  },
+                  {
+                    num: 4,
+                    title: "Delivery to Your Location",
+                    desc: "Your Early Warning System will be delivered to your specified address."
                   }
                 ].map((step) => (
                   <div key={step.num} className="flex gap-4 items-start relative z-10">
