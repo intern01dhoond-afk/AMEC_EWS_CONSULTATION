@@ -239,6 +239,10 @@ export default function AmecSaaSPage() {
     {
       q: "Are there ongoing subscription or annual costs?",
       a: "No. We charge a one-time hardware and deployment fee. There are no mandatory SaaS subscriptions or per-alert charges, keeping your total cost of ownership extremely low."
+    },
+    {
+      q: "Is the ₹499 consultation fee refundable?",
+      a: "Yes, the ₹499 booking amount is fully refundable. If you choose not to proceed after your security assessment or require a cancellation, your consultation fee will be refunded in full."
     }
   ];
 
@@ -429,10 +433,14 @@ export default function AmecSaaSPage() {
                 </div>
                 <span className="font-semibold text-xs text-on-surface-variant uppercase tracking-wider">4.9 · {deploymentsCount.toLocaleString()} verified deployments</span>
               </div>              <div className="flex flex-col gap-0.5 animate-fade-up delay-200">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>₹499</span>
                   <span className="text-sm md:text-base font-semibold text-zinc-400 line-through">₹1,299</span>
                   <span className="text-[10px] md:text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded">61% Off</span>
+                  <span className="text-[10px] md:text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                    Amount Fully Refundable
+                  </span>
                 </div>
                 <span className="text-xs text-on-surface-variant/85 font-medium tracking-wide">Custom Site Security Assessment & Layout Design Consultation</span>
               </div>
@@ -1606,10 +1614,14 @@ export default function AmecSaaSPage() {
                   {/* Pricing Details */}
                   <div className="flex flex-col gap-3 text-left">
                     <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Consultation & Assessment</span>
-                    <div className="flex items-baseline gap-3">
+                    <div className="flex items-baseline gap-3 flex-wrap">
                       <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">₹499</span>
                       <span className="text-sm font-semibold text-error line-through">₹1,299</span>
                       <span className="text-xs font-bold bg-error/15 text-error px-2 py-0.5 rounded border border-error/25 uppercase tracking-wider">61% Off</span>
+                      <span className="text-xs font-bold bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded border border-emerald-500/30 tracking-wider flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[14px]">shield</span>
+                        Amount Fully Refundable
+                      </span>
                     </div>
                     <div className="text-[11px] text-zinc-400 font-medium leading-relaxed font-semibold">
                       Includes custom perimeter design, visual coverage map layout, hardware proposal, and expert call.
@@ -1852,8 +1864,8 @@ export default function AmecSaaSPage() {
 
       {/* --- FOOTER --- */}
       <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-24 md:py-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-16 pt-8 pb-20 md:py-14">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
             <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
               <div className="flex items-center gap-2">
                 <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
@@ -1900,12 +1912,15 @@ export default function AmecSaaSPage() {
         <div className="flex items-center justify-between gap-3">
           {/* Pricing Info */}
           <div className="flex flex-col items-start min-w-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex items-center gap-1.5 shrink-0">
               <span className="text-base font-bold text-zinc-900 tracking-tight">₹499</span>
               <span className="text-xs font-semibold text-zinc-400 line-through">₹1,299</span>
               <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded shrink-0">61% Off</span>
             </div>
-            <span className="text-[10px] text-zinc-500 font-medium leading-tight mt-0.5">Security Assessment Consultation</span>
+            <span className="text-[10px] text-emerald-700 font-bold leading-tight mt-0.5 flex items-center gap-0.5 shrink-0">
+              <span className="material-symbols-outlined text-[12px] text-emerald-600 leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              Amount Fully Refundable
+            </span>
           </div>
           {/* Book Consultation Button */}
           <button 

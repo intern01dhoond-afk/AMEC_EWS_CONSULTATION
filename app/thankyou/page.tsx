@@ -85,6 +85,10 @@ const ConfettiCanvas = () => {
 function ThankYouContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const handleScroll = (id: string) => {
+    window.location.href = `/#${id}`;
+  };
   
   // State for booking details
   const [bookingDetails, setBookingDetails] = useState({
@@ -265,11 +269,17 @@ function ThankYouContent() {
             </div>
           )}
 
+          {/* Guarantee / Refundability Note */}
+          <div className="w-full bg-emerald-50/80 border border-emerald-200/60 rounded-[10px] py-2 px-3 flex items-center justify-center gap-1.5 relative z-20">
+            <span className="material-symbols-outlined text-emerald-600 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+            <span className="text-[10px] font-bold text-emerald-800 tracking-wide font-sans">Amount Fully Refundable Guarantee</span>
+          </div>
+
           {/* Client Details Summary */}
           {(bookingDetails.name || bookingDetails.email) && (
             <div className="w-full bg-[#f8f9fa] border border-zinc-200/50 rounded-[10px] p-3 text-left flex flex-col gap-1.5 relative z-20">
-              <span className="text-[7.5px] text-zinc-400 font-bold uppercase tracking-widest leading-none">Client Profile</span>
-              <div className="text-[10px] text-zinc-600 leading-normal flex flex-col gap-1">
+              <span className="text-[7.5px] font-bold text-zinc-400 uppercase tracking-widest leading-none border-b border-zinc-200/40 pb-1">Confirmed Details</span>
+              <div className="text-[9.5px] text-[#3f3f46] flex flex-col gap-1 leading-normal font-sans">
                 {bookingDetails.name && <div><span className="font-semibold text-zinc-800">Client:</span> {bookingDetails.name}{bookingDetails.companyName && ` (${bookingDetails.companyName})`}</div>}
                 {bookingDetails.email && <div><span className="font-semibold text-zinc-800">Email:</span> {bookingDetails.email}</div>}
                 {bookingDetails.address && (
@@ -281,27 +291,19 @@ function ThankYouContent() {
             </div>
           )}
 
-          {/* What Happens Next Card (Compact version) */}
-          <div className="w-full border rounded-[10px] p-2.5 flex gap-2.5 text-left relative z-20 bg-[#f0f4f8] border-[#dce6f0]">
-            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 border bg-[#e1ecf7] border-[#cdddf0]">
-              <span className="material-symbols-outlined text-[14px] text-[#0066cc]" style={{ fontVariationSettings: "'FILL' 0" }}>
-                support_agent
-              </span>
+          {/* Mini Next Steps Box */}
+          <div className="w-full bg-[#f8fafc] border border-zinc-200/60 rounded-xl p-3 text-left relative z-20 flex items-start gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-[#e2e8f0] flex items-center justify-center shrink-0 mt-0.5 text-zinc-700">
+              <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: "'FILL' 0" }}>info</span>
             </div>
             <div className="flex flex-col">
-              <h4 className="font-extrabold text-[11px] tracking-tight font-sans leading-tight text-[#0055b3]">
-                What Happens Next?
+              <h4 className="text-[10.5px] font-extrabold text-[#09090b] font-sans">
+                What happens next?
               </h4>
               <p className="text-[#334155] text-[9.5px] leading-tight mt-0.5">
                 Our senior perimeter design engineer will contact you shortly to schedule your consultation session and send the Google Meet invitation link.
               </p>
             </div>
-          </div>
-
-          <div className="flex items-center justify-center gap-1 mt-0.5 relative z-20 text-[9px] md:text-[10px] text-[#34a853] font-serif italic font-semibold">
-            <span>🎉</span>
-            <span>We look forward to designing your secure perimeter!</span>
-            <span>✨</span>
           </div>
 
           {/* Back to Home Button (Compact) */}
@@ -320,8 +322,47 @@ function ThankYouContent() {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-[#09090b] text-white/40 w-full border-t border-white/10 text-center py-3.5 text-xs shrink-0 relative z-30">
-        <span>© 2025 AMEC Technology. All rights reserved.</span>
+      <footer className="bg-[#09090b] text-white/60 w-full border-t border-white/10 relative z-30">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-16 py-8 md:py-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-6 md:mb-10">
+            <div className="col-span-2 lg:col-span-2 flex flex-col gap-6 text-left">
+              <div className="flex items-center gap-2">
+                <img alt="AMEC Shield Logo" className="h-10 w-auto object-contain" src="/ews/logo_shield.png" />
+                <img alt="AMEC Logo" className="h-5 w-auto object-contain" src="/ews/logo_amec_new.png" />
+              </div>
+              <p className="text-sm leading-relaxed max-w-sm text-zinc-400">
+                AMEC Technology provides the world's most sophisticated perimeter intelligence systems. Protecting strategic infrastructure with autonomous, real-time detection since 2019.
+              </p>
+              <div className="flex flex-col gap-2 pt-4 border-t border-white/10">
+                <div className="text-[11px] text-white/40 font-medium">
+                  1 Year Warranty &amp; 5 Year Mesh Support Guarantee.
+                </div>
+              </div>
+            </div>
+
+            <div className="col-span-1 text-left">
+              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Technical Downloads</h5>
+              <ul className="flex flex-col gap-3 text-xs">
+                <li><a href="https://i.ibb.co/ZRNrVGHT/Amec-Early-Warning-System.png" target="_blank" className="hover:text-error transition-colors">Product Brochure (PDF)</a></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1 text-left">
+              <h5 className="text-white font-bold text-xs uppercase tracking-widest mb-4">Support &amp; Services</h5>
+              <ul className="flex flex-col gap-3 text-xs">
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Installation Support</button></li>
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Commissioning Queue</button></li>
+                <li><button onClick={() => handleScroll('contact')} className="hover:text-error transition-colors cursor-pointer text-left">Service Coverage Areas</button></li>
+                <li><button onClick={() => handleScroll('faq')} className="hover:text-error transition-colors cursor-pointer text-left">Platform Documentation</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="h-px w-full bg-white/10 mb-8"></div>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <span>© 2025 AMEC Technology. All rights reserved.</span>
+            <span className="text-white/40">Bengaluru · Pune · Nagpur</span>
+          </div>
+        </div>
       </footer>
 
     </div>
